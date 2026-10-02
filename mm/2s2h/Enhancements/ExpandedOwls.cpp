@@ -17,7 +17,7 @@ namespace {
 struct ExpandedOwlPlacement {
     s16 sceneId;
     s8 roomNum;
-    SOH::ActorEntry actor;
+    ActorEntry actor;
 };
 
 // These are the exact five ActorEntry records from the mm.o2r build that was
@@ -66,7 +66,7 @@ void InjectExpandedOwlIntoLoadedRoom(s16 sceneId, s8 roomNum) {
         } else if (command->cmdId == SOH::SceneCommandID::SetActorList) {
             auto* actors = static_cast<SOH::SetActorList*>(command.get());
             const bool alreadyPresent = std::any_of(
-                actors->actorList.begin(), actors->actorList.end(), [owl](const SOH::ActorEntry& actor) {
+                actors->actorList.begin(), actors->actorList.end(), [owl](const ActorEntry& actor) {
                     return actor.id == ACTOR_OBJ_WARPSTONE && actor.params == owl->actor.params &&
                            actor.pos.x == owl->actor.pos.x && actor.pos.y == owl->actor.pos.y &&
                            actor.pos.z == owl->actor.pos.z;
