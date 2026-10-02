@@ -49,7 +49,8 @@ void InjectExpandedOwlIntoLoadedRoom(s16 sceneId, s8 roomNum) {
         return;
     }
 
-    auto room = std::static_pointer_cast<SOH::Scene>(ResourceLoad(roomResourceName));
+    auto room = std::static_pointer_cast<SOH::Scene>(
+        Ship::Context::GetRawInstance()->GetResourceManager()->LoadResource(roomResourceName));
     if (room == nullptr) {
         return;
     }
@@ -70,8 +71,7 @@ void InjectExpandedOwlIntoLoadedRoom(s16 sceneId, s8 roomNum) {
                            actor.pos.z == owl->actor.pos.z;
                 });
             if (!alreadyPresent) {
-                actors->actorList.push_back(
-                    SOH::ActorEntry{ owl->actor.id, owl->actor.pos, owl->actor.rot, owl->actor.params });
+                actors->actorList.push_back(owl->actor);
                 actors->numActors = static_cast<uint32_t>(actors->actorList.size());
             }
         }
