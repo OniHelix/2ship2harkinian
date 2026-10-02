@@ -1,6 +1,13 @@
 name: expanded-owls-windows-test
 on:
+  push:
+    branches:
+      - expanded-owls-room-assets
   workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   generate-2ship-otr:
