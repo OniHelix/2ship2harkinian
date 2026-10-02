@@ -1,13 +1,6 @@
 name: expanded-owls-windows-test
 on:
-  push:
-    branches:
-      - expanded-owls-room-assets
   workflow_dispatch:
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
 
 jobs:
   generate-2ship-otr:
@@ -17,8 +10,6 @@ jobs:
       uses: actions/checkout@v6
       with:
         submodules: true
-    - name: Apply expanded owl bookkeeping
-      run: git apply .github/expanded-owls-bookkeeping.patch
     - name: Configure ccache
       uses: hendrikmuhs/ccache-action@v1.2.22
       with:
@@ -92,8 +83,6 @@ jobs:
       uses: actions/checkout@v6
       with:
         submodules: true
-    - name: Apply expanded owl bookkeeping
-      run: git apply .github/expanded-owls-bookkeeping.patch
     - name: Configure sccache
       uses: hendrikmuhs/ccache-action@v1.2.22
       with:
