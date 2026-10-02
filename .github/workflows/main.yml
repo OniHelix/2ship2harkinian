@@ -80,6 +80,7 @@ jobs:
   build-windows:
     needs: generate-2ship-otr
     runs-on: windows-latest
+    timeout-minutes: 180
     steps:
     - name: Install dependencies
       run: |
