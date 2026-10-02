@@ -17,12 +17,10 @@ namespace {
 struct ExpandedOwlPlacement {
     s16 sceneId;
     s8 roomNum;
-    ActorEntry actor;
+    SOH::ActorEntry actor;
 };
 
-// These are the exact five ActorEntry records from the mm.o2r build that was
-// validated in-game. rot.x=7 and rot.z=127 preserve the native owl schedule;
-// params 10-14 are the five new owl IDs.
+// Exact five ActorEntry records from the mm.o2r build already validated in-game.
 static const ExpandedOwlPlacement sExpandedOwls[] = {
     { SCENE_BOTI, 1, { ACTOR_OBJ_WARPSTONE, { 118, 323, -2108 }, { 7, 22, 127 }, 10 } },
     { SCENE_TENMON_DAI, 1, { ACTOR_OBJ_WARPSTONE, { -3, -129, -414 }, { 7, 16, 127 }, 11 } },
@@ -66,7 +64,7 @@ void InjectExpandedOwlIntoLoadedRoom(s16 sceneId, s8 roomNum) {
         } else if (command->cmdId == SOH::SceneCommandID::SetActorList) {
             auto* actors = static_cast<SOH::SetActorList*>(command.get());
             const bool alreadyPresent = std::any_of(
-                actors->actorList.begin(), actors->actorList.end(), [owl](const ActorEntry& actor) {
+                actors->actorList.begin(), actors->actorList.end(), [owl](const SOH::ActorEntry& actor) {
                     return actor.id == ACTOR_OBJ_WARPSTONE && actor.params == owl->actor.params &&
                            actor.pos.x == owl->actor.pos.x && actor.pos.y == owl->actor.pos.y &&
                            actor.pos.z == owl->actor.pos.z;
