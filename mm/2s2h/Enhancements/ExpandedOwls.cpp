@@ -10,6 +10,7 @@
 
 #include <algorithm>
 #include <cstring>
+#include <fstream>
 #include <memory>
 
 extern "C" {
@@ -37,11 +38,47 @@ static const SOH::ActorEntry sAstralOwl = {
 struct OwlCutsceneTemplate {
     SOH::CutsceneEntry entry;
     SOH::ActorCsCamInfoData camera;
+    SOH::ActorEntry sourceOwl;
+    s16 sourceCsId;
 };
 
 std::shared_ptr<SOH::Scene> LoadSceneResource(const char* resourceName) {
     return std::static_pointer_cast<SOH::Scene>(
         Ship::Context::GetRawInstance()->GetResourceManager()->LoadResource(resourceName));
+}
+
+void DumpAstralCameraTemplate(const OwlCutsceneTemplate& owlTemplate) {
+    // Temporary diagnostic output.  We need the exact native one-point-camera data before
+    // translating it to the Astral Observatory placement; guessing which Vec3s are coordinates
+    // would just create another broken camera.
+    std::ofstream out("expanded_owl_camera.txt", std::ios::out | std::ios::trunc);
+    if (!out.is_open()) {
+        return;
+    }
+
+    out << "SOURCE_SCENE=" << VANILLA_OWL_TEMPLATE_SCENE << '\n';
+    out << "SOURCE_OWL_POS=" << owlTemplate.sourceOwl.pos.x << ',' << owlTemplate.sourceOwl.pos.y << ','
+        << owlTemplate.sourceOwl.pos.z << '\n';
+    out << "SOURCE_OWL_ROT=" << owlTemplate.sourceOwl.rot.x << ',' << owlTemplate.sourceOwl.rot.y << ','
+        << owlTemplate.sourceOwl.rot.z << '\n';
+    out << "SOURCE_CS_ID=" << owlTemplate.sourceCsId << '\n';
+    out << "ASTRAL_OWL_POS=" << sAstralOwl.pos.x << ',' << sAstralOwl.pos.y << ',' << sAstralOwl.pos.z << '\n';
+    out << "ASTRAL_OWL_ROT=" << sAstralOwl.rot.x << ',' << sAstralOwl.rot.y << ',' << sAstralOwl.rot.z << '\n';
+    out << "CUTSCENE_PRIORITY=" << owlTemplate.entry.priority << '\n';
+    out << "CUTSCENE_LENGTH=" << owlTemplate.entry.length << '\n';
+    out << "CUTSCENE_CAM_ID=" << owlTemplate.entry.csCamId << '\n';
+    out << "CUTSCENE_SCRIPT_INDEX=" << owlTemplate.entry.scriptIndex << '\n';
+    out << "CUTSCENE_ADDITIONAL_ID=" << owlTemplate.entry.additionalCsId << '\n';
+    out << "CUTSCENE_END_SFX=" << owlTemplate.entry.endSfx << '\n';
+    out << "CUTSCENE_CUSTOM_VALUE=" << owlTemplate.entry.customValue << '\n';
+    out << "CUTSCENE_HUD_VISIBILITY=" << owlTemplate.entry.hudVisibility << '\n';
+    out << "CUTSCENE_END_CAM=" << owlTemplate.entry.endCam << '\n';
+    out << "CAMERA_SETTING=" << owlTemplate.camera.setting << '\n';
+    out << "CAMERA_COUNT=" << owlTemplate.camera.count << '\n';
+    for (s16 i = 0; i < owlTemplate.camera.count; ++i) {
+        const auto& v = owlTemplate.camera.actorCsCamFuncData[i];
+        out << "CAMERA_DATA[" << i << "]=" << v.x << ',' << v.y << ',' << v.z << '\n';
+    }
 }
 
 bool FindVanillaOwlCutsceneTemplate(OwlCutsceneTemplate& outTemplate) {
@@ -69,6 +106,7 @@ bool FindVanillaOwlCutsceneTemplate(OwlCutsceneTemplate& outTemplate) {
     }
 
     s16 owlCsId = -1;
+    SOH::ActorEntry sourceOwl{};
     for (const auto& roomName : sourceRooms->fileNames) {
         auto room = std::static_pointer_cast<SOH::Scene>(
             Ship::Context::GetRawInstance()->GetResourceManager()->LoadResource(roomName.c_str()));
@@ -86,6 +124,7 @@ bool FindVanillaOwlCutsceneTemplate(OwlCutsceneTemplate& outTemplate) {
                 return actor.id == ACTOR_OBJ_WARPSTONE;
             });
             if (owl != actors->actorList.end()) {
+                sourceOwl = *owl;
                 owlCsId = owl->rot.y & 0x7F;
                 break;
             }
@@ -115,6 +154,8 @@ bool FindVanillaOwlCutsceneTemplate(OwlCutsceneTemplate& outTemplate) {
     outTemplate.camera.actorCsCamFuncData = new SOH::z64Vec3s[sourceCamera.count];
     std::memcpy(outTemplate.camera.actorCsCamFuncData, sourceCamera.actorCsCamFuncData,
                 sizeof(SOH::z64Vec3s) * sourceCamera.count);
+    outTemplate.sourceOwl = sourceOwl;
+    outTemplate.sourceCsId = owlCsId;
     return true;
 }
 
@@ -128,6 +169,8 @@ s16 InstallAstralOwlCutscene() {
     if (!FindVanillaOwlCutsceneTemplate(owlTemplate)) {
         return -1;
     }
+
+    DumpAstralCameraTemplate(owlTemplate);
 
     auto astralScene = LoadSceneResource(ASTRAL_SCENE_RESOURCE);
     if (astralScene == nullptr) {
@@ -158,8 +201,6 @@ s16 InstallAstralOwlCutscene() {
     astralCameras->csCamera.push_back(owlTemplate.camera);
     astralCutscenes->entries.push_back(owlTemplate.entry);
 
-    // The scene commands were already processed before OnRoomInit. Refresh the two runtime pointers
-    // that consume the resized vectors so the newly appended entries are visible to native code.
     gPlayState->actorCsCamList = reinterpret_cast<ActorCsCamInfo*>(astralCameras->csCamera.data());
     CutsceneManager_Init(gPlayState, reinterpret_cast<ActorCutscene*>(astralCutscenes->entries.data()),
                          static_cast<s16>(astralCutscenes->entries.size()));
@@ -176,7 +217,6 @@ void InjectAstralOwlIntoLoadedRoom(s8 sceneId, s8 roomNum) {
 
     const s16 owlCsId = InstallAstralOwlCutscene();
     if (owlCsId < 0 || owlCsId >= 0x78) {
-        // Do not inject a statue with an invalid cutscene dependency.
         return;
     }
 
