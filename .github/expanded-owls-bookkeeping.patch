@@ -1,7 +1,7 @@
 diff --git a/mm/include/z64scene.h b/mm/include/z64scene.h
 --- a/mm/include/z64scene.h
 +++ b/mm/include/z64scene.h
-@@ -605,8 +605,14 @@
+@@ -605,7 +605,13 @@
      /*  0x7 */ OWL_WARP_SOUTHERN_SWAMP,
      /*  0x8 */ OWL_WARP_IKANA_CANYON,
      /*  0x9 */ OWL_WARP_STONE_TOWER,
