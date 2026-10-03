@@ -59,6 +59,12 @@ static InitChainEntry sInitChain[] = {
 
 static Gfx* sOwlStatueDLs[] = { gOwlStatueClosedDL, gOwlStatueOpenedDL };
 
+static s32 ObjWarpstone_IsExpandedOwl(ObjWarpstone* this) {
+    u16 owlWarpId = OBJ_WARPSTONE_GET_OWL_WARP_ID(&this->dyna.actor);
+
+    return (owlWarpId >= 0xA) && (owlWarpId <= 0xE);
+}
+
 void ObjWarpstone_SetupAction(ObjWarpstone* this, ObjWarpstoneActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
@@ -98,7 +104,15 @@ s32 ObjWarpstone_ClosedIdle(ObjWarpstone* this, PlayState* play) {
 }
 
 s32 ObjWarpstone_BeginOpeningCutscene(ObjWarpstone* this, PlayState* play) {
-    if ((this->dyna.actor.csId <= CS_ID_NONE) || CutsceneManager_IsNext(this->dyna.actor.csId)) {
+    /*
+     * The five expanded owl placements do not have scene ActorCutscene entries. Their csId can therefore
+     * resolve to an invalid entry and crash CutsceneManager_Start while opening. Preserve the normal owl
+     * opening animation and activation timing, but do not enter the cutscene manager for these statues.
+     */
+    if (ObjWarpstone_IsExpandedOwl(this)) {
+        ObjWarpstone_SetupAction(this, ObjWarpstone_PlayOpeningCutscene);
+        Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_OWL_WARP_SWITCH_ON);
+    } else if ((this->dyna.actor.csId <= CS_ID_NONE) || CutsceneManager_IsNext(this->dyna.actor.csId)) {
         CutsceneManager_StartWithPlayerCs(this->dyna.actor.csId, &this->dyna.actor);
         ObjWarpstone_SetupAction(this, ObjWarpstone_PlayOpeningCutscene);
         Actor_PlaySfx(&this->dyna.actor, NA_SE_EV_OWL_WARP_SWITCH_ON);
@@ -110,7 +124,9 @@ s32 ObjWarpstone_BeginOpeningCutscene(ObjWarpstone* this, PlayState* play) {
 
 s32 ObjWarpstone_PlayOpeningCutscene(ObjWarpstone* this, PlayState* play) {
     if (this->openingCSTimer++ >= OBJ_WARPSTONE_TIMER_ACTIVATE_THRESHOLD) {
-        CutsceneManager_Stop(this->dyna.actor.csId);
+        if (!ObjWarpstone_IsExpandedOwl(this)) {
+            CutsceneManager_Stop(this->dyna.actor.csId);
+        }
         if (GameInteractor_Should(VB_OWL_STATUE_ACTIVATE, true, OBJ_WARPSTONE_GET_OWL_WARP_ID(&this->dyna.actor))) {
             Sram_ActivateOwl(OBJ_WARPSTONE_GET_OWL_WARP_ID(&this->dyna.actor));
         }
