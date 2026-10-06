@@ -18,9 +18,6 @@ extern bool BetterOwlWarp_IsCutoffOnSide(s16 cursorPoint, PauseContext* pauseCtx
 extern bool BetterOwlWarp_NextCursorPoint(s16* cursorPoint, PauseContext* pauseCtx);
 }
 
-#define EXPANDED_OWL_WARP_DEKU_PALACE 12
-#define EXPANDED_OWL_WARP_LAST EXPANDED_OWL_WARP_DEKU_PALACE
-
 #define CVAR_NAME "gEnhancements.Songs.PauseOwlWarp"
 #define CVAR CVarGetInteger(CVAR_NAME, 0)
 
@@ -59,16 +56,12 @@ static void HandleConfirmingState(PauseContext* pauseCtx, Input* input) {
             pauseCtx->state = PAUSE_STATE_UNPAUSE_SETUP;
             sPauseMenuVerticalOffset = -6240.0f;
             Audio_PlaySfx_PauseMenuOpenOrClose(SFX_PAUSE_MENU_CLOSE);
-            if (pauseCtx->cursorPoint[PAUSE_WORLD_MAP] == EXPANDED_OWL_WARP_DEKU_PALACE) {
-                gPlayState->msgCtx.ocarinaMode = OCARINA_MODE_END;
-                gPlayState->nextEntrance = Entrance_Create(SCENE_22DEKUCITY, 11, 0);
-            } else {
-                gPlayState->msgCtx.ocarinaMode = sCursorPointsToOcarinaModes[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]];
-                gPlayState->nextEntrance = sOwlWarpEntrancesForMods[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]];
-            }
+            gPlayState->msgCtx.ocarinaMode = sCursorPointsToOcarinaModes[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]];
             Audio_PlaySfx(NA_SE_SY_DECIDE);
 
             Message_CloseTextbox(gPlayState);
+
+            gPlayState->nextEntrance = sOwlWarpEntrancesForMods[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]];
             gPlayState->transitionTrigger = TRANS_TRIGGER_START;
             gPlayState->transitionType = TRANS_TYPE_FADE_WHITE;
         } else { // No
@@ -188,14 +181,9 @@ static void UpdateCursorForOwlWarpPoints(PauseContext* pauseCtx) {
         if (pauseCtx->cursorSpecialPos == 0) {
             // Offset from `ITEM_MAP_POINT_GREAT_BAY` is to get the correct ordering in `map_name_static`
             pauseCtx->cursorItem[PAUSE_MAP] =
-                (pauseCtx->cursorPoint[PAUSE_WORLD_MAP] == EXPANDED_OWL_WARP_DEKU_PALACE)
-                    ? REGION_DEKU_PALACE
-                    : (sOwlWarpPauseItems[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]] - ITEM_MAP_POINT_GREAT_BAY);
-            // Used as cursor vtxIndex. Expanded owls reuse their existing world-map region quad.
-            pauseCtx->cursorSlot[PAUSE_MAP] =
-                (pauseCtx->cursorPoint[PAUSE_WORLD_MAP] == EXPANDED_OWL_WARP_DEKU_PALACE)
-                    ? (31 + REGION_DEKU_PALACE)
-                    : (31 + pauseCtx->cursorPoint[PAUSE_WORLD_MAP]);
+                sOwlWarpPauseItems[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]] - ITEM_MAP_POINT_GREAT_BAY;
+            // Used as cursor vtxIndex
+            pauseCtx->cursorSlot[PAUSE_MAP] = 31 + pauseCtx->cursorPoint[PAUSE_WORLD_MAP];
         }
 
         if (!pauseCtx->worldMapPoints[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]]) {
@@ -209,7 +197,7 @@ static void UpdateCursorForOwlWarpPoints(PauseContext* pauseCtx) {
 
 static void HandlePauseOwlWarp(PauseContext* pauseCtx) {
     // Initialize worldMapPoints based on owl activation flags
-    for (int i = EXPANDED_OWL_WARP_LAST; i >= OWL_WARP_GREAT_BAY_COAST; i--) {
+    for (int i = OWL_WARP_STONE_TOWER; i >= OWL_WARP_GREAT_BAY_COAST; i--) {
         pauseCtx->worldMapPoints[i] = (gSaveContext.save.saveInfo.playerData.owlActivationFlags >> i) & 1;
     }
 
