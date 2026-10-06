@@ -60,6 +60,6 @@ def main() -> int:
         temp.unlink(missing_ok=True)
         raise RuntimeError("missing room resources: "+", ".join(sorted(missing)))
     temp.replace(archive)
-    print(f"Expanded Owls: patched {len(found)} room resources in {archive}")
+    print(f"Expanded Owls: patched {len(found)} room resources plus Deku Palace scene entrance 11 in {archive}")
     return 0
 if __name__=="__main__": raise SystemExit(main())
