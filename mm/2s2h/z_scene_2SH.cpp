@@ -47,7 +47,19 @@ void Scene_CommandSpawnList(PlayState* play, SOH::ISceneCommand* cmd) {
     s16 playerObjectId;
     void* objectPtr;
 
-    play->linkActorEntry = &entries[play->setupEntranceList[play->curSpawn].spawn];
+    // Expanded Owls: Deku Palace entrance 11 is a new Song of Soaring destination.
+    // The vanilla scene resource has no twelfth Start Position, so provide the
+    // validated 0x06FF soaring Player entry directly instead of indexing past
+    // the resource's 11-entry Start Position list.
+    static ActorEntry sExpandedOwlDekuPalaceStart = {
+        0, { 1322, 0, 3074 }, { 7, (s16)0x9A9E, 0x7F }, 0x06FF,
+    };
+
+    if ((play->sceneId == SCENE_22DEKUCITY) && (play->curSpawn == 11)) {
+        play->linkActorEntry = &sExpandedOwlDekuPalaceStart;
+    } else {
+        play->linkActorEntry = &entries[play->setupEntranceList[play->curSpawn].spawn];
+    }
 
     if ((PLAYER_GET_START_MODE(play->linkActorEntry) == PLAYER_START_MODE_TELESCOPE) ||
         ((gSaveContext.respawnFlag == 2) && (gSaveContext.respawn[RESPAWN_MODE_RETURN].playerParams ==

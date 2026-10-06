@@ -832,10 +832,14 @@ static EntranceTableEntry sDekuPalaceEntrance10[] = {
     { SCENE_22DEKUCITY, 10, 0x4102 },
 };
 
+static EntranceTableEntry sDekuPalaceEntrance11[] = {
+    { SCENE_22DEKUCITY, 11, 0x4102 },
+};
+
 static EntranceTableEntry* sDekuPalaceEntranceTable[] = {
     sDekuPalaceEntrance0, sDekuPalaceEntrance1, sDekuPalaceEntrance2,  sDekuPalaceEntrance3,
     sDekuPalaceEntrance4, sDekuPalaceEntrance5, sDekuPalaceEntrance6,  sDekuPalaceEntrance7,
-    sDekuPalaceEntrance8, sDekuPalaceEntrance9, sDekuPalaceEntrance10,
+    sDekuPalaceEntrance8, sDekuPalaceEntrance9, sDekuPalaceEntrance10, sDekuPalaceEntrance11,
 };
 
 static EntranceTableEntry sMountainSmithyEntrance0[] = {
