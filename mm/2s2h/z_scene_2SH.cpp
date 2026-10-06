@@ -49,10 +49,13 @@ void Scene_CommandSpawnList(PlayState* play, SOH::ISceneCommand* cmd) {
 
     // Expanded Owls: Deku Palace entrance 11 is a new Song of Soaring destination.
     // The vanilla scene resource has no twelfth Start Position, so provide the
-    // validated 0x06FF soaring Player entry directly instead of indexing past
-    // the resource's 11-entry Start Position list.
+    // soaring Player entry directly instead of indexing past the resource's
+    // 11-entry Start Position list. ActorEntry rotation fields are packed:
+    // rot.y high 9 bits encode the 233-degree arrival yaw, while its low 7 bits
+    // encode ActorCutscene ID 8 (Deku Palace's vanilla CS_CAM_ID_GLOBAL_SONG_WARP).
+    // This lets Player inherit the native owl-warp cutscene chain and cleanup.
     static ActorEntry sExpandedOwlDekuPalaceStart = {
-        0, { -209, 0, 3074 }, { 7, (s16)0x9A9E, 0x7F }, PLAYER_PARAMS(0xFF, PLAYER_START_MODE_OWL),
+        0, { -196, 0, 3060 }, { 7, (s16)0x7488, 0x7F }, PLAYER_PARAMS(0xFF, PLAYER_START_MODE_OWL),
     };
 
     if ((play->sceneId == SCENE_22DEKUCITY) && (play->curSpawn == 11)) {
