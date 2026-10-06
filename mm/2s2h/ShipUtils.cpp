@@ -91,7 +91,7 @@ extern u16 sOwlWarpEntrancesForMods[OWL_WARP_MAX - 1] = {
     ENTRANCE(STONE_TOWER, 3),              // OWL_WARP_STONE_TOWER
     0,                                      // OWL_WARP_IKANA_GRAVEYARD (pending dedicated entrance)
     0,                                      // OWL_WARP_ASTRAL_OBSERVATORY (pending dedicated entrance)
-    Entrance_Create(SCENE_22DEKUCITY, 11, 0), // OWL_WARP_DEKU_PALACE
+    ENTRANCE(22DEKUCITY, 11), // OWL_WARP_DEKU_PALACE
     0,                                      // OWL_WARP_GORON_SHRINE (pending dedicated entrance)
     0,                                      // OWL_WARP_PIRATES_FORTRESS (pending dedicated entrance)
     0,                                      // OWL_WARP_WEST_CLOCK_TOWN_SAVE (reserved; handled by vanilla save behavior)
