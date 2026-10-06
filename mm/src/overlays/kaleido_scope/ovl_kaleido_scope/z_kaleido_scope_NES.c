@@ -3315,7 +3315,7 @@ u16 sCursorPointsToOcarinaModes[OWL_WARP_MAX - 1] = {
     OCARINA_MODE_WARP_TO_STONE_TOWER,
     OCARINA_MODE_END, // OWL_WARP_IKANA_GRAVEYARD
     OCARINA_MODE_END, // OWL_WARP_ASTRAL_OBSERVATORY
-    OCARINA_MODE_END, // OWL_WARP_DEKU_PALACE
+    OCARINA_MODE_WARP_TO_DEKU_PALACE, // OWL_WARP_DEKU_PALACE
     OCARINA_MODE_END, // OWL_WARP_GORON_SHRINE
     OCARINA_MODE_END, // OWL_WARP_PIRATES_FORTRESS
     OCARINA_MODE_END, // OWL_WARP_WEST_CLOCK_TOWN_SAVE (reserved, non-selectable)
@@ -4086,18 +4086,8 @@ void KaleidoScope_Update(PlayState* play) {
                     pauseCtx->state = PAUSE_STATE_OWL_WARP_6;
                     sPauseMenuVerticalOffset = -6240.0f;
                     Audio_PlaySfx_PauseMenuOpenOrClose(SFX_PAUSE_MENU_CLOSE);
-                    if (pauseCtx->cursorPoint[PAUSE_WORLD_MAP] == EXPANDED_OWL_WARP_DEKU_PALACE) {
-                        // Dedicated Deku Palace arrival spawn established for the expanded owl.
-                        // Go directly through the normal white warp transition; do not index the
-                        // vanilla 10-entry ocarina-mode table with expanded ID 12.
-                        play->msgCtx.ocarinaMode = OCARINA_MODE_END;
-                        play->nextEntrance = Entrance_Create(SCENE_22DEKUCITY, 11, 0);
-                        play->transitionTrigger = TRANS_TRIGGER_START;
-                        play->transitionType = TRANS_TYPE_FADE_WHITE;
-                    } else {
-                        play->msgCtx.ocarinaMode =
-                            sCursorPointsToOcarinaModes[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]];
-                    }
+                    play->msgCtx.ocarinaMode =
+                        sCursorPointsToOcarinaModes[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]];
                     Audio_PlaySfx(NA_SE_SY_DECIDE);
                 } else {
                     pauseCtx->state = PAUSE_STATE_OWL_WARP_SELECT;
