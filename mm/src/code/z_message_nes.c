@@ -262,7 +262,7 @@ void Message_LoadTimeNES(PlayState* play, u8 curChar, s32* offset, f32* arg3, s1
 #define PIRATES_FORTRESS_STR "Pirates' Fortress"
 #define ENTRANCE_STR "Entrance"
 
-char sOwlWarpTextENG[OWL_WARP_MAX][16] = {
+char sOwlWarpTextENG[OWL_WARP_MAX][24] = {
     GREAT_BAY_COAST_STR,  // OWL_WARP_GREAT_BAY_COAST
     ZORA_CAPE_STR,        // OWL_WARP_ZORA_CAPE
     SNOWHEAD_STR,         // OWL_WARP_SNOWHEAD
