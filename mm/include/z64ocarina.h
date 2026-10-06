@@ -157,10 +157,11 @@ typedef enum OcarinaMode {
     /* 0x24 */ OCARINA_MODE_WARP_TO_IKANA_CANYON,
     /* 0x25 */ OCARINA_MODE_WARP_TO_STONE_TOWER,
     /* 0x26 */ OCARINA_MODE_WARP_TO_ENTRANCE,
-    /* 0x27 */ OCARINA_MODE_PROCESS_RESTRICTED_SONG, // Variants of Song of Time, Soaring, or Elegy restricted
-    /* 0x28 */ OCARINA_MODE_28,
+    /* 0x27 */ OCARINA_MODE_WARP_TO_DEKU_PALACE,
+    /* 0x28 */ OCARINA_MODE_PROCESS_RESTRICTED_SONG, // Variants of Song of Time, Soaring, or Elegy restricted
     /* 0x29 */ OCARINA_MODE_29,
-    /* 0x2A */ OCARINA_MODE_PLAYED_FULL_EVAN_SONG
+    /* 0x2A */ OCARINA_MODE_2A,
+    /* 0x2B */ OCARINA_MODE_PLAYED_FULL_EVAN_SONG
 } OcarinaMode;
 
 typedef enum OcarinaButtonIndex {
