@@ -11418,6 +11418,24 @@ void Player_Init(Actor* thisx, PlayState* play) {
     this->lightNode = LightContext_InsertLight(play, &play->lightCtx, &this->lightInfo);
     Play_AssignPlayerCsIdsFromScene(play, this->actor.csId);
 
+    // Expanded Owls: Deku Palace did not originally have an owl-warp arrival,
+    // so its scene cutscene chain may not expose the global Song of Soaring
+    // camera to Player. Reuse any global Song of Soaring cutscene registered
+    // with the CutsceneManager so En_Test7 can run the normal arrival sequence.
+    if ((play->sceneId == SCENE_22DEKUCITY) && (play->curSpawn == 11) &&
+        (play->playerCsIds[PLAYER_CS_ID_SONG_WARP] == CS_ID_NONE)) {
+        s32 expandedOwlCsId;
+
+        for (expandedOwlCsId = 0; expandedOwlCsId < 128; expandedOwlCsId++) {
+            ActorCutscene* expandedOwlCsEntry = CutsceneManager_GetCutsceneEntry(expandedOwlCsId);
+
+            if ((expandedOwlCsEntry != NULL) && (expandedOwlCsEntry->csCamId == CS_CAM_ID_GLOBAL_SONG_WARP)) {
+                play->playerCsIds[PLAYER_CS_ID_SONG_WARP] = expandedOwlCsId;
+                break;
+            }
+        }
+    }
+
     respawnFlag = gSaveContext.respawnFlag;
     if (respawnFlag != 0) {
         if (respawnFlag == -3) {
