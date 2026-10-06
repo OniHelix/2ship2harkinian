@@ -610,8 +610,9 @@ typedef enum OwlWarpId {
     /*  0xC */ OWL_WARP_DEKU_PALACE,
     /*  0xD */ OWL_WARP_GORON_SHRINE,
     /*  0xE */ OWL_WARP_PIRATES_FORTRESS,
-    /*  0xF */ OWL_WARP_ENTRANCE, // Special index for warping to the entrance of a scene
-    /* 0x10 */ OWL_WARP_MAX,
+    /*  0xF */ OWL_WARP_WEST_CLOCK_TOWN_SAVE = 0xF, // Vanilla non-selectable West Clock Town owl/save value
+    /* 0x10 */ OWL_WARP_ENTRANCE, // Special index for warping to the entrance of a scene
+    /* 0x11 */ OWL_WARP_MAX,
     /* 0xFF */ OWL_WARP_NONE = 0xFF
 } OwlWarpId;
 
