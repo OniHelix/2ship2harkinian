@@ -52,7 +52,7 @@ void Scene_CommandSpawnList(PlayState* play, SOH::ISceneCommand* cmd) {
     // validated 0x06FF soaring Player entry directly instead of indexing past
     // the resource's 11-entry Start Position list.
     static ActorEntry sExpandedOwlDekuPalaceStart = {
-        0, { 1322, 0, 3074 }, { 7, (s16)0x9A9E, 0x7F }, 0x06FF,
+        0, { -209, 0, 3074 }, { 7, (s16)0x9A9E, 0x7F }, PLAYER_PARAMS(0xFF, PLAYER_START_MODE_OWL),
     };
 
     if ((play->sceneId == SCENE_22DEKUCITY) && (play->curSpawn == 11)) {
