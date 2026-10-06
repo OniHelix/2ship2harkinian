@@ -1,1 +1,2 @@
 Expanded Owls Windows test build trigger.
+Clean Deku Palace Kaleido test trigger.
