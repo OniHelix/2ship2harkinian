@@ -2283,6 +2283,12 @@ void Message_LoadTime(PlayState* play, u16 curChar, s32* offset, f32* arg3, s16*
     { 0x8343, 0x834A, 0x815B, 0x8369, 0x8C6B, 0x924A }
 #define STONE_TOWER_STR \
     { 0x838D, 0x8362, 0x834E, 0x8372, 0x838B }
+// Expanded owl names use ASCII-compatible glyph codes in this port table.
+#define IKANA_GRAVEYARD_STR { 'I', 'k', 'a', 'n', 'a', ' ', 'G', 'r', 'a' }
+#define ASTRAL_OBSERVATORY_STR { 'A', 's', 't', 'r', 'a', 'l', ' ', 'O', 'b' }
+#define DEKU_PALACE_STR { 'D', 'e', 'k', 'u', ' ', 'P', 'a', 'l', 'a' }
+#define GORON_SHRINE_STR { 'G', 'o', 'r', 'o', 'n', ' ', 'S', 'h', 'r' }
+#define PIRATES_FORTRESS_STR { 'P', 'i', 'r', 'a', 't', 'e', 's', ''', ' ' }
 #define ENTRANCE_STR \
     { 0x93FC, 0x82E8, 0x8CFB }
 
@@ -2297,8 +2303,13 @@ u16 sOwlWarpTextJPN[OWL_WARP_MAX][9] = {
     WOODFALL_STR,         // OWL_WARP_WOODFALL
     SOUTHERN_SWAMP_STR,   // OWL_WARP_SOUTHERN_SWAMP
     IKANA_CANYON_STR,     // OWL_WARP_IKANA_CANYON
-    STONE_TOWER_STR,      // OWL_WARP_STONE_TOWER
-    ENTRANCE_STR,         // OWL_WARP_ENTRANCE
+    STONE_TOWER_STR,       // OWL_WARP_STONE_TOWER
+    IKANA_GRAVEYARD_STR,    // OWL_WARP_IKANA_GRAVEYARD
+    ASTRAL_OBSERVATORY_STR, // OWL_WARP_ASTRAL_OBSERVATORY
+    DEKU_PALACE_STR,        // OWL_WARP_DEKU_PALACE
+    GORON_SHRINE_STR,       // OWL_WARP_GORON_SHRINE
+    PIRATES_FORTRESS_STR,   // OWL_WARP_PIRATES_FORTRESS
+    ENTRANCE_STR,           // OWL_WARP_ENTRANCE
 };
 
 //! TODO: use sizeof when we have strings
@@ -2313,6 +2324,11 @@ s16 sOwlWarpTextLengthJPN[OWL_WARP_MAX] = {
     2, // OWL_WARP_SOUTHERN_SWAMP
     6, // OWL_WARP_IKANA_CANYON
     5, // OWL_WARP_STONE_TOWER
+    9, // OWL_WARP_IKANA_GRAVEYARD (truncated JPN fallback)
+    9, // OWL_WARP_ASTRAL_OBSERVATORY (truncated JPN fallback)
+    9, // OWL_WARP_DEKU_PALACE (truncated JPN fallback)
+    9, // OWL_WARP_GORON_SHRINE (truncated JPN fallback)
+    9, // OWL_WARP_PIRATES_FORTRESS (truncated JPN fallback)
     3, // OWL_WARP_ENTRANCE
 };
 
