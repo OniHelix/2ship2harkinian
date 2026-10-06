@@ -94,6 +94,7 @@ extern u16 sOwlWarpEntrancesForMods[OWL_WARP_MAX - 1] = {
     Entrance_Create(SCENE_22DEKUCITY, 11, 0), // OWL_WARP_DEKU_PALACE
     0,                                      // OWL_WARP_GORON_SHRINE (pending dedicated entrance)
     0,                                      // OWL_WARP_PIRATES_FORTRESS (pending dedicated entrance)
+    0,                                      // OWL_WARP_WEST_CLOCK_TOWN_SAVE (reserved; handled by vanilla save behavior)
 };
 
 // These textures are not in existing lists that we iterate over.
