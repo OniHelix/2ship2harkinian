@@ -20,8 +20,8 @@
 // 2S2H [Port] (and line 26) don't do pointer math and access the list of digits directly.
 extern const char* sCounterTextures[];
 
-#define EXPANDED_OWL_WARP_DEKU_PALACE 12
-#define EXPANDED_OWL_WARP_LAST EXPANDED_OWL_WARP_DEKU_PALACE
+#define EXPANDED_OWL_WARP_DEKU_PALACE OWL_WARP_DEKU_PALACE
+#define EXPANDED_OWL_WARP_LAST OWL_WARP_PIRATES_FORTRESS
 
 // 2S2H [Port] The cursor updating logic for owl warping can get stuck in an infinite loop
 // when there are no world map points registered. This can happen when using index warping and moving the cursor
@@ -947,9 +947,11 @@ u16 sOwlWarpPauseItems[] = {
     ITEM_MAP_POINT_SOUTHERN_SWAMP,   // OWL_WARP_SOUTHERN_SWAMP
     ITEM_MAP_POINT_IKANA_CANYON,     // OWL_WARP_IKANA_CANYON
     ITEM_MAP_POINT_STONE_TOWER,      // OWL_WARP_STONE_TOWER
-    ITEM_NONE,                        // 10 reserved for Pirates' Fortress
-    ITEM_NONE,                        // 11 reserved for Astral Observatory
-    ITEM_MAP_POINT_DEKU_PALACE,       // 12 expanded Deku Palace owl
+    ITEM_NONE,                        // OWL_WARP_IKANA_GRAVEYARD
+    ITEM_NONE,                        // OWL_WARP_ASTRAL_OBSERVATORY
+    ITEM_MAP_POINT_DEKU_PALACE,       // OWL_WARP_DEKU_PALACE
+    ITEM_NONE,                        // OWL_WARP_GORON_SHRINE
+    ITEM_NONE,                        // OWL_WARP_PIRATES_FORTRESS
 };
 
 // 2S2H [Enhancement] Same as KaleidoScope_UpdateWorldMapCursor but with behavior and controls inverted to account for
