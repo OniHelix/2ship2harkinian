@@ -1054,7 +1054,9 @@ void Ship_UpdateWorldMapCursorMirrorWorld(PlayState* play) {
 
         // Offset from `ITEM_MAP_POINT_GREAT_BAY` is to get the correct ordering in `map_name_static`
         pauseCtx->cursorItem[PAUSE_MAP] =
-            sOwlWarpPauseItems[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]] - ITEM_MAP_POINT_GREAT_BAY;
+            (pauseCtx->cursorPoint[PAUSE_WORLD_MAP] == EXPANDED_OWL_WARP_DEKU_PALACE)
+                ? REGION_DEKU_PALACE
+                : (sOwlWarpPauseItems[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]] - ITEM_MAP_POINT_GREAT_BAY);
         // Used as cursor vtxIndex
         pauseCtx->cursorSlot[PAUSE_MAP] =
                 (pauseCtx->cursorPoint[PAUSE_WORLD_MAP] == EXPANDED_OWL_WARP_DEKU_PALACE)
@@ -1229,7 +1231,9 @@ void KaleidoScope_UpdateWorldMapCursor(PlayState* play) {
 
         // Offset from `ITEM_MAP_POINT_GREAT_BAY` is to get the correct ordering in `map_name_static`
         pauseCtx->cursorItem[PAUSE_MAP] =
-            sOwlWarpPauseItems[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]] - ITEM_MAP_POINT_GREAT_BAY;
+            (pauseCtx->cursorPoint[PAUSE_WORLD_MAP] == EXPANDED_OWL_WARP_DEKU_PALACE)
+                ? REGION_DEKU_PALACE
+                : (sOwlWarpPauseItems[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]] - ITEM_MAP_POINT_GREAT_BAY);
         // Used as cursor vtxIndex
         pauseCtx->cursorSlot[PAUSE_MAP] =
                 (pauseCtx->cursorPoint[PAUSE_WORLD_MAP] == EXPANDED_OWL_WARP_DEKU_PALACE)
