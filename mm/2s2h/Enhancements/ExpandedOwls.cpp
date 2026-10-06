@@ -10,7 +10,6 @@
 
 #include <algorithm>
 #include <cstring>
-#include <fstream>
 #include <memory>
 
 extern "C" {
@@ -27,32 +26,6 @@ struct OwlCutsceneTemplate { SOH::CutsceneEntry entry; SOH::ActorCsCamInfoData c
 
 std::shared_ptr<SOH::Scene> LoadSceneResource(const char* resourceName) {
     return std::static_pointer_cast<SOH::Scene>(Ship::Context::GetRawInstance()->GetResourceManager()->LoadResource(resourceName));
-}
-
-void DumpAstralCameraTemplate(const OwlCutsceneTemplate& t) {
-    std::ofstream out("expanded_owl_camera.txt", std::ios::out | std::ios::trunc);
-    if (!out.is_open()) return;
-    out << "SOURCE_SCENE=" << VANILLA_OWL_TEMPLATE_SCENE << '\n';
-    out << "SOURCE_OWL_POS=" << t.sourceOwl.pos.x << ',' << t.sourceOwl.pos.y << ',' << t.sourceOwl.pos.z << '\n';
-    out << "SOURCE_OWL_ROT=" << t.sourceOwl.rot.x << ',' << t.sourceOwl.rot.y << ',' << t.sourceOwl.rot.z << '\n';
-    out << "SOURCE_CS_ID=" << t.sourceCsId << '\n';
-    out << "ASTRAL_OWL_POS=" << sAstralOwl.pos.x << ',' << sAstralOwl.pos.y << ',' << sAstralOwl.pos.z << '\n';
-    out << "ASTRAL_OWL_ROT=" << sAstralOwl.rot.x << ',' << sAstralOwl.rot.y << ',' << sAstralOwl.rot.z << '\n';
-    out << "CUTSCENE_PRIORITY=" << t.entry.priority << '\n';
-    out << "CUTSCENE_LENGTH=" << t.entry.length << '\n';
-    out << "CUTSCENE_CAM_ID=" << t.entry.csCamId << '\n';
-    out << "CUTSCENE_SCRIPT_INDEX=" << t.entry.scriptIndex << '\n';
-    out << "CUTSCENE_ADDITIONAL_ID=" << t.entry.additionalCsId << '\n';
-    out << "CUTSCENE_END_SFX=" << (int)t.entry.endSfx << '\n';
-    out << "CUTSCENE_CUSTOM_VALUE=" << (int)t.entry.customValue << '\n';
-    out << "CUTSCENE_HUD_VISIBILITY=" << (int)t.entry.hudVisibility << '\n';
-    out << "CUTSCENE_END_CAM=" << (int)t.entry.endCam << '\n';
-    out << "CAMERA_SETTING=" << t.camera.setting << '\n';
-    out << "CAMERA_COUNT=" << t.camera.count << '\n';
-    for (s16 i = 0; i < t.camera.count; ++i) {
-        const auto& v = t.camera.actorCsCamFuncData[i];
-        out << "CAMERA_DATA[" << i << "]=" << v.x << ',' << v.y << ',' << v.z << '\n';
-    }
 }
 
 bool FindVanillaOwlCutsceneTemplate(OwlCutsceneTemplate& out) {
@@ -90,7 +63,6 @@ bool FindVanillaOwlCutsceneTemplate(OwlCutsceneTemplate& out) {
 s16 InstallAstralOwlCutscene() {
     static s16 installed=-1; if(installed>=0) return installed;
     OwlCutsceneTemplate t{}; if(!FindVanillaOwlCutsceneTemplate(t)) return -1;
-    DumpAstralCameraTemplate(t);
     // The first Great Bay camera record is a world-space point. Translate it by the
     // owl-to-owl delta so it keeps the native (-41,+35,+63) offset at Astral.
     if (t.camera.count > 0) {
