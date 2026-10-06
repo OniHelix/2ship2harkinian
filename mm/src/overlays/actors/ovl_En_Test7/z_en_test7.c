@@ -669,8 +669,12 @@ void EnTest7_WarpCsWarp(EnTest7* this, PlayState* play) {
             PLAYER_PARAMS(gSaveContext.respawn[RESPAWN_MODE_TOP].playerParams, PLAYER_START_MODE_OWL);
         gSaveContext.respawnFlag = -6;
     } else {
-        play->nextEntrance =
-            sOwlWarpEntrances[OWL_WARP_CS_GET_OCARINA_MODE(&this->actor) - OCARINA_MODE_WARP_TO_GREAT_BAY_COAST];
+        if (OWL_WARP_CS_GET_OCARINA_MODE(&this->actor) == OCARINA_MODE_WARP_TO_DEKU_PALACE) {
+            play->nextEntrance = ENTRANCE(DEKU_PALACE, 11);
+        } else {
+            play->nextEntrance =
+                sOwlWarpEntrances[OWL_WARP_CS_GET_OCARINA_MODE(&this->actor) - OCARINA_MODE_WARP_TO_GREAT_BAY_COAST];
+        }
         if ((play->nextEntrance == ENTRANCE(SOUTHERN_SWAMP_POISONED, 10)) &&
             CHECK_WEEKEVENTREG(WEEKEVENTREG_CLEARED_WOODFALL_TEMPLE)) {
             play->nextEntrance = ENTRANCE(SOUTHERN_SWAMP_CLEARED, 10);
