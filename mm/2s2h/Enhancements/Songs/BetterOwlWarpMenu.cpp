@@ -593,7 +593,8 @@ static void HandleBetterOwlWarpMenuNavigation() {
 }
 
 static void RegisterBetterOwlWarpMenu() {
-    COND_VB_SHOULD(VB_OWL_WARP_MENU_USE_LINEAR_CURSOR, CVAR, {
+    COND_VB_SHOULD(VB_OWL_WARP_MENU_USE_LINEAR_CURSOR,
+                   CVAR && !((gSaveContext.save.saveInfo.playerData.owlActivationFlags >> 12) & 1), {
         if (*should) {
             HandleBetterOwlWarpMenuNavigation();
             *should = false;

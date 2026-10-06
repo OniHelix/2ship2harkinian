@@ -61,6 +61,12 @@ void func_800F4A10(PlayState* play) {
             }
         }
 
+        // Expanded owl test: Deku Palace uses Obj_Warpstone ID/activation bit 12.
+        // Keep it outside the vanilla OwlWarpId enum so Kaleido's fixed vertex layout remains untouched.
+        if ((gSaveContext.save.saveInfo.playerData.owlActivationFlags >> 12) & 1) {
+            pauseCtx->worldMapPoints[12] = true;
+        }
+
         if ((gSaveContext.save.saveInfo.playerData.owlActivationFlags >> 4) & 1) {
             pauseCtx->cursorPoint[PAUSE_WORLD_MAP] = 4;
         }

@@ -2808,7 +2808,9 @@ f32 sWorldMapCursorsY[REGION_MAX] = {
     7.0f,   // REGION_STONE_TOWER
 };
 
-f32 sOwlWarpWorldMapCursorsX[OWL_WARP_MAX - 1] = {
+#define EXPANDED_OWL_WARP_DEKU_PALACE 12
+
+f32 sOwlWarpWorldMapCursorsX[13] = {
     -50.0f, // OWL_WARP_GREAT_BAY_COAST
     -38.0f, // OWL_WARP_ZORA_CAPE
     6.0f,   // OWL_WARP_SNOWHEAD
@@ -2819,9 +2821,12 @@ f32 sOwlWarpWorldMapCursorsX[OWL_WARP_MAX - 1] = {
     31.0f,  // OWL_WARP_SOUTHERN_SWAMP
     48.0f,  // OWL_WARP_IKANA_CANYON
     56.0f,  // OWL_WARP_STONE_TOWER
+    0.0f,   // 10 reserved for Pirates' Fortress
+    0.0f,   // 11 reserved for Astral Observatory
+    -2.0f,  // 12 Deku Palace: reuse REGION_DEKU_PALACE
 };
 
-f32 sOwlWarpWorldMapCursorsY[OWL_WARP_MAX - 1] = {
+f32 sOwlWarpWorldMapCursorsY[13] = {
     -14.0f, // OWL_WARP_GREAT_BAY_COAST
     -39.0f, // OWL_WARP_ZORA_CAPE
     23.0f,  // OWL_WARP_SNOWHEAD
@@ -2832,6 +2837,9 @@ f32 sOwlWarpWorldMapCursorsY[OWL_WARP_MAX - 1] = {
     -30.0f, // OWL_WARP_SOUTHERN_SWAMP
     -10.0f, // OWL_WARP_IKANA_CANYON
     11.0f,  // OWL_WARP_STONE_TOWER
+    0.0f,   // 10 reserved for Pirates' Fortress
+    0.0f,   // 11 reserved for Astral Observatory
+    -53.0f, // 12 Deku Palace: reuse REGION_DEKU_PALACE
 };
 
 f32 sDungeonMapCursorsX[] = {
@@ -4007,7 +4015,10 @@ void KaleidoScope_Update(PlayState* play) {
             pauseCtx->nameSegment = (void*)ALIGN16((uintptr_t)pauseCtx->iconItemLangSegment + size2);
             Interface_SetAButtonDoAction(play, DO_ACTION_WARP);
             worldMapCursorPoint = pauseCtx->cursorPoint[PAUSE_WORLD_MAP];
-            Kaleido_LoadMapNameStatic(&pauseCtx->nameSegment, worldMapCursorPoint);
+            Kaleido_LoadMapNameStatic(&pauseCtx->nameSegment,
+                                      (worldMapCursorPoint == EXPANDED_OWL_WARP_DEKU_PALACE)
+                                          ? REGION_DEKU_PALACE
+                                          : worldMapCursorPoint);
 
             pauseCtx->iconItemVtxSegment = (void*)ALIGN16((uintptr_t)pauseCtx->nameSegment + 0xA00);
             DmaMgr_SendRequest0(pauseCtx->iconItemVtxSegment, SEGMENT_ROM_START(icon_item_vtx_static),
@@ -4065,7 +4076,18 @@ void KaleidoScope_Update(PlayState* play) {
                     pauseCtx->state = PAUSE_STATE_OWL_WARP_6;
                     sPauseMenuVerticalOffset = -6240.0f;
                     Audio_PlaySfx_PauseMenuOpenOrClose(SFX_PAUSE_MENU_CLOSE);
-                    play->msgCtx.ocarinaMode = sCursorPointsToOcarinaModes[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]];
+                    if (pauseCtx->cursorPoint[PAUSE_WORLD_MAP] == EXPANDED_OWL_WARP_DEKU_PALACE) {
+                        // Dedicated Deku Palace arrival spawn established for the expanded owl.
+                        // Go directly through the normal white warp transition; do not index the
+                        // vanilla 10-entry ocarina-mode table with expanded ID 12.
+                        play->msgCtx.ocarinaMode = OCARINA_MODE_END;
+                        play->nextEntrance = Entrance_Create(SCENE_22DEKUCITY, 11, 0);
+                        play->transitionTrigger = TRANS_TRIGGER_START;
+                        play->transitionType = TRANS_TYPE_FADE_WHITE;
+                    } else {
+                        play->msgCtx.ocarinaMode =
+                            sCursorPointsToOcarinaModes[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]];
+                    }
                     Audio_PlaySfx(NA_SE_SY_DECIDE);
                 } else {
                     pauseCtx->state = PAUSE_STATE_OWL_WARP_SELECT;
