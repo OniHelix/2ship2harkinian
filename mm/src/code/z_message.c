@@ -2288,7 +2288,7 @@ void Message_LoadTime(PlayState* play, u16 curChar, s32* offset, f32* arg3, s16*
 #define ASTRAL_OBSERVATORY_STR { 'A', 's', 't', 'r', 'a', 'l', ' ', 'O', 'b' }
 #define DEKU_PALACE_STR { 'D', 'e', 'k', 'u', ' ', 'P', 'a', 'l', 'a' }
 #define GORON_SHRINE_STR { 'G', 'o', 'r', 'o', 'n', ' ', 'S', 'h', 'r' }
-#define PIRATES_FORTRESS_STR { 'P', 'i', 'r', 'a', 't', 'e', 's', ''', ' ' }
+#define PIRATES_FORTRESS_STR { 'P', 'i', 'r', 'a', 't', 'e', 's', 0x27, ' ' }
 #define ENTRANCE_STR \
     { 0x93FC, 0x82E8, 0x8CFB }
 
@@ -2309,6 +2309,7 @@ u16 sOwlWarpTextJPN[OWL_WARP_MAX][9] = {
     DEKU_PALACE_STR,        // OWL_WARP_DEKU_PALACE
     GORON_SHRINE_STR,       // OWL_WARP_GORON_SHRINE
     PIRATES_FORTRESS_STR,   // OWL_WARP_PIRATES_FORTRESS
+    { 0 },                   // OWL_WARP_WEST_CLOCK_TOWN_SAVE (reserved, non-selectable)
     ENTRANCE_STR,           // OWL_WARP_ENTRANCE
 };
 
@@ -2329,6 +2330,7 @@ s16 sOwlWarpTextLengthJPN[OWL_WARP_MAX] = {
     9, // OWL_WARP_DEKU_PALACE (truncated JPN fallback)
     9, // OWL_WARP_GORON_SHRINE (truncated JPN fallback)
     9, // OWL_WARP_PIRATES_FORTRESS (truncated JPN fallback)
+    0, // OWL_WARP_WEST_CLOCK_TOWN_SAVE
     3, // OWL_WARP_ENTRANCE
 };
 
