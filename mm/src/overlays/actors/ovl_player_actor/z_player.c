@@ -17866,7 +17866,7 @@ void Player_Action_63(Player* this, PlayState* play) {
             }
         } else {
             s32 var_v1 = (play->msgCtx.ocarinaMode >= OCARINA_MODE_WARP_TO_GREAT_BAY_COAST) &&
-                         (play->msgCtx.ocarinaMode <= OCARINA_MODE_WARP_TO_ENTRANCE);
+                         (play->msgCtx.ocarinaMode <= OCARINA_MODE_WARP_TO_DEKU_PALACE);
             s32 pad[2];
 
             if (var_v1 || (play->msgCtx.ocarinaMode == OCARINA_MODE_APPLY_SOT) ||
