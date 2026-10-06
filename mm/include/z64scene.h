@@ -605,8 +605,13 @@ typedef enum OwlWarpId {
     /*  0x7 */ OWL_WARP_SOUTHERN_SWAMP,
     /*  0x8 */ OWL_WARP_IKANA_CANYON,
     /*  0x9 */ OWL_WARP_STONE_TOWER,
-    /*  0xA */ OWL_WARP_ENTRANCE, // Special index for warping to the entrance of a scene
-    /*  0xB */ OWL_WARP_MAX,
+    /*  0xA */ OWL_WARP_IKANA_GRAVEYARD,
+    /*  0xB */ OWL_WARP_ASTRAL_OBSERVATORY,
+    /*  0xC */ OWL_WARP_DEKU_PALACE,
+    /*  0xD */ OWL_WARP_GORON_SHRINE,
+    /*  0xE */ OWL_WARP_PIRATES_FORTRESS,
+    /*  0xF */ OWL_WARP_ENTRANCE, // Special index for warping to the entrance of a scene
+    /* 0x10 */ OWL_WARP_MAX,
     /* 0xFF */ OWL_WARP_NONE = 0xFF
 } OwlWarpId;
 
