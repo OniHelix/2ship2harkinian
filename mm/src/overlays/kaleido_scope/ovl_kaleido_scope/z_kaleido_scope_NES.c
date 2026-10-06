@@ -3314,6 +3314,7 @@ u16 sCursorPointsToOcarinaModes[OWL_WARP_MAX - 1] = {
     OCARINA_MODE_END, // OWL_WARP_DEKU_PALACE
     OCARINA_MODE_END, // OWL_WARP_GORON_SHRINE
     OCARINA_MODE_END, // OWL_WARP_PIRATES_FORTRESS
+    OCARINA_MODE_END, // OWL_WARP_WEST_CLOCK_TOWN_SAVE (reserved, non-selectable)
 };
 
 void KaleidoScope_Update(PlayState* play) {
