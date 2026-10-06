@@ -255,6 +255,11 @@ void Message_LoadTimeNES(PlayState* play, u8 curChar, s32* offset, f32* arg3, s1
 #define SOUTHERN_SWAMP_STR "Southern Swamp"
 #define IKANA_CANYON_STR "Ikana Canyon"
 #define STONE_TOWER_STR "Stone Tower"
+#define IKANA_GRAVEYARD_STR "Ikana Graveyard"
+#define ASTRAL_OBSERVATORY_STR "Astral Observatory"
+#define DEKU_PALACE_STR "Deku Palace"
+#define GORON_SHRINE_STR "Goron Shrine"
+#define PIRATES_FORTRESS_STR "Pirates' Fortress"
 #define ENTRANCE_STR "Entrance"
 
 char sOwlWarpTextENG[OWL_WARP_MAX][16] = {
@@ -267,8 +272,13 @@ char sOwlWarpTextENG[OWL_WARP_MAX][16] = {
     WOODFALL_STR,         // OWL_WARP_WOODFALL
     SOUTHERN_SWAMP_STR,   // OWL_WARP_SOUTHERN_SWAMP
     IKANA_CANYON_STR,     // OWL_WARP_IKANA_CANYON
-    STONE_TOWER_STR,      // OWL_WARP_STONE_TOWER
-    ENTRANCE_STR,         // OWL_WARP_ENTRANCE
+    STONE_TOWER_STR,       // OWL_WARP_STONE_TOWER
+    IKANA_GRAVEYARD_STR,    // OWL_WARP_IKANA_GRAVEYARD
+    ASTRAL_OBSERVATORY_STR, // OWL_WARP_ASTRAL_OBSERVATORY
+    DEKU_PALACE_STR,        // OWL_WARP_DEKU_PALACE
+    GORON_SHRINE_STR,       // OWL_WARP_GORON_SHRINE
+    PIRATES_FORTRESS_STR,   // OWL_WARP_PIRATES_FORTRESS
+    ENTRANCE_STR,           // OWL_WARP_ENTRANCE
 };
 
 s16 sOwlWarpTextLengthENG[OWL_WARP_MAX] = {
@@ -281,8 +291,13 @@ s16 sOwlWarpTextLengthENG[OWL_WARP_MAX] = {
     sizeof(WOODFALL_STR) - 1,         // OWL_WARP_WOODFALL
     sizeof(SOUTHERN_SWAMP_STR) - 1,   // OWL_WARP_SOUTHERN_SWAMP
     sizeof(IKANA_CANYON_STR) - 1,     // OWL_WARP_IKANA_CANYON
-    sizeof(STONE_TOWER_STR) - 1,      // OWL_WARP_STONE_TOWER
-    sizeof(ENTRANCE_STR) - 1,         // OWL_WARP_ENTRANCE
+    sizeof(STONE_TOWER_STR) - 1,       // OWL_WARP_STONE_TOWER
+    sizeof(IKANA_GRAVEYARD_STR) - 1,    // OWL_WARP_IKANA_GRAVEYARD
+    sizeof(ASTRAL_OBSERVATORY_STR) - 1, // OWL_WARP_ASTRAL_OBSERVATORY
+    sizeof(DEKU_PALACE_STR) - 1,        // OWL_WARP_DEKU_PALACE
+    sizeof(GORON_SHRINE_STR) - 1,       // OWL_WARP_GORON_SHRINE
+    sizeof(PIRATES_FORTRESS_STR) - 1,   // OWL_WARP_PIRATES_FORTRESS
+    sizeof(ENTRANCE_STR) - 1,           // OWL_WARP_ENTRANCE
 };
 
 void Message_LoadOwlWarpTextNES(PlayState* play, s32* offset, f32* arg2, s16* decodedBufPos) {
