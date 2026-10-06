@@ -89,6 +89,11 @@ extern u16 sOwlWarpEntrancesForMods[OWL_WARP_MAX - 1] = {
     ENTRANCE(SOUTHERN_SWAMP_POISONED, 10), // OWL_WARP_SOUTHERN_SWAMP
     ENTRANCE(IKANA_CANYON, 4),             // OWL_WARP_IKANA_CANYON
     ENTRANCE(STONE_TOWER, 3),              // OWL_WARP_STONE_TOWER
+    0,                                      // OWL_WARP_IKANA_GRAVEYARD (pending dedicated entrance)
+    0,                                      // OWL_WARP_ASTRAL_OBSERVATORY (pending dedicated entrance)
+    Entrance_Create(SCENE_22DEKUCITY, 11, 0), // OWL_WARP_DEKU_PALACE
+    0,                                      // OWL_WARP_GORON_SHRINE (pending dedicated entrance)
+    0,                                      // OWL_WARP_PIRATES_FORTRESS (pending dedicated entrance)
 };
 
 // These textures are not in existing lists that we iterate over.
