@@ -814,7 +814,7 @@ void KaleidoScope_DrawWorldMap(PlayState* play) {
         }
 
         // Loop over OwlWarpId (i), unused vtxIndex (j), unused (k)
-        for (i = 0, j = 0; i < OWL_WARP_ENTRANCE; i++, k++, j += 4) {
+        for (i = 0, j = 0; i <= OWL_WARP_STONE_TOWER; i++, k++, j += 4) {
             if (pauseCtx->worldMapPoints[i]) {
                 gSPVertex(POLY_OPA_DISP++, &pauseCtx->mapPageVtx[(QUAD_MAP_PAGE_WORLD_WARP_FIRST + i) * 4], 4, 0);
                 gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
