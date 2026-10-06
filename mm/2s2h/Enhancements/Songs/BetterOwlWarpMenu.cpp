@@ -593,8 +593,14 @@ static void HandleBetterOwlWarpMenuNavigation() {
 }
 
 static void RegisterBetterOwlWarpMenu() {
-    COND_VB_SHOULD(VB_OWL_WARP_MENU_USE_LINEAR_CURSOR,
-                   CVAR && !((gSaveContext.save.saveInfo.playerData.owlActivationFlags >> 12) & 1), {
+    COND_VB_SHOULD(VB_OWL_WARP_MENU_USE_LINEAR_CURSOR, CVAR, {
+        // Expanded owl destinations live outside Better Owl Warp's vanilla 10-point
+        // navigation tables. Check this at menu-navigation time, not registration
+        // time, because an expanded owl can be activated after this hook is installed.
+        if ((gSaveContext.save.saveInfo.playerData.owlActivationFlags >> 12) & 1) {
+            return;
+        }
+
         if (*should) {
             HandleBetterOwlWarpMenuNavigation();
             *should = false;
