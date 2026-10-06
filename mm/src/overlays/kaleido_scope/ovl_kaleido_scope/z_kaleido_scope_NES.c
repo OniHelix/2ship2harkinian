@@ -2808,9 +2808,9 @@ f32 sWorldMapCursorsY[REGION_MAX] = {
     7.0f,   // REGION_STONE_TOWER
 };
 
-#define EXPANDED_OWL_WARP_DEKU_PALACE 12
+#define EXPANDED_OWL_WARP_DEKU_PALACE OWL_WARP_DEKU_PALACE
 
-f32 sOwlWarpWorldMapCursorsX[13] = {
+f32 sOwlWarpWorldMapCursorsX[OWL_WARP_PIRATES_FORTRESS + 1] = {
     -50.0f, // OWL_WARP_GREAT_BAY_COAST
     -38.0f, // OWL_WARP_ZORA_CAPE
     6.0f,   // OWL_WARP_SNOWHEAD
@@ -2821,12 +2821,14 @@ f32 sOwlWarpWorldMapCursorsX[13] = {
     31.0f,  // OWL_WARP_SOUTHERN_SWAMP
     48.0f,  // OWL_WARP_IKANA_CANYON
     56.0f,  // OWL_WARP_STONE_TOWER
-    0.0f,   // 10 reserved for Pirates' Fortress
-    0.0f,   // 11 reserved for Astral Observatory
-    -2.0f,  // 12 Deku Palace: reuse REGION_DEKU_PALACE
+    0.0f,   // OWL_WARP_IKANA_GRAVEYARD
+    0.0f,   // OWL_WARP_ASTRAL_OBSERVATORY
+    -2.0f,  // OWL_WARP_DEKU_PALACE: reuse REGION_DEKU_PALACE
+    0.0f,   // OWL_WARP_GORON_SHRINE
+    0.0f,   // OWL_WARP_PIRATES_FORTRESS
 };
 
-f32 sOwlWarpWorldMapCursorsY[13] = {
+f32 sOwlWarpWorldMapCursorsY[OWL_WARP_PIRATES_FORTRESS + 1] = {
     -14.0f, // OWL_WARP_GREAT_BAY_COAST
     -39.0f, // OWL_WARP_ZORA_CAPE
     23.0f,  // OWL_WARP_SNOWHEAD
@@ -2837,9 +2839,11 @@ f32 sOwlWarpWorldMapCursorsY[13] = {
     -30.0f, // OWL_WARP_SOUTHERN_SWAMP
     -10.0f, // OWL_WARP_IKANA_CANYON
     11.0f,  // OWL_WARP_STONE_TOWER
-    0.0f,   // 10 reserved for Pirates' Fortress
-    0.0f,   // 11 reserved for Astral Observatory
-    -53.0f, // 12 Deku Palace: reuse REGION_DEKU_PALACE
+    0.0f,   // OWL_WARP_IKANA_GRAVEYARD
+    0.0f,   // OWL_WARP_ASTRAL_OBSERVATORY
+    -53.0f, // OWL_WARP_DEKU_PALACE: reuse REGION_DEKU_PALACE
+    0.0f,   // OWL_WARP_GORON_SHRINE
+    0.0f,   // OWL_WARP_PIRATES_FORTRESS
 };
 
 f32 sDungeonMapCursorsX[] = {
