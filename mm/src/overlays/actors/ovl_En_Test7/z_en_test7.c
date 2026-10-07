@@ -636,7 +636,7 @@ static u16 sOwlWarpEntrances[OWL_WARP_MAX - 1] = {
     ENTRANCE(SOUTH_CLOCK_TOWN, 9),         // OWL_WARP_CLOCK_TOWN
     ENTRANCE(MILK_ROAD, 4),                // OWL_WARP_MILK_ROAD
     ENTRANCE(WOODFALL, 4),                 // OWL_WARP_WOODFALL
-    ENTRANCE(SOUTHERN_SWAMP_POISONED, 10), // OWL_WARP_SOUTHERN_SWAMP
+    ENTRANCE(DEKU_PALACE, 11), // DIAGNOSTIC: vanilla Southern Swamp owl mode -> synthetic Deku Palace arrival // OWL_WARP_SOUTHERN_SWAMP
     ENTRANCE(IKANA_CANYON, 4),             // OWL_WARP_IKANA_CANYON
     ENTRANCE(STONE_TOWER, 3),              // OWL_WARP_STONE_TOWER
     0,                                      // OWL_WARP_IKANA_GRAVEYARD
