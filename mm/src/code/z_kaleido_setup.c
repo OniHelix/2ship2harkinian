@@ -61,10 +61,13 @@ void func_800F4A10(PlayState* play) {
             }
         }
 
-        // Expanded owl test: Deku Palace uses Obj_Warpstone ID/activation bit 12.
-        // Keep it outside the vanilla OwlWarpId enum so Kaleido's fixed vertex layout remains untouched.
-        if ((gSaveContext.save.saveInfo.playerData.owlActivationFlags >> 12) & 1) {
-            pauseCtx->worldMapPoints[12] = true;
+        // Expanded Owls: the vanilla initial-selection scan above only covers owl IDs 0x00-0x09.
+        // Deku Palace is 0x0C, so make it participate in the same initial-selection behavior:
+        // if no vanilla owl is active, it becomes the starting cursor point. Clock Town's vanilla
+        // priority below still wins whenever Clock Town is activated.
+        if ((gSaveContext.save.saveInfo.playerData.owlActivationFlags >> OWL_WARP_DEKU_PALACE) & 1) {
+            pauseCtx->worldMapPoints[OWL_WARP_DEKU_PALACE] = true;
+            pauseCtx->cursorPoint[PAUSE_WORLD_MAP] = OWL_WARP_DEKU_PALACE;
         }
 
         if ((gSaveContext.save.saveInfo.playerData.owlActivationFlags >> 4) & 1) {
