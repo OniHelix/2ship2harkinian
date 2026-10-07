@@ -58,7 +58,22 @@ void Scene_CommandSpawnList(PlayState* play, SOH::ISceneCommand* cmd) {
         0, { -196, 0, 3060 }, { 7, (s16)0x7480, 0x7F }, PLAYER_PARAMS(0xFF, PLAYER_START_MODE_OWL),
     };
 
-    if ((play->sceneId == SCENE_22DEKUCITY) && (play->curSpawn == 11)) {
+    // Dedicated soaring Player Starts, separate from the vanilla entrance list.
+    static ActorEntry sExpandedOwlStarts[] = {
+        { 0, { 118, 323, -2050 }, { 7, 0, 0x7F }, PLAYER_PARAMS(0xFF, PLAYER_START_MODE_OWL) },
+        { 0, { -3, -129, -365 }, { 7, 0, 0x7F }, PLAYER_PARAMS(0xFF, PLAYER_START_MODE_OWL) },
+        { 0, { -563, -134, -480 }, { 7, 0, 0x7F }, PLAYER_PARAMS(0xFF, PLAYER_START_MODE_OWL) },
+        { 0, { 325, 200, -660 }, { 7, 0, 0x7F }, PLAYER_PARAMS(0xFF, PLAYER_START_MODE_OWL) },
+    };
+    if ((play->sceneId == SCENE_BOTI) && (play->curSpawn == 6)) {
+        play->linkActorEntry = &sExpandedOwlStarts[0];
+    } else if ((play->sceneId == SCENE_TENMON_DAI) && (play->curSpawn == 3)) {
+        play->linkActorEntry = &sExpandedOwlStarts[1];
+    } else if ((play->sceneId == SCENE_16GORON_HOUSE) && (play->curSpawn == 4)) {
+        play->linkActorEntry = &sExpandedOwlStarts[2];
+    } else if ((play->sceneId == SCENE_TORIDE) && (play->curSpawn == 7)) {
+        play->linkActorEntry = &sExpandedOwlStarts[3];
+    } else if ((play->sceneId == SCENE_22DEKUCITY) && (play->curSpawn == 11)) {
         play->linkActorEntry = &sExpandedOwlDekuPalaceStart;
     } else {
         play->linkActorEntry = &entries[play->setupEntranceList[play->curSpawn].spawn];
@@ -120,6 +135,20 @@ void Scene_CommandWindSettings(PlayState* play, SOH::ISceneCommand* cmd) {
 void Scene_CommandEntranceList(PlayState* play, SOH::ISceneCommand* cmd) {
     SOH::SetEntranceList* list = (SOH::SetEntranceList*)cmd;
 
+    // Append new scene-local entries without replacing any vanilla entrance.
+    s32 owlSpawn = -1;
+    u8 owlRoom = 0;
+    if (play->sceneId == SCENE_BOTI) { owlSpawn = 6; owlRoom = 1; }
+    else if (play->sceneId == SCENE_TENMON_DAI) { owlSpawn = 3; owlRoom = 1; }
+    else if (play->sceneId == SCENE_16GORON_HOUSE) { owlSpawn = 4; owlRoom = 0; }
+    else if (play->sceneId == SCENE_TORIDE) { owlSpawn = 7; owlRoom = 0; }
+    if (owlSpawn >= 0 && list->entrances.size() <= static_cast<size_t>(owlSpawn)) {
+        SOH::EntranceEntry entry{};
+        entry.spawn = 0;
+        entry.room = owlRoom;
+        list->entrances.resize(static_cast<size_t>(owlSpawn) + 1, entry);
+        list->numEntrances = static_cast<uint32_t>(list->entrances.size());
+    }
     play->setupEntranceList = (EntranceEntry*)list->GetRawPointer();
 }
 

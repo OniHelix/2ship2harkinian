@@ -774,10 +774,16 @@ static EntranceTableEntry sAstralObservatoryEntrance2[] = {
     { SCENE_TENMON_DAI, 2, 0x8115 },
 };
 
+// Dedicated expanded owl arrival; existing vanilla entrances remain unchanged.
+static EntranceTableEntry sAstralObservatoryEntrance3[] = {
+    { SCENE_TENMON_DAI, 3, 0x4102 },
+};
+
 static EntranceTableEntry* sAstralObservatoryEntranceTable[] = {
     sAstralObservatoryEntrance0,
     sAstralObservatoryEntrance1,
     sAstralObservatoryEntrance2,
+    sAstralObservatoryEntrance3,
 };
 
 static EntranceTableEntry sMoonDekuTrialEntrance0[] = {
@@ -984,11 +990,17 @@ static EntranceTableEntry sGoronShrineEntrance3[] = {
     { SCENE_16GORON_HOUSE, 3, 0x0102 },
 };
 
+// Dedicated expanded owl arrival; existing vanilla entrances remain unchanged.
+static EntranceTableEntry sGoronShrineEntrance4[] = {
+    { SCENE_16GORON_HOUSE, 4, 0x4102 },
+};
+
 static EntranceTableEntry* sGoronShrineEntranceTable[] = {
     sGoronShrineEntrance0,
     sGoronShrineEntrance1,
     sGoronShrineEntrance2,
     sGoronShrineEntrance3,
+    sGoronShrineEntrance4,
 };
 
 static EntranceTableEntry sZoraHallEntrance0[] = {
@@ -1295,10 +1307,16 @@ static EntranceTableEntry sPiratesFortressExteriorEntrance6[] = {
     { SCENE_TORIDE, 6, 0x8102 },
 };
 
+// Dedicated expanded owl arrival; existing vanilla entrances remain unchanged.
+static EntranceTableEntry sPiratesFortressExteriorEntrance7[] = {
+    { SCENE_TORIDE, 7, 0x4102 },
+};
+
 static EntranceTableEntry* sPiratesFortressExteriorEntranceTable[] = {
     sPiratesFortressExteriorEntrance0, sPiratesFortressExteriorEntrance1, sPiratesFortressExteriorEntrance2,
     sPiratesFortressExteriorEntrance3, sPiratesFortressExteriorEntrance4, sPiratesFortressExteriorEntrance5,
     sPiratesFortressExteriorEntrance6,
+    sPiratesFortressExteriorEntrance7,
 };
 
 static EntranceTableEntry sFishermansHutEntrance0[] = {
@@ -1419,9 +1437,15 @@ static EntranceTableEntry sIkanaGraveyardEntrance5[] = {
     { SCENE_BOTI, 5, 0x058B },
 };
 
+// Dedicated expanded owl arrival; existing vanilla entrances remain unchanged.
+static EntranceTableEntry sIkanaGraveyardEntrance6[] = {
+    { SCENE_BOTI, 6, 0x4102 },
+};
+
 static EntranceTableEntry* sIkanaGraveyardEntranceTable[] = {
     sIkanaGraveyardEntrance0, sIkanaGraveyardEntrance1, sIkanaGraveyardEntrance2,
     sIkanaGraveyardEntrance3, sIkanaGraveyardEntrance4, sIkanaGraveyardEntrance5,
+    sIkanaGraveyardEntrance6,
 };
 
 static EntranceTableEntry sGohtsLairEntrance0[] = {

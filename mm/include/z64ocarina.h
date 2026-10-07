@@ -160,7 +160,11 @@ typedef enum OcarinaMode {
     /* 0x27 */ OCARINA_MODE_PROCESS_RESTRICTED_SONG, // Variants of Song of Time, Soaring, or Elegy restricted
     /* 0x28 */ OCARINA_MODE_WARP_TO_DEKU_PALACE, // Expanded Owls: use vanilla's otherwise-unused 0x28 slot
     /* 0x29 */ OCARINA_MODE_29,
-    /* 0x2A */ OCARINA_MODE_PLAYED_FULL_EVAN_SONG
+    /* 0x2A */ OCARINA_MODE_PLAYED_FULL_EVAN_SONG,
+    /* 0x2B */ OCARINA_MODE_WARP_TO_IKANA_GRAVEYARD,
+    /* 0x2C */ OCARINA_MODE_WARP_TO_ASTRAL_OBSERVATORY,
+    /* 0x2D */ OCARINA_MODE_WARP_TO_GORON_SHRINE,
+    /* 0x2E */ OCARINA_MODE_WARP_TO_PIRATES_FORTRESS
 } OcarinaMode;
 
 typedef enum OcarinaButtonIndex {

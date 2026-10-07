@@ -89,11 +89,15 @@ extern u16 sOwlWarpEntrancesForMods[OWL_WARP_MAX - 1] = {
     ENTRANCE(SOUTHERN_SWAMP_POISONED, 10), // OWL_WARP_SOUTHERN_SWAMP
     ENTRANCE(IKANA_CANYON, 4),             // OWL_WARP_IKANA_CANYON
     ENTRANCE(STONE_TOWER, 3),              // OWL_WARP_STONE_TOWER
-    0,                                      // OWL_WARP_IKANA_GRAVEYARD (pending dedicated entrance)
-    0,                                      // OWL_WARP_ASTRAL_OBSERVATORY (pending dedicated entrance)
+
+    ENTRANCE(IKANA_GRAVEYARD, 6), // OWL_WARP_IKANA_GRAVEYARD
+
+    ENTRANCE(ASTRAL_OBSERVATORY, 3), // OWL_WARP_ASTRAL_OBSERVATORY
     ENTRANCE(DEKU_PALACE, 11), // OWL_WARP_DEKU_PALACE
-    0,                                      // OWL_WARP_GORON_SHRINE (pending dedicated entrance)
-    0,                                      // OWL_WARP_PIRATES_FORTRESS (pending dedicated entrance)
+
+    ENTRANCE(GORON_SHRINE, 4), // OWL_WARP_GORON_SHRINE
+
+    ENTRANCE(PIRATES_FORTRESS_EXTERIOR, 7), // OWL_WARP_PIRATES_FORTRESS
     0,                                      // OWL_WARP_WEST_CLOCK_TOWN_SAVE (reserved; handled by vanilla save behavior)
 };
 

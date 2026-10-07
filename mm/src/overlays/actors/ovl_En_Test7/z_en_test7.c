@@ -639,11 +639,15 @@ static u16 sOwlWarpEntrances[OWL_WARP_MAX - 1] = {
     ENTRANCE(SOUTHERN_SWAMP_POISONED, 10), // OWL_WARP_SOUTHERN_SWAMP
     ENTRANCE(IKANA_CANYON, 4),             // OWL_WARP_IKANA_CANYON
     ENTRANCE(STONE_TOWER, 3),              // OWL_WARP_STONE_TOWER
-    0,                                      // OWL_WARP_IKANA_GRAVEYARD
-    0,                                      // OWL_WARP_ASTRAL_OBSERVATORY
+
+    ENTRANCE(IKANA_GRAVEYARD, 6), // OWL_WARP_IKANA_GRAVEYARD
+
+    ENTRANCE(ASTRAL_OBSERVATORY, 3), // OWL_WARP_ASTRAL_OBSERVATORY
     ENTRANCE(DEKU_PALACE, 11),              // OWL_WARP_DEKU_PALACE
-    0,                                      // OWL_WARP_GORON_SHRINE
-    0,                                      // OWL_WARP_PIRATES_FORTRESS
+
+    ENTRANCE(GORON_SHRINE, 4), // OWL_WARP_GORON_SHRINE
+
+    ENTRANCE(PIRATES_FORTRESS_EXTERIOR, 7), // OWL_WARP_PIRATES_FORTRESS
     0,                                      // OWL_WARP_WEST_CLOCK_TOWN_SAVE (vanilla entrance-0 behavior)
 };
 
@@ -669,7 +673,16 @@ void EnTest7_WarpCsWarp(EnTest7* this, PlayState* play) {
             PLAYER_PARAMS(gSaveContext.respawn[RESPAWN_MODE_TOP].playerParams, PLAYER_START_MODE_OWL);
         gSaveContext.respawnFlag = -6;
     } else {
-        if (OWL_WARP_CS_GET_OCARINA_MODE(&this->actor) == OCARINA_MODE_WARP_TO_DEKU_PALACE) {
+        const s32 owlMode = OWL_WARP_CS_GET_OCARINA_MODE(&this->actor);
+        if (owlMode == OCARINA_MODE_WARP_TO_IKANA_GRAVEYARD) {
+            play->nextEntrance = ENTRANCE(IKANA_GRAVEYARD, 6);
+        } else if (owlMode == OCARINA_MODE_WARP_TO_ASTRAL_OBSERVATORY) {
+            play->nextEntrance = ENTRANCE(ASTRAL_OBSERVATORY, 3);
+        } else if (owlMode == OCARINA_MODE_WARP_TO_GORON_SHRINE) {
+            play->nextEntrance = ENTRANCE(GORON_SHRINE, 4);
+        } else if (owlMode == OCARINA_MODE_WARP_TO_PIRATES_FORTRESS) {
+            play->nextEntrance = ENTRANCE(PIRATES_FORTRESS_EXTERIOR, 7);
+        } else if (owlMode == OCARINA_MODE_WARP_TO_DEKU_PALACE) {
             // Expanded Owls diagnostic: normalize the message/Ocarina state before
             // loading the synthetic Deku Palace owl entrance. If this alone fixes
             // post-arrival Ocarina use, the stale custom warp mode is crossing the

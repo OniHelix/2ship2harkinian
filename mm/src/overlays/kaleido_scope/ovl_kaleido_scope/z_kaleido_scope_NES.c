@@ -2821,11 +2821,11 @@ f32 sOwlWarpWorldMapCursorsX[OWL_WARP_PIRATES_FORTRESS + 1] = {
     31.0f,  // OWL_WARP_SOUTHERN_SWAMP
     48.0f,  // OWL_WARP_IKANA_CANYON
     56.0f,  // OWL_WARP_STONE_TOWER
-    0.0f,   // OWL_WARP_IKANA_GRAVEYARD
-    0.0f,   // OWL_WARP_ASTRAL_OBSERVATORY
+    41.0f, // OWL_WARP_IKANA_GRAVEYARD
+    14.0f, // OWL_WARP_ASTRAL_OBSERVATORY
     -2.0f,  // OWL_WARP_DEKU_PALACE: reuse REGION_DEKU_PALACE
-    0.0f,   // OWL_WARP_GORON_SHRINE
-    0.0f,   // OWL_WARP_PIRATES_FORTRESS
+    28.0f, // OWL_WARP_GORON_SHRINE
+    -61.0f, // OWL_WARP_PIRATES_FORTRESS
 };
 
 f32 sOwlWarpWorldMapCursorsY[OWL_WARP_PIRATES_FORTRESS + 1] = {
@@ -2839,11 +2839,11 @@ f32 sOwlWarpWorldMapCursorsY[OWL_WARP_PIRATES_FORTRESS + 1] = {
     -30.0f, // OWL_WARP_SOUTHERN_SWAMP
     -10.0f, // OWL_WARP_IKANA_CANYON
     11.0f,  // OWL_WARP_STONE_TOWER
-    0.0f,   // OWL_WARP_IKANA_GRAVEYARD
-    0.0f,   // OWL_WARP_ASTRAL_OBSERVATORY
+    2.0f, // OWL_WARP_IKANA_GRAVEYARD
+    -10.0f, // OWL_WARP_ASTRAL_OBSERVATORY
     -53.0f, // OWL_WARP_DEKU_PALACE: reuse REGION_DEKU_PALACE
-    0.0f,   // OWL_WARP_GORON_SHRINE
-    0.0f,   // OWL_WARP_PIRATES_FORTRESS
+    29.0f, // OWL_WARP_GORON_SHRINE
+    -27.0f, // OWL_WARP_PIRATES_FORTRESS
 };
 
 f32 sDungeonMapCursorsX[] = {
@@ -3313,11 +3313,11 @@ u16 sCursorPointsToOcarinaModes[OWL_WARP_MAX - 1] = {
     OCARINA_MODE_WARP_TO_MOUNTAIN_VILLAGE, OCARINA_MODE_WARP_TO_SOUTH_CLOCK_TOWN, OCARINA_MODE_WARP_TO_MILK_ROAD,
     OCARINA_MODE_WARP_TO_WOODFALL,         OCARINA_MODE_WARP_TO_SOUTHERN_SWAMP,   OCARINA_MODE_WARP_TO_IKANA_CANYON,
     OCARINA_MODE_WARP_TO_STONE_TOWER,
-    OCARINA_MODE_END, // OWL_WARP_IKANA_GRAVEYARD
-    OCARINA_MODE_END, // OWL_WARP_ASTRAL_OBSERVATORY
+    OCARINA_MODE_WARP_TO_IKANA_GRAVEYARD, // OWL_WARP_IKANA_GRAVEYARD
+    OCARINA_MODE_WARP_TO_ASTRAL_OBSERVATORY, // OWL_WARP_ASTRAL_OBSERVATORY
     OCARINA_MODE_WARP_TO_DEKU_PALACE, // OWL_WARP_DEKU_PALACE
-    OCARINA_MODE_END, // OWL_WARP_GORON_SHRINE
-    OCARINA_MODE_END, // OWL_WARP_PIRATES_FORTRESS
+    OCARINA_MODE_WARP_TO_GORON_SHRINE, // OWL_WARP_GORON_SHRINE
+    OCARINA_MODE_WARP_TO_PIRATES_FORTRESS, // OWL_WARP_PIRATES_FORTRESS
     OCARINA_MODE_END, // OWL_WARP_WEST_CLOCK_TOWN_SAVE (reserved, non-selectable)
 };
 
@@ -4026,9 +4026,12 @@ void KaleidoScope_Update(PlayState* play) {
             Interface_SetAButtonDoAction(play, DO_ACTION_WARP);
             worldMapCursorPoint = pauseCtx->cursorPoint[PAUSE_WORLD_MAP];
             Kaleido_LoadMapNameStatic(&pauseCtx->nameSegment,
-                                      (worldMapCursorPoint == EXPANDED_OWL_WARP_DEKU_PALACE)
-                                          ? REGION_DEKU_PALACE
-                                          : worldMapCursorPoint);
+                                      (worldMapCursorPoint == OWL_WARP_IKANA_GRAVEYARD) ? REGION_IKANA_GRAVEYARD :
+                                       (worldMapCursorPoint == OWL_WARP_ASTRAL_OBSERVATORY) ? REGION_CLOCK_TOWN :
+                                       (worldMapCursorPoint == OWL_WARP_DEKU_PALACE) ? REGION_DEKU_PALACE :
+                                       (worldMapCursorPoint == OWL_WARP_GORON_SHRINE) ? REGION_GORON_VILLAGE :
+                                       (worldMapCursorPoint == OWL_WARP_PIRATES_FORTRESS) ? REGION_GREAT_BAY :
+                                       worldMapCursorPoint);
 
             pauseCtx->iconItemVtxSegment = (void*)ALIGN16((uintptr_t)pauseCtx->nameSegment + 0xA00);
             DmaMgr_SendRequest0(pauseCtx->iconItemVtxSegment, SEGMENT_ROM_START(icon_item_vtx_static),
