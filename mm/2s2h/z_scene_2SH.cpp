@@ -55,7 +55,7 @@ void Scene_CommandSpawnList(PlayState* play, SOH::ISceneCommand* cmd) {
     // encode ActorCutscene ID 8 (Deku Palace's vanilla CS_CAM_ID_GLOBAL_SONG_WARP).
     // This lets Player inherit the native owl-warp cutscene chain and cleanup.
     static ActorEntry sExpandedOwlDekuPalaceStart = {
-        0, { -196, 0, 3060 }, { 0, 0, 0 }, PLAYER_PARAMS(0xFF, PLAYER_START_MODE_OWL),
+        0, { -196, 0, 3060 }, { 0, (s16)0x7488, 0 }, PLAYER_PARAMS(0xFF, PLAYER_START_MODE_OWL),
     };
 
     if ((play->sceneId == SCENE_22DEKUCITY) && (play->curSpawn == 11)) {
