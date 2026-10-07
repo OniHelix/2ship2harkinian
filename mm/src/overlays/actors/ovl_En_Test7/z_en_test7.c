@@ -670,6 +670,11 @@ void EnTest7_WarpCsWarp(EnTest7* this, PlayState* play) {
         gSaveContext.respawnFlag = -6;
     } else {
         if (OWL_WARP_CS_GET_OCARINA_MODE(&this->actor) == OCARINA_MODE_WARP_TO_DEKU_PALACE) {
+            // Expanded Owls diagnostic: normalize the message/Ocarina state before
+            // loading the synthetic Deku Palace owl entrance. If this alone fixes
+            // post-arrival Ocarina use, the stale custom warp mode is crossing the
+            // scene transition rather than entrance 11 being malformed.
+            play->msgCtx.ocarinaMode = OCARINA_MODE_NONE;
             play->nextEntrance = ENTRANCE(DEKU_PALACE, 11);
         } else {
             play->nextEntrance =
