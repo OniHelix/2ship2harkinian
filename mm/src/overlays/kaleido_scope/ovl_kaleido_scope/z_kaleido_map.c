@@ -840,11 +840,22 @@ void KaleidoScope_DrawWorldMap(PlayState* play) {
         s16 cy = (src[0].v.ob[1] + src[2].v.ob[1]) / 2;
         for (s32 id = OWL_WARP_IKANA_GRAVEYARD; id <= OWL_WARP_PIRATES_FORTRESS; id++) {
             if (!pauseCtx->worldMapPoints[id]) continue;
+            // Graveyard was nearly aligned in bdd1556: anchor its owl to
+            // the actual Graveyard region quad, not raw cursor coordinates.
+            // Keep the remaining destinations unchanged for this isolated test.
+            s16 targetX = (s16)sOwlWarpWorldMapCursorsX[id];
+            s16 targetY = (s16)sOwlWarpWorldMapCursorsY[id];
+            if (id == OWL_WARP_IKANA_GRAVEYARD) {
+                Vtx* region = &pauseCtx->mapPageVtx[
+                    (QUAD_MAP_PAGE_WORLD_REGION_FIRST + REGION_IKANA_GRAVEYARD) * 4];
+                targetX = (region[0].v.ob[0] + region[1].v.ob[0]) / 2;
+                targetY = (region[0].v.ob[1] + region[2].v.ob[1]) / 2;
+            }
             Vtx* quad = GRAPH_ALLOC(play->state.gfxCtx, sizeof(Vtx) * 4);
             for (s32 v = 0; v < 4; v++) {
                 quad[v] = src[v];
-                quad[v].v.ob[0] += (s16)sOwlWarpWorldMapCursorsX[id] - cx;
-                quad[v].v.ob[1] += (s16)sOwlWarpWorldMapCursorsY[id] - cy;
+                quad[v].v.ob[0] += targetX - cx;
+                quad[v].v.ob[1] += targetY - cy;
             }
             gSPVertex(POLY_OPA_DISP++, quad, 4, 0);
             gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
