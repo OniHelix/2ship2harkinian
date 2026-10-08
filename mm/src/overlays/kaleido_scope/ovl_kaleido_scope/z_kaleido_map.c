@@ -24,6 +24,16 @@ extern f32 sOwlWarpWorldMapCursorsY[];
 
 #define EXPANDED_OWL_WARP_DEKU_PALACE OWL_WARP_DEKU_PALACE
 #define EXPANDED_OWL_WARP_LAST OWL_WARP_PIRATES_FORTRESS
+static s16 ExpandedOwlSafeCursorSlot(s16 id) {
+    switch (id) {
+        case OWL_WARP_IKANA_GRAVEYARD: return 31 + REGION_IKANA_GRAVEYARD;
+        case OWL_WARP_ASTRAL_OBSERVATORY: return 31 + REGION_CLOCK_TOWN;
+        case OWL_WARP_DEKU_PALACE: return 31 + REGION_DEKU_PALACE;
+        case OWL_WARP_GORON_SHRINE: return 31 + REGION_GORON_VILLAGE;
+        case OWL_WARP_PIRATES_FORTRESS: return 31 + REGION_GREAT_BAY;
+        default: return 31 + id;
+    }
+}
 
 // 2S2H [Port] The cursor updating logic for owl warping can get stuck in an infinite loop
 // when there are no world map points registered. This can happen when using index warping and moving the cursor
@@ -823,48 +833,20 @@ void KaleidoScope_DrawWorldMap(PlayState* play) {
             }
         }
 
-        // Expanded owl icons use cloned vanilla quads.  No out-of-bounds
-        // mapPageVtx access: vanilla only allocates ten owl quads.
-        const struct {
-            s16 owl;
-            s16 region; // -1 means use explicit cursor coordinates
-        } expandedOwlIcons[] = {
-            { OWL_WARP_IKANA_GRAVEYARD, REGION_IKANA_GRAVEYARD },
-            { OWL_WARP_ASTRAL_OBSERVATORY, -1 },
-            { OWL_WARP_DEKU_PALACE, REGION_DEKU_PALACE },
-            { OWL_WARP_GORON_SHRINE, REGION_GORON_VILLAGE },
-            { OWL_WARP_PIRATES_FORTRESS, -1 },
-        };
-        Vtx* sourceOwlVtx = &pauseCtx->mapPageVtx[QUAD_MAP_PAGE_WORLD_WARP_FIRST * 4];
-        s16 sourceCenterX = (sourceOwlVtx[0].v.ob[0] + sourceOwlVtx[1].v.ob[0]) / 2;
-        s16 sourceCenterY = (sourceOwlVtx[0].v.ob[1] + sourceOwlVtx[2].v.ob[1]) / 2;
-        for (s32 icon = 0; icon < ARRAY_COUNT(expandedOwlIcons); icon++) {
-            s16 owlId = expandedOwlIcons[icon].owl;
-            if (!pauseCtx->worldMapPoints[owlId]) {
-                continue;
+        // Expanded owl quads are allocated independently; the vanilla
+        // world map contains only ten owl vertices.
+        Vtx* src = &pauseCtx->mapPageVtx[QUAD_MAP_PAGE_WORLD_WARP_FIRST * 4];
+        s16 cx = (src[0].v.ob[0] + src[1].v.ob[0]) / 2;
+        s16 cy = (src[0].v.ob[1] + src[2].v.ob[1]) / 2;
+        for (s32 id = OWL_WARP_IKANA_GRAVEYARD; id <= OWL_WARP_PIRATES_FORTRESS; id++) {
+            if (!pauseCtx->worldMapPoints[id]) continue;
+            Vtx* quad = GRAPH_ALLOC(play->state.gfxCtx, sizeof(Vtx) * 4);
+            for (s32 v = 0; v < 4; v++) {
+                quad[v] = src[v];
+                quad[v].v.ob[0] += (s16)sOwlWarpWorldMapCursorsX[id] - cx;
+                quad[v].v.ob[1] += (s16)sOwlWarpWorldMapCursorsY[id] - cy;
             }
-            Vtx* newOwlVtx = GRAPH_ALLOC(play->state.gfxCtx, sizeof(Vtx) * 4);
-            s16 centerX;
-            s16 centerY;
-            if (expandedOwlIcons[icon].region >= 0) {
-                Vtx* regionVtx = &pauseCtx->mapPageVtx[
-                    (QUAD_MAP_PAGE_WORLD_REGION_FIRST + expandedOwlIcons[icon].region) * 4];
-                centerX = (regionVtx[0].v.ob[0] + regionVtx[1].v.ob[0]) / 2;
-                centerY = (regionVtx[0].v.ob[1] + regionVtx[2].v.ob[1]) / 2;
-            } else {
-                // Vanilla owl X/Y cursor positions correspond to world-map
-                // coordinates with the same origin as the existing quads.
-                centerX = sourceCenterX + (s16)(sOwlWarpWorldMapCursorsX[owlId] -
-                                                 sOwlWarpWorldMapCursorsX[OWL_WARP_GREAT_BAY_COAST]);
-                centerY = sourceCenterY + (s16)(sOwlWarpWorldMapCursorsY[owlId] -
-                                                 sOwlWarpWorldMapCursorsY[OWL_WARP_GREAT_BAY_COAST]);
-            }
-            for (s32 vertex = 0; vertex < 4; vertex++) {
-                newOwlVtx[vertex] = sourceOwlVtx[vertex];
-                newOwlVtx[vertex].v.ob[0] += centerX - sourceCenterX;
-                newOwlVtx[vertex].v.ob[1] += centerY - sourceCenterY;
-            }
-            gSPVertex(POLY_OPA_DISP++, newOwlVtx, 4, 0);
+            gSPVertex(POLY_OPA_DISP++, quad, 4, 0);
             gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
         }
     }
@@ -1039,9 +1021,7 @@ void Ship_UpdateWorldMapCursorMirrorWorld(PlayState* play) {
             pauseCtx->cursorItem[PAUSE_MAP] = pauseCtx->cursorPoint[PAUSE_WORLD_MAP];
             // Used as cursor vtxIndex
             pauseCtx->cursorSlot[PAUSE_MAP] =
-                (pauseCtx->cursorPoint[PAUSE_WORLD_MAP] == EXPANDED_OWL_WARP_DEKU_PALACE)
-                    ? (31 + REGION_DEKU_PALACE)
-                    : (31 + pauseCtx->cursorPoint[PAUSE_WORLD_MAP]);
+                ExpandedOwlSafeCursorSlot(pauseCtx->cursorPoint[PAUSE_WORLD_MAP]);
         }
 
         if (!pauseCtx->worldMapPoints[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]]) {
@@ -1086,9 +1066,7 @@ void Ship_UpdateWorldMapCursorMirrorWorld(PlayState* play) {
                 : (sOwlWarpPauseItems[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]] - ITEM_MAP_POINT_GREAT_BAY);
         // Used as cursor vtxIndex
         pauseCtx->cursorSlot[PAUSE_MAP] =
-                (pauseCtx->cursorPoint[PAUSE_WORLD_MAP] == EXPANDED_OWL_WARP_DEKU_PALACE)
-                    ? (31 + REGION_DEKU_PALACE)
-                    : (31 + pauseCtx->cursorPoint[PAUSE_WORLD_MAP]);
+                ExpandedOwlSafeCursorSlot(pauseCtx->cursorPoint[PAUSE_WORLD_MAP]);
 
         if (oldCursorPoint != pauseCtx->cursorPoint[PAUSE_WORLD_MAP]) {
             Audio_PlaySfx(NA_SE_SY_CURSOR);
@@ -1156,9 +1134,7 @@ void KaleidoScope_UpdateWorldMapCursor(PlayState* play) {
                 pauseCtx->cursorItem[PAUSE_MAP] = pauseCtx->cursorPoint[PAUSE_WORLD_MAP];
                 // Used as cursor vtxIndex
                 pauseCtx->cursorSlot[PAUSE_MAP] =
-                (pauseCtx->cursorPoint[PAUSE_WORLD_MAP] == EXPANDED_OWL_WARP_DEKU_PALACE)
-                    ? (31 + REGION_DEKU_PALACE)
-                    : (31 + pauseCtx->cursorPoint[PAUSE_WORLD_MAP]);
+                ExpandedOwlSafeCursorSlot(pauseCtx->cursorPoint[PAUSE_WORLD_MAP]);
             }
         } else {
             pauseCtx->cursorItem[PAUSE_MAP] = PAUSE_ITEM_NONE;
@@ -1184,9 +1160,7 @@ void KaleidoScope_UpdateWorldMapCursor(PlayState* play) {
                         pauseCtx->cursorItem[PAUSE_MAP] = pauseCtx->cursorPoint[PAUSE_WORLD_MAP];
                         // Used as cursor vtxIndex
                         pauseCtx->cursorSlot[PAUSE_MAP] =
-                (pauseCtx->cursorPoint[PAUSE_WORLD_MAP] == EXPANDED_OWL_WARP_DEKU_PALACE)
-                    ? (31 + REGION_DEKU_PALACE)
-                    : (31 + pauseCtx->cursorPoint[PAUSE_WORLD_MAP]);
+                ExpandedOwlSafeCursorSlot(pauseCtx->cursorPoint[PAUSE_WORLD_MAP]);
                     }
                     Audio_PlaySfx(NA_SE_SY_CURSOR);
                     sStickAdjTimer = 0;
@@ -1212,9 +1186,7 @@ void KaleidoScope_UpdateWorldMapCursor(PlayState* play) {
                     pauseCtx->cursorItem[PAUSE_MAP] = pauseCtx->cursorPoint[PAUSE_WORLD_MAP];
                     // Used as cursor vtxIndex
                     pauseCtx->cursorSlot[PAUSE_MAP] =
-                (pauseCtx->cursorPoint[PAUSE_WORLD_MAP] == EXPANDED_OWL_WARP_DEKU_PALACE)
-                    ? (31 + REGION_DEKU_PALACE)
-                    : (31 + pauseCtx->cursorPoint[PAUSE_WORLD_MAP]);
+                ExpandedOwlSafeCursorSlot(pauseCtx->cursorPoint[PAUSE_WORLD_MAP]);
                 }
                 Audio_PlaySfx(NA_SE_SY_CURSOR);
                 sStickAdjTimer = 0;
@@ -1263,9 +1235,7 @@ void KaleidoScope_UpdateWorldMapCursor(PlayState* play) {
                 : (sOwlWarpPauseItems[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]] - ITEM_MAP_POINT_GREAT_BAY);
         // Used as cursor vtxIndex
         pauseCtx->cursorSlot[PAUSE_MAP] =
-                (pauseCtx->cursorPoint[PAUSE_WORLD_MAP] == EXPANDED_OWL_WARP_DEKU_PALACE)
-                    ? (31 + REGION_DEKU_PALACE)
-                    : (31 + pauseCtx->cursorPoint[PAUSE_WORLD_MAP]);
+                ExpandedOwlSafeCursorSlot(pauseCtx->cursorPoint[PAUSE_WORLD_MAP]);
 
         if (oldCursorPoint != pauseCtx->cursorPoint[PAUSE_WORLD_MAP]) {
             Audio_PlaySfx(NA_SE_SY_CURSOR);

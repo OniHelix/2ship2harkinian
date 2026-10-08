@@ -63,7 +63,7 @@ void Scene_CommandSpawnList(PlayState* play, SOH::ISceneCommand* cmd) {
         { 0, { 118, 323, -2050 }, { 7, (s16)0x8000, 0x7F }, PLAYER_PARAMS(0xFF, PLAYER_START_MODE_OWL) },
         { 0, { -3, -129, -365 }, { 7, 0, 0x7F }, PLAYER_PARAMS(0xFF, PLAYER_START_MODE_OWL) },
         { 0, { -563, -134, -610 }, { 7, 0, 0x7F }, PLAYER_PARAMS(0xFF, PLAYER_START_MODE_OWL) },
-        { 0, { 325, 200, -740 }, { 7, 0, 0x7F }, PLAYER_PARAMS(0xFF, PLAYER_START_MODE_OWL) },
+        { 0, { 325, 200, -795 }, { 7, (s16)0x8000, 0x7F }, PLAYER_PARAMS(0xFF, PLAYER_START_MODE_OWL) },
     };
     if ((play->sceneId == SCENE_BOTI) && (play->curSpawn == 6)) {
         play->linkActorEntry = &sExpandedOwlStarts[0];
@@ -139,7 +139,7 @@ void Scene_CommandEntranceList(PlayState* play, SOH::ISceneCommand* cmd) {
     s32 owlSpawn = -1;
     u8 owlRoom = 0;
     if (play->sceneId == SCENE_BOTI) { owlSpawn = 6; owlRoom = 1; }
-    else if (play->sceneId == SCENE_TENMON_DAI) { owlSpawn = 3; owlRoom = 0; }
+    else if (play->sceneId == SCENE_TENMON_DAI) { owlSpawn = 3; owlRoom = 1; }
     else if (play->sceneId == SCENE_16GORON_HOUSE) { owlSpawn = 4; owlRoom = 0; }
     else if (play->sceneId == SCENE_TORIDE) { owlSpawn = 7; owlRoom = 0; }
     if (owlSpawn >= 0 && list->entrances.size() <= static_cast<size_t>(owlSpawn)) {
