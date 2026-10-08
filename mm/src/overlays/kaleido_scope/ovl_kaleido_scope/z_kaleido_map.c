@@ -851,6 +851,17 @@ void KaleidoScope_DrawWorldMap(PlayState* play) {
                     (QUAD_MAP_PAGE_WORLD_REGION_FIRST + expandedOwlIcons[icon].region) * 4];
                 centerX = (regionVtx[0].v.ob[0] + regionVtx[1].v.ob[0]) / 2;
                 centerY = (regionVtx[0].v.ob[1] + regionVtx[2].v.ob[1]) / 2;
+            } else if (owlId == OWL_WARP_ASTRAL_OBSERVATORY) {
+                // Anchor the Observatory to the confirmed Graveyard icon's
+                // map-vertex coordinate system, then apply cursor displacement.
+                Vtx* graveyardVtx = &pauseCtx->mapPageVtx[
+                    (QUAD_MAP_PAGE_WORLD_REGION_FIRST + REGION_IKANA_GRAVEYARD) * 4];
+                centerX = (graveyardVtx[0].v.ob[0] + graveyardVtx[1].v.ob[0]) / 2 +
+                          (s16)(sOwlWarpWorldMapCursorsX[owlId] -
+                                sOwlWarpWorldMapCursorsX[OWL_WARP_IKANA_GRAVEYARD]);
+                centerY = (graveyardVtx[0].v.ob[1] + graveyardVtx[2].v.ob[1]) / 2 +
+                          (s16)(sOwlWarpWorldMapCursorsY[owlId] -
+                                sOwlWarpWorldMapCursorsY[OWL_WARP_IKANA_GRAVEYARD]);
             } else {
                 // Vanilla owl X/Y cursor positions correspond to world-map
                 // coordinates with the same origin as the existing quads.
