@@ -19,6 +19,8 @@
 
 // 2S2H [Port] (and line 26) don't do pointer math and access the list of digits directly.
 extern const char* sCounterTextures[];
+extern f32 sOwlWarpWorldMapCursorsX[];
+extern f32 sOwlWarpWorldMapCursorsY[];
 
 #define EXPANDED_OWL_WARP_DEKU_PALACE OWL_WARP_DEKU_PALACE
 #define EXPANDED_OWL_WARP_LAST OWL_WARP_PIRATES_FORTRESS
@@ -821,25 +823,48 @@ void KaleidoScope_DrawWorldMap(PlayState* play) {
             }
         }
 
-        // Expanded owl test: draw Deku Palace with the same owl-face texture as vanilla,
-        // centered on the existing Deku Palace world-map dot. Reuse/copy existing quads
-        // instead of extending mapPageVtx, which keeps the vanilla world-map texture layout intact.
-        if (pauseCtx->worldMapPoints[EXPANDED_OWL_WARP_DEKU_PALACE]) {
-            Vtx* dekuOwlVtx = GRAPH_ALLOC(play->state.gfxCtx, sizeof(Vtx) * 4);
-            Vtx* sourceOwlVtx = &pauseCtx->mapPageVtx[QUAD_MAP_PAGE_WORLD_WARP_FIRST * 4];
-            Vtx* dekuRegionVtx = &pauseCtx->mapPageVtx[(QUAD_MAP_PAGE_WORLD_REGION_FIRST + REGION_DEKU_PALACE) * 4];
-            s16 sourceCenterX = (sourceOwlVtx[0].v.ob[0] + sourceOwlVtx[1].v.ob[0]) / 2;
-            s16 sourceCenterY = (sourceOwlVtx[0].v.ob[1] + sourceOwlVtx[2].v.ob[1]) / 2;
-            s16 dekuCenterX = (dekuRegionVtx[0].v.ob[0] + dekuRegionVtx[1].v.ob[0]) / 2;
-            s16 dekuCenterY = (dekuRegionVtx[0].v.ob[1] + dekuRegionVtx[2].v.ob[1]) / 2;
-
-            for (j = 0; j < 4; j++) {
-                dekuOwlVtx[j] = sourceOwlVtx[j];
-                dekuOwlVtx[j].v.ob[0] += dekuCenterX - sourceCenterX;
-                dekuOwlVtx[j].v.ob[1] += dekuCenterY - sourceCenterY;
+        // Expanded owl icons use cloned vanilla quads.  No out-of-bounds
+        // mapPageVtx access: vanilla only allocates ten owl quads.
+        const struct {
+            s16 owl;
+            s16 region; // -1 means use explicit cursor coordinates
+        } expandedOwlIcons[] = {
+            { OWL_WARP_IKANA_GRAVEYARD, REGION_IKANA_GRAVEYARD },
+            { OWL_WARP_ASTRAL_OBSERVATORY, -1 },
+            { OWL_WARP_DEKU_PALACE, REGION_DEKU_PALACE },
+            { OWL_WARP_GORON_SHRINE, REGION_GORON_VILLAGE },
+            { OWL_WARP_PIRATES_FORTRESS, -1 },
+        };
+        Vtx* sourceOwlVtx = &pauseCtx->mapPageVtx[QUAD_MAP_PAGE_WORLD_WARP_FIRST * 4];
+        s16 sourceCenterX = (sourceOwlVtx[0].v.ob[0] + sourceOwlVtx[1].v.ob[0]) / 2;
+        s16 sourceCenterY = (sourceOwlVtx[0].v.ob[1] + sourceOwlVtx[2].v.ob[1]) / 2;
+        for (s32 icon = 0; icon < ARRAY_COUNT(expandedOwlIcons); icon++) {
+            s16 owlId = expandedOwlIcons[icon].owl;
+            if (!pauseCtx->worldMapPoints[owlId]) {
+                continue;
             }
-
-            gSPVertex(POLY_OPA_DISP++, dekuOwlVtx, 4, 0);
+            Vtx* newOwlVtx = GRAPH_ALLOC(play->state.gfxCtx, sizeof(Vtx) * 4);
+            s16 centerX;
+            s16 centerY;
+            if (expandedOwlIcons[icon].region >= 0) {
+                Vtx* regionVtx = &pauseCtx->mapPageVtx[
+                    (QUAD_MAP_PAGE_WORLD_REGION_FIRST + expandedOwlIcons[icon].region) * 4];
+                centerX = (regionVtx[0].v.ob[0] + regionVtx[1].v.ob[0]) / 2;
+                centerY = (regionVtx[0].v.ob[1] + regionVtx[2].v.ob[1]) / 2;
+            } else {
+                // Vanilla owl X/Y cursor positions correspond to world-map
+                // coordinates with the same origin as the existing quads.
+                centerX = sourceCenterX + (s16)(sOwlWarpWorldMapCursorsX[owlId] -
+                                                 sOwlWarpWorldMapCursorsX[OWL_WARP_GREAT_BAY_COAST]);
+                centerY = sourceCenterY + (s16)(sOwlWarpWorldMapCursorsY[owlId] -
+                                                 sOwlWarpWorldMapCursorsY[OWL_WARP_GREAT_BAY_COAST]);
+            }
+            for (s32 vertex = 0; vertex < 4; vertex++) {
+                newOwlVtx[vertex] = sourceOwlVtx[vertex];
+                newOwlVtx[vertex].v.ob[0] += centerX - sourceCenterX;
+                newOwlVtx[vertex].v.ob[1] += centerY - sourceCenterY;
+            }
+            gSPVertex(POLY_OPA_DISP++, newOwlVtx, 4, 0);
             gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
         }
     }
@@ -947,11 +972,11 @@ u16 sOwlWarpPauseItems[] = {
     ITEM_MAP_POINT_SOUTHERN_SWAMP,   // OWL_WARP_SOUTHERN_SWAMP
     ITEM_MAP_POINT_IKANA_CANYON,     // OWL_WARP_IKANA_CANYON
     ITEM_MAP_POINT_STONE_TOWER,      // OWL_WARP_STONE_TOWER
-    ITEM_NONE,                        // OWL_WARP_IKANA_GRAVEYARD
-    ITEM_NONE,                        // OWL_WARP_ASTRAL_OBSERVATORY
+    ITEM_MAP_POINT_IKANA_GRAVEYARD, // OWL_WARP_IKANA_GRAVEYARD
+    ITEM_MAP_POINT_CLOCK_TOWN, // OWL_WARP_ASTRAL_OBSERVATORY
     ITEM_MAP_POINT_DEKU_PALACE,       // OWL_WARP_DEKU_PALACE
-    ITEM_NONE,                        // OWL_WARP_GORON_SHRINE
-    ITEM_NONE,                        // OWL_WARP_PIRATES_FORTRESS
+    ITEM_MAP_POINT_GORON_VILLAGE, // OWL_WARP_GORON_SHRINE
+    ITEM_MAP_POINT_GREAT_BAY_COAST, // OWL_WARP_PIRATES_FORTRESS
 };
 
 // 2S2H [Enhancement] Same as KaleidoScope_UpdateWorldMapCursor but with behavior and controls inverted to account for
