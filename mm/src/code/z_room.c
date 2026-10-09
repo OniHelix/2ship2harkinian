@@ -1,6 +1,7 @@
 #include "global.h"
 #include "PR/gs2dex.h"
 #include "debug.h"
+#include <stdio.h>
 
 #include <libultraship/bridge/gfxbridge.h>
 
@@ -548,6 +549,21 @@ size_t Room_SetupFirstRoom(PlayState* play, RoomContext* roomCtx) {
         frontRoom = gSaveContext.respawn[respawnMode].roomIndex;
     } else {
         frontRoom = play->setupEntranceList[play->curSpawn].room;
+    }
+
+    // Expanded Owls diagnostic only: record which source selected Astral Observatory's initial room.
+    // Does not change room selection, entrance records, respawn state, or player placement.
+    if (play->sceneId == SCENE_TENMON_DAI) {
+        FILE* owlDiag = fopen("expanded-owl-room-diagnostic.txt", "a");
+        if (owlDiag != NULL) {
+            s32 useRespawn = (gSaveContext.respawnFlag != 0) && (gSaveContext.respawnFlag != -2) &&
+                             (gSaveContext.respawnFlag != -7);
+            fprintf(owlDiag, "Astral: curSpawn=%d respawnFlag=%d entranceRoom=%d chosenRoom=%d source=%s\\n",
+                    play->curSpawn, gSaveContext.respawnFlag,
+                    play->setupEntranceList[play->curSpawn].room, frontRoom,
+                    useRespawn ? "respawn" : "entrance");
+            fclose(owlDiag);
+        }
     }
 
     // Load into a room for the first time.
