@@ -3,6 +3,7 @@
 #include <ship/resource/type/Blob.h>
 #include <memory>
 #include <cassert>
+#include <stdio.h>
 #include <ship/utils/StringHelper.h>
 #include <fast/resource/type/DisplayList.h>
 #include <libultraship/bridge/resourcebridge.h>
@@ -135,6 +136,17 @@ void Scene_CommandWindSettings(PlayState* play, SOH::ISceneCommand* cmd) {
 void Scene_CommandEntranceList(PlayState* play, SOH::ISceneCommand* cmd) {
     SOH::SetEntranceList* list = (SOH::SetEntranceList*)cmd;
 
+    // Diagnostic only: log every Observatory entrance-list assignment, including alternate headers.
+    if (play->sceneId == SCENE_TENMON_DAI) {
+        FILE* diag = fopen("expanded-owl-room-diagnostic.txt", "a");
+        if (diag != nullptr) {
+            fprintf(diag, "EntranceList BEFORE: layer=%d curSpawn=%d count=%zu index3=%d\\n",
+                    gSaveContext.sceneLayer, play->curSpawn, list->entrances.size(),
+                    list->entrances.size() > 3 ? (int)list->entrances[3].room : -1);
+            fclose(diag);
+        }
+    }
+
     // Append new scene-local entries without replacing any vanilla entrance.
     s32 owlSpawn = -1;
     u8 owlRoom = 0;
@@ -150,6 +162,17 @@ void Scene_CommandEntranceList(PlayState* play, SOH::ISceneCommand* cmd) {
         list->numEntrances = static_cast<uint32_t>(list->entrances.size());
     }
     play->setupEntranceList = (EntranceEntry*)list->GetRawPointer();
+    if (play->sceneId == SCENE_TENMON_DAI) {
+        FILE* diag = fopen("expanded-owl-room-diagnostic.txt", "a");
+        if (diag != nullptr) {
+            fprintf(diag, "EntranceList AFTER: layer=%d curSpawn=%d count=%zu index3=%d ptr=%p\\n",
+                    gSaveContext.sceneLayer, play->curSpawn, list->entrances.size(),
+                    list->entrances.size() > 3 ? (int)list->entrances[3].room : -1,
+                    (void*)play->setupEntranceList);
+            fclose(diag);
+        }
+    }
+
 }
 
 void Scene_CommandSpecialFiles(PlayState* play, SOH::ISceneCommand* cmd) {
@@ -403,6 +426,14 @@ void Scene_CommandCutsceneScriptList(PlayState* play, SOH::ISceneCommand* cmd) {
 static bool shouldEndSceneCommands = false;
 void Scene_CommandAltHeaderList(PlayState* play, SOH::ISceneCommand* cmd) {
     SOH::SetAlternateHeaders* headers = (SOH::SetAlternateHeaders*)cmd;
+    if (play->sceneId == SCENE_TENMON_DAI) {
+        FILE* diag = fopen("expanded-owl-room-diagnostic.txt", "a");
+        if (diag != nullptr) {
+            fprintf(diag, "AltHeader: layer=%d\\n", gSaveContext.sceneLayer);
+            fclose(diag);
+        }
+    }
+
 
     if (gSaveContext.sceneLayer != 0) {
         SOH::Scene* desiredHeader =
