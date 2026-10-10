@@ -137,4 +137,4 @@ jobs:
         path: 2ship-windows
         retention-days: 7
 
-# Retrigger current expanded-owl 15-destination test build.
+# Re-run expanded owls Windows test workflow for current branch.
