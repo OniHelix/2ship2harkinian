@@ -2465,6 +2465,15 @@ void Play_Init(GameState* thisx) {
     //! @bug: Incorrect ALIGN16s
     ZeldaArena_Init((void*)((zAlloc + 8) & ~0xF), (zAllocSize - ((zAlloc + 8) & ~0xF)) + zAlloc);
 
+    // Expanded Owls: override only the Pirates Fortress soaring spawn before
+    // Actor_InitContext consumes linkActorEntry to create Link.
+    if (sceneIdAbsolute == SCENE_TORIDE && spawnNum == 6 && this->linkActorEntry != NULL) {
+        this->linkActorEntry->pos.x = 255;
+        this->linkActorEntry->pos.y = 200;
+        this->linkActorEntry->pos.z = -712;
+        this->linkActorEntry->rot.y = 0x4000;
+    }
+
     Actor_InitContext(this, &this->actorCtx, this->linkActorEntry);
 
     // Busyloop until the room loads
