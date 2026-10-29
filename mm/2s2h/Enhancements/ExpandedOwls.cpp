@@ -7,6 +7,7 @@
 #include "2s2h/resource/type/scenecommand/SetCsCamera.h"
 #include "2s2h/resource/type/scenecommand/SetObjectList.h"
 #include "2s2h/resource/type/scenecommand/SetRoomList.h"
+#include "2s2h/resource/type/scenecommand/SetStartPositionList.h"
 
 #include <algorithm>
 #include <cstring>
@@ -244,7 +245,36 @@ void InjectExpandedOwlIntoLoadedRoom(s8 sceneId, s8 roomNum) {
     }
 }
 
+// Adjust the native Pirates Fortress soaring start position in the loaded scene.
+// Entrance 6 remains room 0; no modified mm.o2r is required.
+void CorrectPiratesFortressArrival(s16 sceneId, s8 spawnNum) {
+    if (sceneId != SCENE_TORIDE || spawnNum != 6) {
+        return;
+    }
+    auto scene = LoadSceneResource("__OTR__scenes/nonmq/Z2_TORIDE/Z2_TORIDE");
+    if (!scene) {
+        return;
+    }
+    for (const auto& command : scene->commands) {
+        if (command->cmdId != SOH::SceneCommandID::SetStartPositionList) {
+            continue;
+        }
+        auto* starts = static_cast<SOH::SetStartPositionList*>(command.get());
+        if (starts->startPositions.size() <= 6) {
+            return;
+        }
+        auto& start = starts->startPositions[6];
+        start.pos.x = 255;
+        start.pos.y = 200;
+        start.pos.z = -712;
+        start.rot.y = 0x4000;
+        return;
+    }
+}
+
 void RegisterExpandedOwls() {
+    GameInteractor::Instance->RegisterGameHook<GameInteractor::OnSceneInit>(
+        [](s16 sceneId, s8 spawnNum) { CorrectPiratesFortressArrival(sceneId, spawnNum); });
     GameInteractor::Instance->RegisterGameHook<GameInteractor::OnRoomInit>(
         [](s8 sceneId, s8 roomNum) { InjectExpandedOwlIntoLoadedRoom(sceneId, roomNum); });
 }
