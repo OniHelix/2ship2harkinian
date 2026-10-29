@@ -61,7 +61,7 @@ void Scene_CommandSpawnList(PlayState* play, SOH::ISceneCommand* cmd) {
 
     // Dedicated soaring Player Starts, separate from the vanilla entrance list.
     static ActorEntry sExpandedOwlStarts[] = {
-        { 0, { 118, 323, -2050 }, { 7, (s16)0xC000, 0x7F }, PLAYER_PARAMS(0xFF, PLAYER_START_MODE_OWL) },
+        { 0, { 118, 323, -2050 }, { 7, (s16)0x5A00, 0x7F }, PLAYER_PARAMS(0xFF, PLAYER_START_MODE_OWL) },
         { 0, { -3, -129, -365 }, { 7, (s16)0x5A00, 0x7F }, PLAYER_PARAMS(0xFF, PLAYER_START_MODE_OWL) },
         { 0, { -563, -134, -610 }, { 7, 0, 0x7F }, PLAYER_PARAMS(0xFF, PLAYER_START_MODE_OWL) },
         { 0, { 325, 200, -740 }, { 7, 0, 0x7F }, PLAYER_PARAMS(0xFF, PLAYER_START_MODE_OWL) },
