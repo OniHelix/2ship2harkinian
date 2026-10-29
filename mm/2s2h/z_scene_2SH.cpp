@@ -161,6 +161,10 @@ void Scene_CommandEntranceList(PlayState* play, SOH::ISceneCommand* cmd) {
         list->entrances.resize(static_cast<size_t>(owlSpawn) + 1, entry);
         list->numEntrances = static_cast<uint32_t>(list->entrances.size());
     }
+    // The Observatory resource may already have index 3; explicitly set our owl arrival room.
+    if (play->sceneId == SCENE_TENMON_DAI && list->entrances.size() > 3) {
+        list->entrances[3].room = 1;
+    }
     play->setupEntranceList = (EntranceEntry*)list->GetRawPointer();
     if (play->sceneId == SCENE_TENMON_DAI) {
         FILE* diag = fopen("expanded-owl-room-diagnostic.txt", "a");
