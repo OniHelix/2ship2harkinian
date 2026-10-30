@@ -990,17 +990,11 @@ static EntranceTableEntry sGoronShrineEntrance3[] = {
     { SCENE_16GORON_HOUSE, 3, 0x0102 },
 };
 
-// Dedicated expanded owl arrival; existing vanilla entrances remain unchanged.
-static EntranceTableEntry sGoronShrineEntrance4[] = {
-    { SCENE_16GORON_HOUSE, 4, 0x4102 },
-};
-
 static EntranceTableEntry* sGoronShrineEntranceTable[] = {
     sGoronShrineEntrance0,
     sGoronShrineEntrance1,
     sGoronShrineEntrance2,
     sGoronShrineEntrance3,
-    sGoronShrineEntrance4,
 };
 
 static EntranceTableEntry sZoraHallEntrance0[] = {
@@ -1331,8 +1325,14 @@ static EntranceTableEntry sGoronShopEntrance0[] = {
     { SCENE_GORONSHOP, 0, 0x4102 },
 };
 
+// Dedicated expanded owl arrival in the Goron Shop's single room.
+static EntranceTableEntry sGoronShopEntrance1[] = {
+    { SCENE_GORONSHOP, 1, 0x4102 },
+};
+
 static EntranceTableEntry* sGoronShopEntranceTable[] = {
     sGoronShopEntrance0,
+    sGoronShopEntrance1,
 };
 
 static EntranceTableEntry sDekuKingsChamberEntrance0[] = {
