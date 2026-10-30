@@ -36,8 +36,8 @@ static ExpandedOwlPlacement sExpandedOwls[] = {
       { ACTOR_OBJ_WARPSTONE, { -3, -129, -414 }, { 7, 16, 127 }, 11 }, -1 },
     { SCENE_22DEKUCITY, 0, "__OTR__scenes/nonmq/Z2_22DEKUCITY/Z2_22DEKUCITY",
       { ACTOR_OBJ_WARPSTONE, { -252, 0, 3018 }, { 7, 6814, 127 }, 12 }, -1 },
-    { SCENE_16GORON_HOUSE, 0, "__OTR__scenes/nonmq/Z2_16GORON_HOUSE/Z2_16GORON_HOUSE",
-      { ACTOR_OBJ_WARPSTONE, { -563, -134, -532 }, { 7, 2835, 127 }, 13 }, -1 },
+    { SCENE_GORONSHOP, 0, "__OTR__scenes/nonmq/Z2_GORONSHOP/Z2_GORONSHOP",
+      { ACTOR_OBJ_WARPSTONE, { -260, 0, 168 }, { 7, 16384, 127 }, 13 }, -1 },
     { SCENE_TORIDE, 0, "__OTR__scenes/nonmq/Z2_TORIDE/Z2_TORIDE",
       { ACTOR_OBJ_WARPSTONE, { 325, 200, -712 }, { 7, -30963, 127 }, 14 }, -1 },
 };
