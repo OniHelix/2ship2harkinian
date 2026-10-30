@@ -2287,7 +2287,7 @@ void Message_LoadTime(PlayState* play, u16 curChar, s32* offset, f32* arg3, s16*
 #define IKANA_GRAVEYARD_STR { 'I', 'k', 'a', 'n', 'a', ' ', 'G', 'r', 'a' }
 #define ASTRAL_OBSERVATORY_STR { 'A', 's', 't', 'r', 'a', 'l', ' ', 'O', 'b' }
 #define DEKU_PALACE_STR { 'D', 'e', 'k', 'u', ' ', 'P', 'a', 'l', 'a' }
-#define GORON_SHRINE_STR { 'G', 'o', 'r', 'o', 'n', ' ', 'S', 'h', 'r' }
+#define GORON_SHRINE_STR { 'G', 'o', 'r', 'o', 'n', ' ', 'S', 'h', 'o' }
 #define PIRATES_FORTRESS_STR { 'P', 'i', 'r', 'a', 't', 'e', 's', 0x27, ' ' }
 #define ENTRANCE_STR \
     { 0x93FC, 0x82E8, 0x8CFB }
