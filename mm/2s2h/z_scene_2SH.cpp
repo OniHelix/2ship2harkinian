@@ -63,7 +63,7 @@ void Scene_CommandSpawnList(PlayState* play, SOH::ISceneCommand* cmd) {
     static ActorEntry sExpandedOwlStarts[] = {
         { 0, { 118, 323, -2050 }, { 7, (s16)0x5A00, 0x7F }, PLAYER_PARAMS(0xFF, PLAYER_START_MODE_OWL) },
         { 0, { -3, -129, -365 }, { 7, (s16)0x5A00, 0x7F }, PLAYER_PARAMS(0xFF, PLAYER_START_MODE_OWL) },
-        { 0, { -207, 0, 168 }, { 7, (s16)0xD000, 0x7F }, PLAYER_PARAMS(0xFF, PLAYER_START_MODE_OWL) },
+        { 0, { -207, 0, 168 }, { 7, (s16)0x6C00, 0x7F }, PLAYER_PARAMS(0xFF, PLAYER_START_MODE_OWL) },
         { 0, { 255, 200, -712 }, { 7, (s16)0xE100, 0x7F }, PLAYER_PARAMS(0xFF, PLAYER_START_MODE_OWL) },
     };
     if ((play->sceneId == SCENE_BOTI) && (play->curSpawn == 6)) {
