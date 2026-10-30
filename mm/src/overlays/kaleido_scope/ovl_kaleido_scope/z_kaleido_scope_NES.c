@@ -270,6 +270,9 @@ void Kaleido_LoadMapNameStatic(void** segment, u32 texIndex) {
         gMapPointGoronVillageENGTex,  gMapPointStoneTowerENGTex,      gMapPointGreatBayCoastENGTex,
         gMapPointSouthernSwampENGTex, gMapPointMountainVillageENGTex, gMapPointMilkRoadENGTex,
         gMapPointZoraCapeENGTex,
+        gMapPointPiratesFortressENGTex,    // 16: Pirates' Fortress
+        gMapPointAstralObservatoryENGTex, // 17: Astral Observatory
+        gMapPointGoronShopENGTex,         // 18: Goron Shop
     };
 
     // 2S2H [Port] Bounds check texture to load to prevent crashes

@@ -485,3 +485,11 @@ static const ALIGN_ASSET(2) char gGiGreatBayKeyEmblemDL[] = dgGiGreatBayKeyEmble
 
 #define dgGiStoneTowerKeyEmblemDL "__OTR__objects/object_gi_key/gGiStoneTowerKeyEmblemDL"
 static const ALIGN_ASSET(2) char gGiStoneTowerKeyEmblemDL[] = dgGiStoneTowerKeyEmblemDL;
+
+// Expanded owl nameplates: separate custom resources; vanilla nameplates remain intact.
+#define dgMapPointPiratesFortressENGTex "__OTR__textures/map_name_static/gMapPointPiratesFortressENGTex"
+static const ALIGN_ASSET(2) char gMapPointPiratesFortressENGTex[] = dgMapPointPiratesFortressENGTex;
+#define dgMapPointAstralObservatoryENGTex "__OTR__textures/map_name_static/gMapPointAstralObservatoryENGTex"
+static const ALIGN_ASSET(2) char gMapPointAstralObservatoryENGTex[] = dgMapPointAstralObservatoryENGTex;
+#define dgMapPointGoronShopENGTex "__OTR__textures/map_name_static/gMapPointGoronShopENGTex"
+static const ALIGN_ASSET(2) char gMapPointGoronShopENGTex[] = dgMapPointGoronShopENGTex;
