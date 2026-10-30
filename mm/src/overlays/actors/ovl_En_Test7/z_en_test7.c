@@ -645,7 +645,7 @@ static u16 sOwlWarpEntrances[OWL_WARP_MAX - 1] = {
     ENTRANCE(ASTRAL_OBSERVATORY, 3), // OWL_WARP_ASTRAL_OBSERVATORY
     ENTRANCE(DEKU_PALACE, 11),              // OWL_WARP_DEKU_PALACE
 
-    ENTRANCE(GORON_SHRINE, 4), // OWL_WARP_GORON_SHRINE
+    ENTRANCE(GORON_SHOP, 1), // OWL_WARP_GORON_SHRINE
 
     ENTRANCE(PIRATES_FORTRESS_EXTERIOR, 7), // OWL_WARP_PIRATES_FORTRESS
     0,                                      // OWL_WARP_WEST_CLOCK_TOWN_SAVE (vanilla entrance-0 behavior)
@@ -679,7 +679,7 @@ void EnTest7_WarpCsWarp(EnTest7* this, PlayState* play) {
         } else if (owlMode == OCARINA_MODE_WARP_TO_ASTRAL_OBSERVATORY) {
             play->nextEntrance = ENTRANCE(ASTRAL_OBSERVATORY, 3);
         } else if (owlMode == OCARINA_MODE_WARP_TO_GORON_SHRINE) {
-            play->nextEntrance = ENTRANCE(GORON_SHRINE, 4);
+            play->nextEntrance = ENTRANCE(GORON_SHOP, 1);
         } else if (owlMode == OCARINA_MODE_WARP_TO_PIRATES_FORTRESS) {
             play->nextEntrance = ENTRANCE(PIRATES_FORTRESS_EXTERIOR, 7);
         } else if (owlMode == OCARINA_MODE_WARP_TO_DEKU_PALACE) {
