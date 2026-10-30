@@ -258,7 +258,7 @@ void Message_LoadTimeNES(PlayState* play, u8 curChar, s32* offset, f32* arg3, s1
 #define IKANA_GRAVEYARD_STR "Ikana Graveyard"
 #define ASTRAL_OBSERVATORY_STR "Astral Observatory"
 #define DEKU_PALACE_STR "Deku Palace"
-#define GORON_SHRINE_STR "Goron Shrine"
+#define GORON_SHRINE_STR "Goron Shop"
 #define PIRATES_FORTRESS_STR "Pirates' Fortress"
 #define ENTRANCE_STR "Entrance"
 
