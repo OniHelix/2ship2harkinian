@@ -4030,10 +4030,10 @@ void KaleidoScope_Update(PlayState* play) {
             worldMapCursorPoint = pauseCtx->cursorPoint[PAUSE_WORLD_MAP];
             Kaleido_LoadMapNameStatic(&pauseCtx->nameSegment,
                                       (worldMapCursorPoint == OWL_WARP_IKANA_GRAVEYARD) ? REGION_IKANA_GRAVEYARD :
-                                       (worldMapCursorPoint == OWL_WARP_ASTRAL_OBSERVATORY) ? REGION_CLOCK_TOWN :
+                                       (worldMapCursorPoint == OWL_WARP_ASTRAL_OBSERVATORY) ? 17 :
                                        (worldMapCursorPoint == OWL_WARP_DEKU_PALACE) ? REGION_DEKU_PALACE :
-                                       (worldMapCursorPoint == OWL_WARP_GORON_SHRINE) ? REGION_GORON_VILLAGE :
-                                       (worldMapCursorPoint == OWL_WARP_PIRATES_FORTRESS) ? REGION_GREAT_BAY :
+                                       (worldMapCursorPoint == OWL_WARP_GORON_SHRINE) ? 18 :
+                                       (worldMapCursorPoint == OWL_WARP_PIRATES_FORTRESS) ? 16 :
                                        worldMapCursorPoint);
 
             pauseCtx->iconItemVtxSegment = (void*)ALIGN16((uintptr_t)pauseCtx->nameSegment + 0xA00);
