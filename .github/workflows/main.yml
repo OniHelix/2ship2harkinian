@@ -115,18 +115,11 @@ jobs:
     - name: Build 2Ship
       env:
         VCPKG_ROOT: ${{ github.workspace }}/vcpkg
+        VCPKG_PINNED_REF: a9f0cd0345fb29cd227d802f1fd1917c28f8e5a3
       run: |
         set $env:PATH="$env:USERPROFILE/.cargo/bin;$env:PATH"
-        # vcpkg occasionally receives HTTP 503 when fetching upstream fmt patches.
-        # Retry configuration without changing dependencies or game code.
-        $configured = $false
-        for ($attempt = 1; $attempt -le 5; $attempt++) {
-          Write-Host "CMake configure attempt $attempt of 5"
-          cmake -S . -B build-windows -G Ninja -DCMAKE_MAKE_PROGRAM=ninja -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_C_COMPILER_LAUNCHER=sccache -DCMAKE_CXX_COMPILER_LAUNCHER=sccache
-          if ($LASTEXITCODE -eq 0) { $configured = $true; break }
-          if ($attempt -lt 5) { Start-Sleep -Seconds 45 }
-        }
-        if (-not $configured) { throw "CMake configuration failed after 5 attempts" }
+        cmake -S . -B build-windows -G Ninja -DCMAKE_MAKE_PROGRAM=ninja -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_C_COMPILER_LAUNCHER=sccache -DCMAKE_CXX_COMPILER_LAUNCHER=sccache
+        if ($LASTEXITCODE -ne 0) { throw "CMake configuration failed" }
         cmake --build build-windows --config Release --parallel 10
         (cd build-windows && cpack)
         cd ..
