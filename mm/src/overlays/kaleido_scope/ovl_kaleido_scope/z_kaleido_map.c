@@ -855,7 +855,7 @@ void KaleidoScope_DrawWorldMap(PlayState* play) {
                 // a small, independent alignment adjustment for the gold owl
                 // icon relative to the four blue selection-cursor corners.
                 if (owlId == OWL_WARP_DEKU_PALACE) {
-                    const s16 DEKU_PALACE_ICON_OFFSET_X = -8;
+                    const s16 DEKU_PALACE_ICON_OFFSET_X = -9;
                     const s16 DEKU_PALACE_ICON_OFFSET_Y = -4;
                     centerX += DEKU_PALACE_ICON_OFFSET_X;
                     centerY += DEKU_PALACE_ICON_OFFSET_Y;
