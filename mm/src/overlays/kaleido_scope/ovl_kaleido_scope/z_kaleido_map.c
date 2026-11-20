@@ -851,8 +851,15 @@ void KaleidoScope_DrawWorldMap(PlayState* play) {
                     (QUAD_MAP_PAGE_WORLD_REGION_FIRST + expandedOwlIcons[icon].region) * 4];
                 centerX = (regionVtx[0].v.ob[0] + regionVtx[1].v.ob[0]) / 2;
                 centerY = (regionVtx[0].v.ob[1] + regionVtx[2].v.ob[1]) / 2;
-                // Use the existing region-dot quad's exact center. Deku Palace
-                // has a native region dot; no screenshot-derived offset is needed.
+                // Deku Palace: use the native map dot as the anchor and apply
+                // a small, independent alignment adjustment for the gold owl
+                // icon relative to the four blue selection-cursor corners.
+                if (owlId == OWL_WARP_DEKU_PALACE) {
+                    constexpr s16 DEKU_PALACE_ICON_OFFSET_X = -5;
+                    constexpr s16 DEKU_PALACE_ICON_OFFSET_Y = -2;
+                    centerX += DEKU_PALACE_ICON_OFFSET_X;
+                    centerY += DEKU_PALACE_ICON_OFFSET_Y;
+                }
             } else {
                 // Vanilla owl X/Y cursor positions correspond to world-map
                 // coordinates with the same origin as the existing quads.
