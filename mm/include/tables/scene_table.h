@@ -128,7 +128,7 @@
 // Fisherman's Hut
 /* 0x3C */ DEFINE_SCENE(Z2_FISHERMAN,         SCENE_FISHERMAN,         0x13B, SCENE_DRAW_CFG_MAT_ANIM,             RESTRICTIONS_SET(0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 1), PERSISTENT_CYCLE_FLAGS_NONE,                                                                                FISHERMANS_HUT,                61, "Fisherman's Hut")
 // Goron Shop
-/* 0x3D */ DEFINE_SCENE(Z2_GORONSHOP,         SCENE_GORONSHOP,         0x129, SCENE_DRAW_CFG_MAT_ANIM,             RESTRICTIONS_INDOORS,                                 PERSISTENT_CYCLE_FLAGS_NONE,                                                                                GORON_SHOP,                    53, "Goron Shop")
+/* 0x3D */ DEFINE_SCENE(Z2_GORONSHOP,         SCENE_GORONSHOP,         0x129, SCENE_DRAW_CFG_MAT_ANIM,             RESTRICTIONS_SET(0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0),                                 PERSISTENT_CYCLE_FLAGS_NONE,                                                                                GORON_SHOP,                    53, "Goron Shop")
 // Deku King's Chamber
 /* 0x3E */ DEFINE_SCENE(Z2_DEKU_KING,         SCENE_DEKU_KING,         0x11C, SCENE_DRAW_CFG_MAT_ANIM,             RESTRICTIONS_SET(0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0), PERSISTENT_CYCLE_FLAGS_NONE,                                                                                DEKU_KINGS_CHAMBER,            37, "Deku King's Chamber")
 // Moon Goron Trial
