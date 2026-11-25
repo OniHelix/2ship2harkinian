@@ -870,7 +870,7 @@ void KaleidoScope_DrawWorldMap(PlayState* play) {
                 // Pirates' Fortress: align the gold owl icon with its blue cursor.
                 if (owlId == OWL_WARP_PIRATES_FORTRESS) {
                     centerX -= 3;
-                    centerY += 5;
+                    centerY += 7;
                 }
             }
             for (s32 vertex = 0; vertex < 4; vertex++) {
