@@ -872,8 +872,8 @@ void KaleidoScope_DrawWorldMap(PlayState* play) {
                     centerX -= 3;
                     centerY += 7;
                 } else if (owlId == OWL_WARP_ASTRAL_OBSERVATORY) {
-                    centerX += 15;
-                    centerY += 8;
+                    centerX += 17;
+                    centerY += 4;
                 }
             }
             for (s32 vertex = 0; vertex < 4; vertex++) {
