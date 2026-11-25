@@ -818,7 +818,17 @@ void KaleidoScope_DrawWorldMap(PlayState* play) {
         // Loop over OwlWarpId (i), unused vtxIndex (j), unused (k)
         for (i = 0, j = 0; i <= OWL_WARP_STONE_TOWER; i++, k++, j += 4) {
             if (pauseCtx->worldMapPoints[i]) {
-                gSPVertex(POLY_OPA_DISP++, &pauseCtx->mapPageVtx[(QUAD_MAP_PAGE_WORLD_WARP_FIRST + i) * 4], 4, 0);
+                Vtx* owlVtx = &pauseCtx->mapPageVtx[(QUAD_MAP_PAGE_WORLD_WARP_FIRST + i) * 4];
+                if (i == OWL_WARP_MOUNTAIN_VILLAGE) {
+                    // Offset only the rendered icon; leave the original quad and cursor intact.
+                    Vtx* adjustedVtx = GRAPH_ALLOC(play->state.gfxCtx, sizeof(Vtx) * 4);
+                    for (s32 vertex = 0; vertex < 4; vertex++) {
+                        adjustedVtx[vertex] = owlVtx[vertex];
+                        adjustedVtx[vertex].v.ob[1] -= 1;
+                    }
+                    owlVtx = adjustedVtx;
+                }
+                gSPVertex(POLY_OPA_DISP++, owlVtx, 4, 0);
                 gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
             }
         }
@@ -859,6 +869,8 @@ void KaleidoScope_DrawWorldMap(PlayState* play) {
                     const s16 DEKU_PALACE_ICON_OFFSET_Y = -4;
                     centerX += DEKU_PALACE_ICON_OFFSET_X;
                     centerY += DEKU_PALACE_ICON_OFFSET_Y;
+                } else if (owlId == OWL_WARP_GORON_SHRINE) {
+                    centerX += 1;
                 }
             } else {
                 // Vanilla owl X/Y cursor positions correspond to world-map
@@ -873,7 +885,7 @@ void KaleidoScope_DrawWorldMap(PlayState* play) {
                     centerY += 7;
                 } else if (owlId == OWL_WARP_ASTRAL_OBSERVATORY) {
                     centerX += 17;
-                    centerY += 4;
+                    centerY += 2;
                 }
             }
             for (s32 vertex = 0; vertex < 4; vertex++) {
