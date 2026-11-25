@@ -394,6 +394,7 @@ void EnBji01_Init(Actor* thisx, PlayState* play) {
     switch (gSaveContext.save.entrance) {
         case ENTRANCE(ASTRAL_OBSERVATORY, 0): /* ECT entrance*/
         case ENTRANCE(ASTRAL_OBSERVATORY, 1): /* TF door entrance */
+        case ENTRANCE(ASTRAL_OBSERVATORY, 3): /* Owl warp/save entrance */
             this->actor.params = SHIKASHI_TYPE_DEFAULT;
             func_809CCE98(this, play);
             break;
