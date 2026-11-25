@@ -871,6 +871,9 @@ void KaleidoScope_DrawWorldMap(PlayState* play) {
                 if (owlId == OWL_WARP_PIRATES_FORTRESS) {
                     centerX -= 3;
                     centerY += 7;
+                } else if (owlId == OWL_WARP_ASTRAL_OBSERVATORY) {
+                    centerX += 15;
+                    centerY += 8;
                 }
             }
             for (s32 vertex = 0; vertex < 4; vertex++) {
