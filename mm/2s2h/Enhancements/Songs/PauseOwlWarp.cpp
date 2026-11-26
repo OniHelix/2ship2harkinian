@@ -12,6 +12,8 @@ extern f32 sPauseMenuVerticalOffset;
 extern u16 sCursorPointsToOcarinaModes[];
 extern u16 sOwlWarpPauseItems[];
 extern const s16 sOwlWarpCursorOrder[OWL_WARP_PIRATES_FORTRESS + 1];
+extern bool BetterOwlWarp_IsCutoffOnSide(s16 cursorPoint, PauseContext* pauseCtx);
+extern bool BetterOwlWarp_NextCursorPoint(s16* cursorPoint, PauseContext* pauseCtx);
 extern s16 sInDungeonScene;
 extern s32 gHorseIsMounted;
 
@@ -120,7 +122,16 @@ static void UpdateCursorForOwlWarpPoints(PauseContext* pauseCtx) {
         }
 
         // Use the shared linear order, with page arrows at the ends instead of wrapping.
-        if (pauseCtx->cursorSpecialPos == 0 && (goingLeft || goingRight)) {
+        if (pauseCtx->cursorSpecialPos == 0 && !entering &&
+            CVarGetInteger("gEnhancements.Songs.BetterOwlWarpMenu", 0)) {
+            if (BetterOwlWarp_IsCutoffOnSide(oldCursorPoint, pauseCtx)) {
+                KaleidoScope_MoveCursorToSpecialPos(gPlayState, goingRight ? PAUSE_CURSOR_PAGE_RIGHT
+                                                                          : PAUSE_CURSOR_PAGE_LEFT);
+                pauseCtx->cursorItem[PAUSE_MAP] = PAUSE_ITEM_NONE;
+            } else if (BetterOwlWarp_NextCursorPoint(&pauseCtx->cursorPoint[PAUSE_WORLD_MAP], pauseCtx)) {
+                pauseCtx->cursorShrinkRate = 4.0f;
+            }
+        } else if (pauseCtx->cursorSpecialPos == 0 && (goingLeft || goingRight)) {
             int direction = (goingRight != mirrorWorldActive) ? 1 : -1;
             int index = direction > 0 ? -1 : count;
             if (!entering) {
