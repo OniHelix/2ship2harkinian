@@ -162,7 +162,7 @@ static void UpdateCursorForOwlWarpPoints(PauseContext* pauseCtx) {
         if (!pauseCtx->worldMapPoints[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]]) {
             pauseCtx->cursorItem[PAUSE_MAP] = PAUSE_ITEM_NONE;
         }
-        if (oldCursorPoint != pauseCtx->cursorPoint[PAUSE_WORLD_MAP]) {
+        if (entering || oldCursorPoint != pauseCtx->cursorPoint[PAUSE_WORLD_MAP]) {
             Audio_PlaySfx(NA_SE_SY_CURSOR);
         }
     }
