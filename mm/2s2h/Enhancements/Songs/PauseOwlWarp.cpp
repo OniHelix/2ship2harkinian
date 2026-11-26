@@ -11,11 +11,10 @@ extern "C" {
 extern f32 sPauseMenuVerticalOffset;
 extern u16 sCursorPointsToOcarinaModes[];
 extern u16 sOwlWarpPauseItems[];
+extern const s16 sOwlWarpCursorOrder[OWL_WARP_PIRATES_FORTRESS + 1];
 extern s16 sInDungeonScene;
 extern s32 gHorseIsMounted;
 
-extern bool BetterOwlWarp_IsCutoffOnSide(s16 cursorPoint, PauseContext* pauseCtx);
-extern bool BetterOwlWarp_NextCursorPoint(s16* cursorPoint, PauseContext* pauseCtx);
 }
 
 #define CVAR_NAME "gEnhancements.Songs.PauseOwlWarp"
@@ -23,7 +22,7 @@ extern bool BetterOwlWarp_NextCursorPoint(s16* cursorPoint, PauseContext* pauseC
 
 extern "C" bool PauseOwlWarp_IsOwlWarpEnabled() {
     return CVAR && CHECK_QUEST_ITEM(QUEST_SONG_SOARING) && INV_CONTENT(ITEM_OCARINA_OF_TIME) == ITEM_OCARINA_OF_TIME &&
-           gSaveContext.save.saveInfo.playerData.owlActivationFlags != 0 &&
+           (gSaveContext.save.saveInfo.playerData.owlActivationFlags & 0x7FFF) != 0 &&
            gPlayState->pauseCtx.debugEditor == DEBUG_EDITOR_NONE &&
            gPlayState->interfaceCtx.restrictions.songOfSoaring == 0 &&
            (!IS_RANDO || Rando::Logic::canPlaySong(OCARINA_SONG_SOARING));
@@ -85,23 +84,14 @@ static void UpdateCursorForOwlWarpPoints(PauseContext* pauseCtx) {
         (pauseCtx->pageIndex == PAUSE_MAP)) {
         InterfaceContext* interfaceCtx = &gPlayState->interfaceCtx;
         s16 oldCursorPoint = pauseCtx->cursorPoint[PAUSE_WORLD_MAP];
-        s16 nextCursorPoint = pauseCtx->cursorPoint[PAUSE_WORLD_MAP];
         bool mirrorWorldActive = CVarGetInteger("gModes.MirroredWorld.State", 0);
         bool goingLeft = pauseCtx->stickAdjX < -30;
         bool goingRight = pauseCtx->stickAdjX > 30;
-        bool cursorMoving = goingLeft || goingRight;
-
-        // Handle moving off page buttons
-        if (pauseCtx->cursorSpecialPos == PAUSE_CURSOR_PAGE_LEFT && goingRight) {
+        bool entering = (pauseCtx->cursorSpecialPos == PAUSE_CURSOR_PAGE_LEFT && goingRight) ||
+                        (pauseCtx->cursorSpecialPos == PAUSE_CURSOR_PAGE_RIGHT && goingLeft);
+        const int count = OWL_WARP_PIRATES_FORTRESS + 1;
+        if (entering) {
             pauseCtx->cursorSpecialPos = 0;
-            pauseCtx->cursorPoint[PAUSE_WORLD_MAP] = mirrorWorldActive ? OWL_WARP_STONE_TOWER + 1 : REGION_NONE;
-            nextCursorPoint = mirrorWorldActive ? OWL_WARP_GREAT_BAY_COAST : OWL_WARP_STONE_TOWER;
-            Audio_PlaySfx(NA_SE_SY_CURSOR);
-        } else if (pauseCtx->cursorSpecialPos == PAUSE_CURSOR_PAGE_RIGHT && goingLeft) {
-            pauseCtx->cursorSpecialPos = 0;
-            pauseCtx->cursorPoint[PAUSE_WORLD_MAP] = mirrorWorldActive ? REGION_NONE : OWL_WARP_STONE_TOWER + 1;
-            nextCursorPoint = mirrorWorldActive ? OWL_WARP_STONE_TOWER : OWL_WARP_GREAT_BAY_COAST;
-            Audio_PlaySfx(NA_SE_SY_CURSOR);
         }
 
         // Handle updating cursor color and A button action
@@ -129,61 +119,44 @@ static void UpdateCursorForOwlWarpPoints(PauseContext* pauseCtx) {
             }
         }
 
-        // Handle mirror mode flip and starting cursor movement
-        if (pauseCtx->cursorSpecialPos == 0) {
-            if (CVarGetInteger("gEnhancements.Songs.BetterOwlWarpMenu", 0)) {
-                cursorMoving = BetterOwlWarp_NextCursorPoint(&nextCursorPoint, pauseCtx);
-            } else {
-                nextCursorPoint = oldCursorPoint;
-            }
-
-            if (cursorMoving) {
-                pauseCtx->cursorShrinkRate = 4.0f;
-
-                if (mirrorWorldActive) {
-                    goingLeft = !goingLeft;
-                    goingRight = !goingRight;
+        // Use the shared linear order, with page arrows at the ends instead of wrapping.
+        if (pauseCtx->cursorSpecialPos == 0 && (goingLeft || goingRight)) {
+            int direction = (goingRight != mirrorWorldActive) ? 1 : -1;
+            int index = direction > 0 ? -1 : count;
+            if (!entering) {
+                for (int i = 0; i < count; i++) {
+                    if (sOwlWarpCursorOrder[i] == oldCursorPoint) {
+                        index = i;
+                        break;
+                    }
                 }
             }
-        }
-
-        // Actually move the cursor
-        if (pauseCtx->cursorSpecialPos == 0 &&
-            BetterOwlWarp_IsCutoffOnSide(pauseCtx->cursorPoint[PAUSE_WORLD_MAP], pauseCtx)) {
-            KaleidoScope_MoveCursorToSpecialPos(
-                gPlayState, (mirrorWorldActive == goingRight) ? PAUSE_CURSOR_PAGE_LEFT : PAUSE_CURSOR_PAGE_RIGHT);
-            pauseCtx->cursorItem[PAUSE_MAP] = PAUSE_ITEM_NONE;
-        } else if (oldCursorPoint != nextCursorPoint) {
-            pauseCtx->cursorPoint[PAUSE_WORLD_MAP] = nextCursorPoint;
-        } else if (goingRight) {
-            do {
-                pauseCtx->cursorPoint[PAUSE_WORLD_MAP]++;
-                if (pauseCtx->cursorPoint[PAUSE_WORLD_MAP] > OWL_WARP_STONE_TOWER) {
-                    KaleidoScope_MoveCursorToSpecialPos(gPlayState, mirrorWorldActive ? PAUSE_CURSOR_PAGE_LEFT
-                                                                                      : PAUSE_CURSOR_PAGE_RIGHT);
-                    pauseCtx->cursorItem[PAUSE_MAP] = PAUSE_ITEM_NONE;
+            pauseCtx->cursorShrinkRate = 4.0f;
+            bool found = false;
+            for (index += direction; index >= 0 && index < count; index += direction) {
+                if (pauseCtx->worldMapPoints[sOwlWarpCursorOrder[index]]) {
+                    pauseCtx->cursorPoint[PAUSE_WORLD_MAP] = sOwlWarpCursorOrder[index];
+                    found = true;
                     break;
                 }
-            } while (!pauseCtx->worldMapPoints[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]]);
-        } else if (goingLeft) {
-            do {
-                pauseCtx->cursorPoint[PAUSE_WORLD_MAP]--;
-                if (pauseCtx->cursorPoint[PAUSE_WORLD_MAP] <= REGION_NONE) {
-                    KaleidoScope_MoveCursorToSpecialPos(gPlayState, mirrorWorldActive ? PAUSE_CURSOR_PAGE_RIGHT
-                                                                                      : PAUSE_CURSOR_PAGE_LEFT);
-                    pauseCtx->cursorItem[PAUSE_MAP] = PAUSE_ITEM_NONE;
-                    break;
-                }
-            } while (!pauseCtx->worldMapPoints[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]]);
+            }
+            if (!found) {
+                KaleidoScope_MoveCursorToSpecialPos(gPlayState, goingRight ? PAUSE_CURSOR_PAGE_RIGHT
+                                                                          : PAUSE_CURSOR_PAGE_LEFT);
+                pauseCtx->cursorItem[PAUSE_MAP] = PAUSE_ITEM_NONE;
+            }
         }
 
         // Updates name panel and cursor slot
         if (pauseCtx->cursorSpecialPos == 0) {
             // Offset from `ITEM_MAP_POINT_GREAT_BAY` is to get the correct ordering in `map_name_static`
             pauseCtx->cursorItem[PAUSE_MAP] =
-                sOwlWarpPauseItems[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]] - ITEM_MAP_POINT_GREAT_BAY;
+                (pauseCtx->cursorPoint[PAUSE_WORLD_MAP] == OWL_WARP_DEKU_PALACE)
+                    ? REGION_DEKU_PALACE
+                    : sOwlWarpPauseItems[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]] - ITEM_MAP_POINT_GREAT_BAY;
             // Used as cursor vtxIndex
-            pauseCtx->cursorSlot[PAUSE_MAP] = 31 + pauseCtx->cursorPoint[PAUSE_WORLD_MAP];
+            pauseCtx->cursorSlot[PAUSE_MAP] = 31 + ((pauseCtx->cursorPoint[PAUSE_WORLD_MAP] == OWL_WARP_DEKU_PALACE)
+                          ? REGION_DEKU_PALACE : pauseCtx->cursorPoint[PAUSE_WORLD_MAP]);
         }
 
         if (!pauseCtx->worldMapPoints[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]]) {
@@ -196,31 +169,21 @@ static void UpdateCursorForOwlWarpPoints(PauseContext* pauseCtx) {
 }
 
 static void HandlePauseOwlWarp(PauseContext* pauseCtx) {
-    // Initialize worldMapPoints based on owl activation flags
-    for (int i = OWL_WARP_STONE_TOWER; i >= OWL_WARP_GREAT_BAY_COAST; i--) {
-        pauseCtx->worldMapPoints[i] = (gSaveContext.save.saveInfo.playerData.owlActivationFlags >> i) & 1;
+    for (int i = 0; i < ARRAY_COUNT(pauseCtx->worldMapPoints); i++) {
+        pauseCtx->worldMapPoints[i] = i <= OWL_WARP_PIRATES_FORTRESS &&
+            ((gSaveContext.save.saveInfo.playerData.owlActivationFlags >> i) & 1);
     }
-
-    // Special condition for when only the 15th owl statue is activated
-    if (gSaveContext.save.saveInfo.playerData.owlActivationFlags == (1 << 15)) {
-        for (int i = REGION_GREAT_BAY; i < REGION_STONE_TOWER; i++) {
-            if ((gSaveContext.save.saveInfo.regionsVisited >> i) & 1) {
-                pauseCtx->worldMapPoints[i] = true;
-            }
-        }
-
-        // Always set Great Bay since that is accessible from the "default index" for index warp
-        // when loading from a save/scene change and never touching the pause map screen
-        pauseCtx->worldMapPoints[OWL_WARP_GREAT_BAY_COAST] = true;
-    }
-
-    // Ensure cursor starts at an activated point and is not on the broken stone tower region point
-    if (!pauseCtx->worldMapPoints[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]] ||
-        pauseCtx->cursorPoint[PAUSE_WORLD_MAP] > OWL_WARP_STONE_TOWER) {
-        for (int i = OWL_WARP_GREAT_BAY_COAST; i <= OWL_WARP_STONE_TOWER; i++) {
-            if (pauseCtx->worldMapPoints[i]) {
-                pauseCtx->cursorPoint[PAUSE_WORLD_MAP] = i;
-                break;
+    s16 point = pauseCtx->cursorPoint[PAUSE_WORLD_MAP];
+    if (point < OWL_WARP_GREAT_BAY_COAST || point > OWL_WARP_PIRATES_FORTRESS ||
+        !pauseCtx->worldMapPoints[point]) {
+        if (pauseCtx->worldMapPoints[OWL_WARP_CLOCK_TOWN]) {
+            pauseCtx->cursorPoint[PAUSE_WORLD_MAP] = OWL_WARP_CLOCK_TOWN;
+        } else {
+            for (int i = 0; i <= OWL_WARP_PIRATES_FORTRESS; i++) {
+                if (pauseCtx->worldMapPoints[sOwlWarpCursorOrder[i]]) {
+                    pauseCtx->cursorPoint[PAUSE_WORLD_MAP] = sOwlWarpCursorOrder[i];
+                    break;
+                }
             }
         }
     }

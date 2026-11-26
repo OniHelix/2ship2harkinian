@@ -597,7 +597,7 @@ static void RegisterBetterOwlWarpMenu() {
         // Expanded owl destinations live outside Better Owl Warp's vanilla 10-point
         // navigation tables. Check this at menu-navigation time, not registration
         // time, because an expanded owl can be activated after this hook is installed.
-        if ((gSaveContext.save.saveInfo.playerData.owlActivationFlags >> 12) & 1) {
+        if (gSaveContext.save.saveInfo.playerData.owlActivationFlags & 0x7C00) {
             return;
         }
 

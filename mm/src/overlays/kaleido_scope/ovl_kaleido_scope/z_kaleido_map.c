@@ -24,7 +24,7 @@ extern f32 sOwlWarpWorldMapCursorsY[];
 
 #define EXPANDED_OWL_WARP_DEKU_PALACE OWL_WARP_DEKU_PALACE
 // Navigation order is independent of the persistent owl IDs.
-static const s16 sOwlWarpCursorOrder[] = {
+const s16 sOwlWarpCursorOrder[OWL_WARP_PIRATES_FORTRESS + 1] = {
     OWL_WARP_PIRATES_FORTRESS,
     OWL_WARP_GREAT_BAY_COAST,
     OWL_WARP_ZORA_CAPE,
