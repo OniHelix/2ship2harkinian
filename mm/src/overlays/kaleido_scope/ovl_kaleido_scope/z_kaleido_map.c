@@ -23,27 +23,50 @@ extern f32 sOwlWarpWorldMapCursorsX[];
 extern f32 sOwlWarpWorldMapCursorsY[];
 
 #define EXPANDED_OWL_WARP_DEKU_PALACE OWL_WARP_DEKU_PALACE
-#define EXPANDED_OWL_WARP_LAST OWL_WARP_PIRATES_FORTRESS
+// Navigation order is independent of the persistent owl IDs.
+static const s16 sOwlWarpCursorOrder[] = {
+    OWL_WARP_PIRATES_FORTRESS,
+    OWL_WARP_GREAT_BAY_COAST,
+    OWL_WARP_ZORA_CAPE,
+    OWL_WARP_SNOWHEAD,
+    OWL_WARP_MOUNTAIN_VILLAGE,
+    OWL_WARP_CLOCK_TOWN,
+    OWL_WARP_ASTRAL_OBSERVATORY,
+    OWL_WARP_MILK_ROAD,
+    OWL_WARP_DEKU_PALACE,
+    OWL_WARP_WOODFALL,
+    OWL_WARP_SOUTHERN_SWAMP,
+    OWL_WARP_IKANA_CANYON,
+    OWL_WARP_IKANA_GRAVEYARD,
+    OWL_WARP_STONE_TOWER,
+    OWL_WARP_GORON_SHRINE,
+};
 
-// 2S2H [Port] The cursor updating logic for owl warping can get stuck in an infinite loop
-// when there are no world map points registered. This can happen when using index warping and moving the cursor
-// on the menu. We want to completely avoid an infinite loop on the port, so we check to see that there are no points
-// and break out of the loop or soft reset as needed.
-// Defined as a macro for re-use and to be able to "break" out of the parent while loop.
-#define SHIP_HANDLE_OWL_CURSOR_INF_LOOP()                 \
-    {                                                     \
-        bool hasPoint = false;                            \
-        for (int i = 0; i <= EXPANDED_OWL_WARP_LAST; i++) { \
-            if (pauseCtx->worldMapPoints[i]) {            \
-                hasPoint = true;                          \
-                break;                                    \
-            }                                             \
-        }                                                 \
-        if (!hasPoint) {                                  \
-            Ship_HandleConsoleCrashAsReset();             \
-            break;                                        \
-        }                                                 \
+static void Ship_MoveOwlWarpCursor(PauseContext* pauseCtx, s16 direction) {
+    s16 count = ARRAY_COUNT(sOwlWarpCursorOrder);
+    s16 index;
+    s16 i;
+
+    for (index = 0; index < count; index++) {
+        if (sOwlWarpCursorOrder[index] == pauseCtx->cursorPoint[PAUSE_WORLD_MAP]) {
+            break;
+        }
     }
+    if (index == count) {
+        index = (direction > 0) ? count - 1 : 0;
+    }
+
+    for (i = 0; i < count; i++) {
+        index = (index + direction + count) % count;
+        if (pauseCtx->worldMapPoints[sOwlWarpCursorOrder[index]]) {
+            pauseCtx->cursorPoint[PAUSE_WORLD_MAP] = sOwlWarpCursorOrder[index];
+            return;
+        }
+    }
+
+    // Preserve the port's recovery behavior when no selectable owl exists.
+    Ship_HandleConsoleCrashAsReset();
+}
 
 void KaleidoScope_DrawDungeonStrayFairyCount(PlayState* play) {
     s16 counterDigits[2];
@@ -1091,21 +1114,9 @@ void Ship_UpdateWorldMapCursorMirrorWorld(PlayState* play) {
         }
 
         if (goingRight) {
-            do {
-                SHIP_HANDLE_OWL_CURSOR_INF_LOOP();
-                pauseCtx->cursorPoint[PAUSE_WORLD_MAP]++;
-                if (pauseCtx->cursorPoint[PAUSE_WORLD_MAP] > EXPANDED_OWL_WARP_LAST) {
-                    pauseCtx->cursorPoint[PAUSE_WORLD_MAP] = OWL_WARP_GREAT_BAY_COAST;
-                }
-            } while (!pauseCtx->worldMapPoints[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]]);
+            Ship_MoveOwlWarpCursor(pauseCtx, 1);
         } else if (goingLeft) {
-            do {
-                SHIP_HANDLE_OWL_CURSOR_INF_LOOP();
-                pauseCtx->cursorPoint[PAUSE_WORLD_MAP]--;
-                if (pauseCtx->cursorPoint[PAUSE_WORLD_MAP] < OWL_WARP_GREAT_BAY_COAST) {
-                    pauseCtx->cursorPoint[PAUSE_WORLD_MAP] = EXPANDED_OWL_WARP_LAST;
-                }
-            } while (!pauseCtx->worldMapPoints[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]]);
+            Ship_MoveOwlWarpCursor(pauseCtx, -1);
         }
 
         // Offset from `ITEM_MAP_POINT_GREAT_BAY` is to get the correct ordering in `map_name_static`
@@ -1264,23 +1275,11 @@ void KaleidoScope_UpdateWorldMapCursor(PlayState* play) {
         if (pauseCtx->stickAdjX > 30) {
             pauseCtx->cursorShrinkRate = 4.0f;
             sStickAdjTimer = 0;
-            do {
-                SHIP_HANDLE_OWL_CURSOR_INF_LOOP();
-                pauseCtx->cursorPoint[PAUSE_WORLD_MAP]++;
-                if (pauseCtx->cursorPoint[PAUSE_WORLD_MAP] > EXPANDED_OWL_WARP_LAST) {
-                    pauseCtx->cursorPoint[PAUSE_WORLD_MAP] = OWL_WARP_GREAT_BAY_COAST;
-                }
-            } while (!pauseCtx->worldMapPoints[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]]);
+            Ship_MoveOwlWarpCursor(pauseCtx, 1);
         } else if (pauseCtx->stickAdjX < -30) {
             pauseCtx->cursorShrinkRate = 4.0f;
             sStickAdjTimer = 0;
-            do {
-                SHIP_HANDLE_OWL_CURSOR_INF_LOOP();
-                pauseCtx->cursorPoint[PAUSE_WORLD_MAP]--;
-                if (pauseCtx->cursorPoint[PAUSE_WORLD_MAP] < OWL_WARP_GREAT_BAY_COAST) {
-                    pauseCtx->cursorPoint[PAUSE_WORLD_MAP] = EXPANDED_OWL_WARP_LAST;
-                }
-            } while (!pauseCtx->worldMapPoints[pauseCtx->cursorPoint[PAUSE_WORLD_MAP]]);
+            Ship_MoveOwlWarpCursor(pauseCtx, -1);
         } else {
             sStickAdjTimer++;
         }
