@@ -24,7 +24,7 @@ extern s32 gHorseIsMounted;
 
 extern "C" bool PauseOwlWarp_IsOwlWarpEnabled() {
     return CVAR && CHECK_QUEST_ITEM(QUEST_SONG_SOARING) && INV_CONTENT(ITEM_OCARINA_OF_TIME) == ITEM_OCARINA_OF_TIME &&
-           (gSaveContext.save.saveInfo.playerData.owlActivationFlags & 0x7FFF) != 0 &&
+           gSaveContext.save.saveInfo.playerData.owlActivationFlags != 0 &&
            gPlayState->pauseCtx.debugEditor == DEBUG_EDITOR_NONE &&
            gPlayState->interfaceCtx.restrictions.songOfSoaring == 0 &&
            (!IS_RANDO || Rando::Logic::canPlaySong(OCARINA_SONG_SOARING));
@@ -184,6 +184,16 @@ static void HandlePauseOwlWarp(PauseContext* pauseCtx) {
         pauseCtx->worldMapPoints[i] = i <= OWL_WARP_PIRATES_FORTRESS &&
             ((gSaveContext.save.saveInfo.playerData.owlActivationFlags >> i) & 1);
     }
+    // Preserve the vanilla index-warp fallback when only the reserved owl bit is set.
+    if (gSaveContext.save.saveInfo.playerData.owlActivationFlags == (1 << 15)) {
+        for (int i = REGION_GREAT_BAY; i < REGION_STONE_TOWER; i++) {
+            if ((gSaveContext.save.saveInfo.regionsVisited >> i) & 1) {
+                pauseCtx->worldMapPoints[i] = true;
+            }
+        }
+        pauseCtx->worldMapPoints[OWL_WARP_GREAT_BAY_COAST] = true;
+    }
+
     s16 point = pauseCtx->cursorPoint[PAUSE_WORLD_MAP];
     if (point < OWL_WARP_GREAT_BAY_COAST || point > OWL_WARP_PIRATES_FORTRESS ||
         !pauseCtx->worldMapPoints[point]) {
