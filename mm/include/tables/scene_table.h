@@ -40,7 +40,7 @@
 /* 0x0E */ DEFINE_SCENE_UNSET(SCENE_UNSET_0E)
 /* 0x0F */ DEFINE_SCENE_UNSET(SCENE_UNSET_0F)
 // Mama's House (Ranch House in PAL) & Barn
-/* 0x10 */ DEFINE_SCENE(Z2_OMOYA,             SCENE_OMOYA,             0x132, SCENE_DRAW_CFG_DEFAULT,              RESTRICTIONS_SET(0, 0, 0, 0, 0, 3, 0, 3, 0, 0, 0, 0), PERSISTENT_CYCLE_FLAGS_NONE,                                                                                RANCH_HOUSE,                   25, "Mama's House & Barn")
+/* 0x10 */ DEFINE_SCENE(Z2_OMOYA,             SCENE_OMOYA,             0x132, SCENE_DRAW_CFG_DEFAULT,              RESTRICTIONS_SET(0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0), PERSISTENT_CYCLE_FLAGS_NONE,                                                                                RANCH_HOUSE,                   25, "Mama's House & Barn")
 // Honey & Darling's Shop
 /* 0x11 */ DEFINE_SCENE(Z2_BOWLING,           SCENE_BOWLING,           0x108, SCENE_DRAW_CFG_MAT_ANIM,             RESTRICTIONS_INDOORS,                                 PERSISTENT_CYCLE_FLAGS_NONE,                                                                                HONEY_AND_DARLINGS_SHOP,       15, "Honey & Darling's Shop")
 // The Mayor's Residence
@@ -90,7 +90,7 @@
 // Oceanside Spider House
 /* 0x28 */ DEFINE_SCENE(Z2_KINDAN2,           SCENE_KINDAN2,           0x13F, SCENE_DRAW_CFG_MAT_ANIM,             RESTRICTIONS_NO_DOUBLE_TIME,                          PERSISTENT_CYCLE_FLAGS_SET(0, 0, 0, (1 << 31)),                                                             OCEANSIDE_SPIDER_HOUSE,        62, "Oceanside Spider House")
 // Astral Observatory
-/* 0x29 */ DEFINE_SCENE(Z2_TENMON_DAI,        SCENE_TENMON_DAI,        0x114, SCENE_DRAW_CFG_MAT_ANIM,             RESTRICTIONS_SET(0, 0, 0, 0, 0, 0, 0, 3, 3, 0, 0, 0), PERSISTENT_CYCLE_FLAGS_NONE,                                                                                ASTRAL_OBSERVATORY,             6, "Astral Observatory")
+/* 0x29 */ DEFINE_SCENE(Z2_TENMON_DAI,        SCENE_TENMON_DAI,        0x114, SCENE_DRAW_CFG_MAT_ANIM,             RESTRICTIONS_SET(0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0), PERSISTENT_CYCLE_FLAGS_NONE,                                                                                ASTRAL_OBSERVATORY,             6, "Astral Observatory")
 // Moon Deku Trial
 /* 0x2A */ DEFINE_SCENE(Z2_LAST_DEKU,         SCENE_LAST_DEKU,         0,     SCENE_DRAW_CFG_DEFAULT,              RESTRICTIONS_MOON,                                    PERSISTENT_CYCLE_FLAGS_SET(0, 0, 0, 2),                                                                     MOON_DEKU_TRIAL,               92, "Moon Deku Trial")
 // Deku Palace
@@ -168,7 +168,7 @@
 // Mountain Village (winter)
 /* 0x50 */ DEFINE_SCENE(Z2_10YUKIYAMANOMURA,  SCENE_10YUKIYAMANOMURA,  0x122, SCENE_DRAW_CFG_MAT_ANIM,             RESTRICTIONS_NONE,                                    PERSISTENT_CYCLE_FLAGS_SET((1 << 20), 0, 0, (1 << 31)),                                                     MOUNTAIN_VILLAGE_WINTER,       43, "Mountain Village (winter)")
 // Ghost Hut
-/* 0x51 */ DEFINE_SCENE(Z2_TOUGITES,          SCENE_TOUGITES,          0x146, SCENE_DRAW_CFG_DEFAULT,              RESTRICTIONS_SET(0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 0, 0), PERSISTENT_CYCLE_FLAGS_NONE,                                                                                GHOST_HUT,                     81, "Ghost Hut")
+/* 0x51 */ DEFINE_SCENE(Z2_TOUGITES,          SCENE_TOUGITES,          0x146, SCENE_DRAW_CFG_DEFAULT,              RESTRICTIONS_SET(0, 0, 0, 0, 0, 3, 3, 0, 3, 3, 0, 0), PERSISTENT_CYCLE_FLAGS_NONE,                                                                                GHOST_HUT,                     81, "Ghost Hut")
 // Deku Shrine
 /* 0x52 */ DEFINE_SCENE(Z2_DANPEI,            SCENE_DANPEI,            0x120, SCENE_DRAW_CFG_MAT_ANIM,             RESTRICTIONS_NO_DOUBLE_TIME,                          PERSISTENT_CYCLE_FLAGS_NONE,                                                                                DEKU_SHRINE,                   36, "Deku Shrine")
 // Road to Ikana
@@ -178,7 +178,7 @@
 // Music Box House
 /* 0x55 */ DEFINE_SCENE(Z2_MUSICHOUSE,        SCENE_MUSICHOUSE,        0x147, SCENE_DRAW_CFG_MAT_ANIM_MANUAL_STEP, RESTRICTIONS_SET(0, 0, 0, 0, 0, 3, 0, 0, 3, 0, 0, 0), PERSISTENT_CYCLE_FLAGS_NONE,                                                                                MUSIC_BOX_HOUSE,               79, "Music Box House")
 // Igos du Ikana's Lair
-/* 0x56 */ DEFINE_SCENE(Z2_IKNINSIDE,         SCENE_IKNINSIDE,         0x142, SCENE_DRAW_CFG_MAT_ANIM,             RESTRICTIONS_SET(0, 0, 0, 0, 0, 3, 3, 3, 3, 0, 0, 0), PERSISTENT_CYCLE_FLAGS_NONE,                                                                                IGOS_DU_IKANAS_LAIR,           84, "Igos du Ikana's Lair")
+/* 0x56 */ DEFINE_SCENE(Z2_IKNINSIDE,         SCENE_IKNINSIDE,         0x142, SCENE_DRAW_CFG_MAT_ANIM,             RESTRICTIONS_SET(0, 0, 0, 0, 0, 3, 3, 0, 3, 0, 0, 0), PERSISTENT_CYCLE_FLAGS_NONE,                                                                                IGOS_DU_IKANAS_LAIR,           84, "Igos du Ikana's Lair")
 // Tourist Information
 /* 0x57 */ DEFINE_SCENE(Z2_MAP_SHOP,          SCENE_MAP_SHOP,          0x119, SCENE_DRAW_CFG_DEFAULT,              RESTRICTIONS_INDOORS,                                 PERSISTENT_CYCLE_FLAGS_NONE,                                                                                TOURIST_INFORMATION,           32, "Tourist Information")
 // Stone Tower
@@ -204,7 +204,7 @@
 // Great Bay Cutscene
 /* 0x62 */ DEFINE_SCENE(Z2_KONPEKI_ENT,       SCENE_KONPEKI_ENT,       0x139, SCENE_DRAW_CFG_MAT_ANIM,             RESTRICTIONS_NONE,                                    PERSISTENT_CYCLE_FLAGS_NONE,                                                                                GREAT_BAY_CUTSCENE,            59, "Great Bay Cutscene")
 // Clock Tower Interior
-/* 0x63 */ DEFINE_SCENE(Z2_INSIDETOWER,       SCENE_INSIDETOWER,       0,     SCENE_DRAW_CFG_MAT_ANIM,             RESTRICTIONS_SET(0, 0, 0, 0, 3, 3, 3, 3, 3, 0, 0, 0), PERSISTENT_CYCLE_FLAGS_SET(1 << 0, 0, 0, 0),                                                                CLOCK_TOWER_INTERIOR,          19, "Clock Tower Interior")
+/* 0x63 */ DEFINE_SCENE(Z2_INSIDETOWER,       SCENE_INSIDETOWER,       0,     SCENE_DRAW_CFG_MAT_ANIM,             RESTRICTIONS_SET(0, 0, 0, 0, 3, 3, 3, 0, 3, 0, 0, 0), PERSISTENT_CYCLE_FLAGS_SET(1 << 0, 0, 0, 0),                                                                CLOCK_TOWER_INTERIOR,          19, "Clock Tower Interior")
 // Woods of Mystery
 /* 0x64 */ DEFINE_SCENE(Z2_26SARUNOMORI,      SCENE_26SARUNOMORI,      0x11D, SCENE_DRAW_CFG_MAT_ANIM,             RESTRICTIONS_NO_DOUBLE_TIME,                          PERSISTENT_CYCLE_FLAGS_NONE,                                                                                WOODS_OF_MYSTERY,              38, "Woods of Mystery")
 // Lost Woods (Intro)
