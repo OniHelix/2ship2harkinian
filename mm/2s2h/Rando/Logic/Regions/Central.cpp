@@ -36,6 +36,7 @@ static RegisterShipInitFunc initFunc([]() {
     };
     Regions[RR_ASTRAL_OBSERVATORY] = RandoRegion{ .name = "Inside Astral Observatory", .sceneId = SCENE_TENMON_DAI,
         .checks = {
+            CHECK(RC_ASTRAL_OBSERVATORY_OWL_STATUE, CAN_USE_SWORD),
             CHECK(RC_ASTRAL_OBSERVATORY_POT_01, true),
             CHECK(RC_ASTRAL_OBSERVATORY_POT_02, true),
             CHECK(RC_ASTRAL_OBSERVATORY_POT_03, true),
@@ -48,6 +49,9 @@ static RegisterShipInitFunc initFunc([]() {
         },
         .events = {
             EVENT(RE_TERMINA_FIELD_SCRUB_ENTERED_GROTTO, true),
+        },
+        .oneWayEntrances = {
+            ENTRANCE(ASTRAL_OBSERVATORY, 3), // From Song of Soaring
         },
     };
     Regions[RR_BOMB_SHOP] = RandoRegion{ .sceneId = SCENE_BOMYA,
