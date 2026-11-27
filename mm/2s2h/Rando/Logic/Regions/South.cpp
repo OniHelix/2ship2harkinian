@@ -160,6 +160,7 @@ static RegisterShipInitFunc initFunc([]() {
     };
     Regions[RR_DEKU_PALACE_OUTSIDE] = RandoRegion{ .name = "Outside", .sceneId = SCENE_22DEKUCITY,
         .checks = {
+            CHECK(RC_DEKU_PALACE_OWL_STATUE, CAN_USE_SWORD),
             CHECK(RC_ENEMY_DROP_MINI_BABA, (CAN_BE_DEKU || (RANDO_EVENTS[RE_CLEARED_WOODFALL_TEMPLE] && CAN_TRAVERSE_WAIST_DEEP_WATER)) && CanKillEnemy(ACTOR_EN_KAREBABA)),
         },
         .exits = { //     TO                                         FROM
@@ -170,6 +171,9 @@ static RegisterShipInitFunc initFunc([]() {
         .connections = {
             CONNECTION(RR_DEKU_PALACE_INSIDE_LOWER, CAN_BE_DEKU),
             CONNECTION(RR_DEKU_PALACE_INSIDE_UPPER_BEAN_SIDE, (CAN_BE_DEKU || (RANDO_EVENTS[RE_CLEARED_WOODFALL_TEMPLE] && CAN_TRAVERSE_WAIST_DEEP_WATER)) && CAN_USE_DAY2_RAIN_BEAN),
+        },
+        .oneWayEntrances = {
+            ENTRANCE(DEKU_PALACE, 11), // From Song of Soaring
         },
     };
     Regions[RR_DEKU_SHRINE_ENTRANCE] = RandoRegion{ .name = "Entrance", .sceneId = SCENE_DANPEI,
