@@ -2946,6 +2946,11 @@ typedef enum {
     RI_WOODFALL_SMALL_KEY,
     RI_WOODFALL_STRAY_FAIRY,
     RI_MAX_TRAP, // Just used for ice trap ice cube model
+    RI_OWL_DEKU_PALACE,
+    RI_OWL_PIRATES_FORTRESS,
+    RI_OWL_ASTRAL_OBSERVATORY,
+    RI_OWL_IKANA_GRAVEYARD,
+    RI_OWL_GORON_SHOP,
     RI_MAX,
 } RandoItemId;
 
