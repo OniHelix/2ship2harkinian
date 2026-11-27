@@ -2827,7 +2827,7 @@ f32 sOwlWarpWorldMapCursorsX[OWL_WARP_PIRATES_FORTRESS + 1] = {
     41.0f, // OWL_WARP_IKANA_GRAVEYARD (near region dot)
     14.0f, // OWL_WARP_ASTRAL_OBSERVATORY
     -2.0f,  // OWL_WARP_DEKU_PALACE: reuse REGION_DEKU_PALACE
-    50.0f, // OWL_WARP_GORON_SHRINE (near Goron Village dot)
+    50.0f, // OWL_WARP_GORON_SHOP (near Goron Village dot)
     -62.0f, // OWL_WARP_PIRATES_FORTRESS
 };
 
@@ -2845,7 +2845,7 @@ f32 sOwlWarpWorldMapCursorsY[OWL_WARP_PIRATES_FORTRESS + 1] = {
     2.0f, // OWL_WARP_IKANA_GRAVEYARD
     -10.0f, // OWL_WARP_ASTRAL_OBSERVATORY
     -53.0f, // OWL_WARP_DEKU_PALACE: reuse REGION_DEKU_PALACE
-    29.0f, // OWL_WARP_GORON_SHRINE
+    29.0f, // OWL_WARP_GORON_SHOP
     11.0f, // OWL_WARP_PIRATES_FORTRESS
 };
 
@@ -3319,7 +3319,7 @@ u16 sCursorPointsToOcarinaModes[OWL_WARP_MAX - 1] = {
     OCARINA_MODE_WARP_TO_IKANA_GRAVEYARD, // OWL_WARP_IKANA_GRAVEYARD
     OCARINA_MODE_WARP_TO_ASTRAL_OBSERVATORY, // OWL_WARP_ASTRAL_OBSERVATORY
     OCARINA_MODE_WARP_TO_DEKU_PALACE, // OWL_WARP_DEKU_PALACE
-    OCARINA_MODE_WARP_TO_GORON_SHRINE, // OWL_WARP_GORON_SHRINE
+    OCARINA_MODE_WARP_TO_GORON_SHRINE, // OWL_WARP_GORON_SHOP
     OCARINA_MODE_WARP_TO_PIRATES_FORTRESS, // OWL_WARP_PIRATES_FORTRESS
     OCARINA_MODE_END, // OWL_WARP_WEST_CLOCK_TOWN_SAVE (reserved, non-selectable)
 };
@@ -4032,7 +4032,7 @@ void KaleidoScope_Update(PlayState* play) {
                                       (worldMapCursorPoint == OWL_WARP_IKANA_GRAVEYARD) ? REGION_IKANA_GRAVEYARD :
                                        (worldMapCursorPoint == OWL_WARP_ASTRAL_OBSERVATORY) ? 17 :
                                        (worldMapCursorPoint == OWL_WARP_DEKU_PALACE) ? REGION_DEKU_PALACE :
-                                       (worldMapCursorPoint == OWL_WARP_GORON_SHRINE) ? 18 :
+                                       (worldMapCursorPoint == OWL_WARP_GORON_SHOP) ? 18 :
                                        (worldMapCursorPoint == OWL_WARP_PIRATES_FORTRESS) ? 16 :
                                        worldMapCursorPoint);
 

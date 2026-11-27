@@ -2307,7 +2307,7 @@ u16 sOwlWarpTextJPN[OWL_WARP_MAX][9] = {
     IKANA_GRAVEYARD_STR,    // OWL_WARP_IKANA_GRAVEYARD
     ASTRAL_OBSERVATORY_STR, // OWL_WARP_ASTRAL_OBSERVATORY
     DEKU_PALACE_STR,        // OWL_WARP_DEKU_PALACE
-    GORON_SHRINE_STR,       // OWL_WARP_GORON_SHRINE
+    GORON_SHRINE_STR,       // OWL_WARP_GORON_SHOP
     PIRATES_FORTRESS_STR,   // OWL_WARP_PIRATES_FORTRESS
     { 0 },                   // OWL_WARP_WEST_CLOCK_TOWN_SAVE (reserved, non-selectable)
     ENTRANCE_STR,           // OWL_WARP_ENTRANCE
@@ -2328,7 +2328,7 @@ s16 sOwlWarpTextLengthJPN[OWL_WARP_MAX] = {
     9, // OWL_WARP_IKANA_GRAVEYARD (truncated JPN fallback)
     9, // OWL_WARP_ASTRAL_OBSERVATORY (truncated JPN fallback)
     9, // OWL_WARP_DEKU_PALACE (truncated JPN fallback)
-    9, // OWL_WARP_GORON_SHRINE (truncated JPN fallback)
+    9, // OWL_WARP_GORON_SHOP (truncated JPN fallback)
     9, // OWL_WARP_PIRATES_FORTRESS (truncated JPN fallback)
     0, // OWL_WARP_WEST_CLOCK_TOWN_SAVE
     3, // OWL_WARP_ENTRANCE

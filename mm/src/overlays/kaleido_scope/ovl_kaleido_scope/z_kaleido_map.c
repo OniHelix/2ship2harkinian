@@ -39,7 +39,7 @@ const s16 sOwlWarpCursorOrder[OWL_WARP_PIRATES_FORTRESS + 1] = {
     OWL_WARP_IKANA_CANYON,
     OWL_WARP_IKANA_GRAVEYARD,
     OWL_WARP_STONE_TOWER,
-    OWL_WARP_GORON_SHRINE,
+    OWL_WARP_GORON_SHOP,
 };
 
 static void Ship_MoveOwlWarpCursor(PauseContext* pauseCtx, s16 direction) {
@@ -865,7 +865,7 @@ void KaleidoScope_DrawWorldMap(PlayState* play) {
             { OWL_WARP_IKANA_GRAVEYARD, REGION_IKANA_GRAVEYARD },
             { OWL_WARP_ASTRAL_OBSERVATORY, -1 },
             { OWL_WARP_DEKU_PALACE, REGION_DEKU_PALACE },
-            { OWL_WARP_GORON_SHRINE, REGION_GORON_VILLAGE },
+            { OWL_WARP_GORON_SHOP, REGION_GORON_VILLAGE },
             { OWL_WARP_PIRATES_FORTRESS, -1 },
         };
         Vtx* sourceOwlVtx = &pauseCtx->mapPageVtx[QUAD_MAP_PAGE_WORLD_WARP_FIRST * 4];
@@ -892,7 +892,7 @@ void KaleidoScope_DrawWorldMap(PlayState* play) {
                     const s16 DEKU_PALACE_ICON_OFFSET_Y = -4;
                     centerX += DEKU_PALACE_ICON_OFFSET_X;
                     centerY += DEKU_PALACE_ICON_OFFSET_Y;
-                } else if (owlId == OWL_WARP_GORON_SHRINE) {
+                } else if (owlId == OWL_WARP_GORON_SHOP) {
                     centerX += 1;
                 }
             } else {
@@ -1027,7 +1027,7 @@ u16 sOwlWarpPauseItems[] = {
     ITEM_MAP_POINT_IKANA_GRAVEYARD, // OWL_WARP_IKANA_GRAVEYARD
     ITEM_MAP_POINT_GREAT_BAY + 17, // OWL_WARP_ASTRAL_OBSERVATORY
     ITEM_MAP_POINT_DEKU_PALACE,       // OWL_WARP_DEKU_PALACE
-    ITEM_MAP_POINT_GREAT_BAY + 18, // OWL_WARP_GORON_SHRINE (Goron Shop)
+    ITEM_MAP_POINT_GREAT_BAY + 18, // OWL_WARP_GORON_SHOP (Goron Shop)
     ITEM_MAP_POINT_GREAT_BAY + 16, // OWL_WARP_PIRATES_FORTRESS
 };
 
