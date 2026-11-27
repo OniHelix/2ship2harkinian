@@ -132,6 +132,11 @@ std::map<RandoItemId, RandoStaticItem> Items = {
     RI(RI_OWL_STONE_TOWER,            "the",  "Stone Tower Owl Statue",     RITYPE_LESSER,          ITEM_NONE,                       GI_NONE,                     GID_NONE),
     RI(RI_OWL_WOODFALL,               "the",  "Woodfall Owl Statue",        RITYPE_LESSER,          ITEM_NONE,                       GI_NONE,                     GID_NONE),
     RI(RI_OWL_ZORA_CAPE,              "the",  "Zora Cape Owl Statue",       RITYPE_LESSER,          ITEM_NONE,                       GI_NONE,                     GID_NONE),
+    RI(RI_OWL_DEKU_PALACE,             "the",  "Deku Palace Owl Statue",        RITYPE_LESSER,          ITEM_NONE,                       GI_NONE,                     GID_NONE),
+    RI(RI_OWL_PIRATES_FORTRESS,        "the",  "Pirates Fortress Owl Statue",   RITYPE_LESSER,          ITEM_NONE,                       GI_NONE,                     GID_NONE),
+    RI(RI_OWL_ASTRAL_OBSERVATORY,      "the",  "Astral Observatory Owl Statue", RITYPE_LESSER,          ITEM_NONE,                       GI_NONE,                     GID_NONE),
+    RI(RI_OWL_IKANA_GRAVEYARD,         "the",  "Ikana Graveyard Owl Statue",    RITYPE_LESSER,          ITEM_NONE,                       GI_NONE,                     GID_NONE),
+    RI(RI_OWL_GORON_SHOP,              "the",  "Goron Shop Owl Statue",         RITYPE_LESSER,          ITEM_NONE,                       GI_NONE,                     GID_NONE),
     RI(RI_PENDANT_OF_MEMORIES,        "the",  "Pendant of Memories",        RITYPE_MAJOR,           ITEM_PENDANT_OF_MEMORIES,        GI_PENDANT_OF_MEMORIES,      GID_PENDANT_OF_MEMORIES),
     RI(RI_PICTOGRAPH_BOX,             "a",    "Pictograph Box",             RITYPE_MAJOR,           ITEM_PICTOGRAPH_BOX,             GI_PICTOGRAPH_BOX,           GID_PICTOGRAPH_BOX),
     RI(RI_POWDER_KEG,                 "a",    "Powder Keg",                 RITYPE_MAJOR,           ITEM_POWDER_KEG,                 GI_POWDER_KEG,               GID_POWDER_KEG),
@@ -481,6 +486,11 @@ const char* GetIconTexturePath(RandoItemId randoItemId) {
         case RI_OWL_STONE_TOWER:
         case RI_OWL_WOODFALL:
         case RI_OWL_ZORA_CAPE:
+        case RI_OWL_DEKU_PALACE:
+        case RI_OWL_PIRATES_FORTRESS:
+        case RI_OWL_ASTRAL_OBSERVATORY:
+        case RI_OWL_IKANA_GRAVEYARD:
+        case RI_OWL_GORON_SHOP:
             return (const char*)gWorldMapOwlFaceTex;
         case RI_TINGLE_MAP_CLOCK_TOWN:
         case RI_TINGLE_MAP_GREAT_BAY:
