@@ -27,6 +27,16 @@ RandoCheckId Identify_Statue(u8 refId) {
             return RC_IKANA_CANYON_OWL_STATUE;
         case 9:
             return RC_STONE_TOWER_OWL_STATUE;
+        case OWL_WARP_IKANA_GRAVEYARD:
+            return RC_IKANA_GRAVEYARD_OWL_STATUE;
+        case OWL_WARP_ASTRAL_OBSERVATORY:
+            return RC_ASTRAL_OBSERVATORY_OWL_STATUE;
+        case OWL_WARP_DEKU_PALACE:
+            return RC_DEKU_PALACE_OWL_STATUE;
+        case OWL_WARP_GORON_SHOP:
+            return RC_GORON_SHOP_OWL_STATUE;
+        case OWL_WARP_PIRATES_FORTRESS:
+            return RC_PIRATES_FORTRESS_OWL_STATUE;
         default:
             break;
     }
