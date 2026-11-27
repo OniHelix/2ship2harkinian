@@ -96,12 +96,16 @@ static RegisterShipInitFunc initFunc([]() {
     };
     Regions[RR_GORON_SHOP] = RandoRegion{ .sceneId = SCENE_GORONSHOP,
         .checks = {
+            CHECK(RC_GORON_SHOP_OWL_STATUE, CAN_USE_SWORD),
             CHECK(RC_GORON_SHOP_ITEM_01, CAN_AFFORD(RC_GORON_SHOP_ITEM_01)),
             CHECK(RC_GORON_SHOP_ITEM_02, CAN_AFFORD(RC_GORON_SHOP_ITEM_02)),
             CHECK(RC_GORON_SHOP_ITEM_03, CAN_AFFORD(RC_GORON_SHOP_ITEM_03)),
         },
         .exits = { //     TO                                         FROM
             EXIT(ENTRANCE(GORON_SHRINE, 1),              ENTRANCE(GORON_SHOP, 0), true)
+        },
+        .oneWayEntrances = {
+            ENTRANCE(GORON_SHOP, 1), // From Song of Soaring
         },
     };
     Regions[RR_GORON_VILLAGE] = RandoRegion{ .sceneId = SCENE_11GORONNOSATO,
