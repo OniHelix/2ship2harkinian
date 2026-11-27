@@ -150,6 +150,9 @@ static RegisterShipInitFunc initFunc([]() {
         }
     };
     Regions[RR_PIRATES_FORTRESS_MOAT_HIGHER] = RandoRegion{ .name = "Higher", .sceneId = SCENE_TORIDE,
+        .checks = {
+            CHECK(RC_PIRATES_FORTRESS_OWL_STATUE, CAN_USE_SWORD),
+        },
         .exits = { //     TO                                         FROM
             EXIT(ENTRANCE(PIRATES_FORTRESS, 0),             ENTRANCE(PIRATES_FORTRESS_EXTERIOR, 1), CAN_USE_ABILITY(SWIM)),
             EXIT(ENTRANCE(PIRATES_FORTRESS_INTERIOR, 10),   ENTRANCE(PIRATES_FORTRESS_EXTERIOR, 6), CAN_USE_ABILITY(SWIM)),
@@ -158,6 +161,7 @@ static RegisterShipInitFunc initFunc([]() {
             CONNECTION(RR_PIRATES_FORTRESS_MOAT_LOWER, CAN_USE_ABILITY(SWIM)),
         },
         .oneWayEntrances = {
+            ENTRANCE(PIRATES_FORTRESS_EXTERIOR, 7), // From Song of Soaring
             ENTRANCE(PIRATES_FORTRESS_EXTERIOR, 4), // From being captured in the inner part of Pirate Fortress
         },
     };
