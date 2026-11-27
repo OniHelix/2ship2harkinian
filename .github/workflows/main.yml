@@ -140,3 +140,5 @@ jobs:
         retention-days: 7
 
 # Rebuild expanded owls Windows diagnostic test after artifact expiry.
+
+# Diagnostic: verify automatic push-triggered workflow execution.
