@@ -223,6 +223,7 @@ static RegisterShipInitFunc initFunc([]() {
     };
     Regions[RR_IKANA_GRAVEYARD_LOWER] = RandoRegion{ .name = "Lower", .sceneId = SCENE_BOTI,
         .checks = {
+            CHECK(RC_IKANA_GRAVEYARD_OWL_STATUE, CAN_USE_SWORD),
             CHECK(RC_IKANA_GRAVEYARD_LOWER_GRASS_01, true),
             CHECK(RC_IKANA_GRAVEYARD_LOWER_GRASS_02, true),
             CHECK(RC_IKANA_GRAVEYARD_LOWER_GRASS_03, true),
@@ -264,6 +265,7 @@ static RegisterShipInitFunc initFunc([]() {
             CONNECTION(RR_IKANA_GRAVEYARD_UPPER, CAN_PLAY_SONG(SONATA)),
         },
         .oneWayEntrances = {
+            ENTRANCE(IKANA_GRAVEYARD, 6), // From Song of Soaring
             ENTRANCE(IKANA_GRAVEYARD, 4), // Exiting Dampe's house
         }
     };
