@@ -610,6 +610,11 @@ void Rando::DrawItem(RandoItemId randoItemId, RandoCheckId randoCheckId, Actor* 
         case RI_OWL_STONE_TOWER:
         case RI_OWL_WOODFALL:
         case RI_OWL_ZORA_CAPE:
+        case RI_OWL_DEKU_PALACE:
+        case RI_OWL_PIRATES_FORTRESS:
+        case RI_OWL_ASTRAL_OBSERVATORY:
+        case RI_OWL_IKANA_GRAVEYARD:
+        case RI_OWL_GORON_SHOP:
             DrawOwlStatue();
             break;
         case RI_TIME_DAY_1:
