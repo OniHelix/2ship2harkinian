@@ -284,6 +284,31 @@ void Rando::GiveItem(RandoItemId randoItemId) {
         case RI_OWL_ZORA_CAPE:
             Sram_ActivateOwl(OWL_WARP_ZORA_CAPE);
             break;
+        case RI_OWL_DEKU_PALACE:
+            if (!(gSaveContext.save.saveInfo.playerData.owlActivationFlags & (1 << OWL_WARP_DEKU_PALACE))) {
+                Sram_ActivateOwl(OWL_WARP_DEKU_PALACE);
+            }
+            break;
+        case RI_OWL_PIRATES_FORTRESS:
+            if (!(gSaveContext.save.saveInfo.playerData.owlActivationFlags & (1 << OWL_WARP_PIRATES_FORTRESS))) {
+                Sram_ActivateOwl(OWL_WARP_PIRATES_FORTRESS);
+            }
+            break;
+        case RI_OWL_ASTRAL_OBSERVATORY:
+            if (!(gSaveContext.save.saveInfo.playerData.owlActivationFlags & (1 << OWL_WARP_ASTRAL_OBSERVATORY))) {
+                Sram_ActivateOwl(OWL_WARP_ASTRAL_OBSERVATORY);
+            }
+            break;
+        case RI_OWL_IKANA_GRAVEYARD:
+            if (!(gSaveContext.save.saveInfo.playerData.owlActivationFlags & (1 << OWL_WARP_IKANA_GRAVEYARD))) {
+                Sram_ActivateOwl(OWL_WARP_IKANA_GRAVEYARD);
+            }
+            break;
+        case RI_OWL_GORON_SHOP:
+            if (!(gSaveContext.save.saveInfo.playerData.owlActivationFlags & (1 << OWL_WARP_GORON_SHOP))) {
+                Sram_ActivateOwl(OWL_WARP_GORON_SHOP);
+            }
+            break;
         case RI_TIME_DAY_1:
         case RI_TIME_NIGHT_1:
         case RI_TIME_DAY_2:

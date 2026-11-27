@@ -271,6 +271,21 @@ void Rando::RemoveItem(RandoItemId randoItemId) {
         case RI_OWL_ZORA_CAPE:
             CLEAR_OWL_WARP(OWL_WARP_ZORA_CAPE);
             break;
+        case RI_OWL_DEKU_PALACE:
+            CLEAR_OWL_WARP(OWL_WARP_DEKU_PALACE);
+            break;
+        case RI_OWL_PIRATES_FORTRESS:
+            CLEAR_OWL_WARP(OWL_WARP_PIRATES_FORTRESS);
+            break;
+        case RI_OWL_ASTRAL_OBSERVATORY:
+            CLEAR_OWL_WARP(OWL_WARP_ASTRAL_OBSERVATORY);
+            break;
+        case RI_OWL_IKANA_GRAVEYARD:
+            CLEAR_OWL_WARP(OWL_WARP_IKANA_GRAVEYARD);
+            break;
+        case RI_OWL_GORON_SHOP:
+            CLEAR_OWL_WARP(OWL_WARP_GORON_SHOP);
+            break;
         case RI_TINGLE_MAP_CLOCK_TOWN:
             CLEAR_WEEKEVENTREG(WEEKEVENTREG_TINGLE_MAP_BOUGHT_CLOCK_TOWN);
             break;
