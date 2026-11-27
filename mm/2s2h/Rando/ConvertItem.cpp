@@ -474,6 +474,16 @@ bool Rando::IsItemObtainable(RandoItemId randoItemId, RandoCheckId randoCheckId)
             return !CAN_OWL_WARP(OWL_WARP_WOODFALL);
         case RI_OWL_ZORA_CAPE:
             return !CAN_OWL_WARP(OWL_WARP_ZORA_CAPE);
+        case RI_OWL_DEKU_PALACE:
+            return !CAN_OWL_WARP(OWL_WARP_DEKU_PALACE);
+        case RI_OWL_PIRATES_FORTRESS:
+            return !CAN_OWL_WARP(OWL_WARP_PIRATES_FORTRESS);
+        case RI_OWL_ASTRAL_OBSERVATORY:
+            return !CAN_OWL_WARP(OWL_WARP_ASTRAL_OBSERVATORY);
+        case RI_OWL_IKANA_GRAVEYARD:
+            return !CAN_OWL_WARP(OWL_WARP_IKANA_GRAVEYARD);
+        case RI_OWL_GORON_SHOP:
+            return !CAN_OWL_WARP(OWL_WARP_GORON_SHOP);
         // These items are technically fine to receive again because they don't do anything, but we'll convert them to
         // ensure it's clear to the player something didn't go wrong.
         // Quest Items
