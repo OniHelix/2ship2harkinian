@@ -1323,7 +1323,7 @@ static void DrawStartingItemsTab() {
         ImVec2 imageSize = ImVec2(42.0f, 42.0f);
         const auto& owlItems = Rando::StaticData::StartingItemsMap.at(STARTING_ITEMS_OWL);
         if (std::find(owlItems.begin(), owlItems.end(), startingItem) != owlItems.end()) {
-            imageSize.y = 21.0f; // World map owl texture is 24 x 12.
+            imageSize = ImVec2(56.0f, 28.0f); // World map owl texture is 24 x 12.
         }
         if ((startingItem >= RI_SONG_DOUBLE_TIME && startingItem <= RI_SONG_TIME) ||
             startingItem == RI_PROGRESSIVE_LULLABY) {
@@ -1365,7 +1365,20 @@ static void DrawStartingItemsTab() {
     ImGui::BeginChild("randoStartingItems2", ImVec2(0, 0));
     ImGui::SeparatorText("Available Items");
 
-    for (auto& category : Rando::StaticData::StartingItemsMap) {
+    const StartingItemCategory categoryOrder[] = { STARTING_ITEMS_INVENTORY, STARTING_ITEMS_MASK,
+        STARTING_ITEMS_QUEST, STARTING_ITEMS_TRADE, STARTING_ITEMS_OWL, STARTING_ITEMS_MISC };
+    float maskColumnX = 0.0f;
+    for (auto categoryId : categoryOrder) {
+        const auto& category = *Rando::StaticData::StartingItemsMap.find(categoryId);
+        if (categoryId == STARTING_ITEMS_MASK) {
+            maskColumnX = ImGui::GetCursorPosX();
+        } else if (categoryId == STARTING_ITEMS_OWL) {
+            ImGui::SetCursorPosX(maskColumnX);
+        } else if (categoryId == STARTING_ITEMS_MISC &&
+                   std::none_of(category.second.begin(), category.second.end(),
+                                [&](RandoItemId item) { return setOfItemsInPool.count(item) != 0; })) {
+            continue;
+        }
         tableColumns = 5;
         if (category.first == STARTING_ITEMS_MASK) {
             tableColumns++;
@@ -1384,7 +1397,8 @@ static void DrawStartingItemsTab() {
 
             if (ImGui::BeginTable(std::to_string(category.first).c_str(), tableColumns)) {
                 for (int i = 0; i < tableColumns; i++) {
-                    ImGui::TableSetupColumn("item", ImGuiTableColumnFlags_WidthFixed, 50.0f);
+                    ImGui::TableSetupColumn("item", ImGuiTableColumnFlags_WidthFixed,
+                                            categoryId == STARTING_ITEMS_OWL ? 56.0f : 50.0f);
                 }
                 for (auto& item : category.second) {
                     if (setOfItemsInPool.count(item) == 0) {
@@ -1394,7 +1408,7 @@ static void DrawStartingItemsTab() {
 
                     ImVec2 imageSize = ImVec2(42.0f, 42.0f);
                     if (category.first == STARTING_ITEMS_OWL) {
-                        imageSize.y = 21.0f; // World map owl texture is 24 x 12.
+                        imageSize = ImVec2(56.0f, 28.0f); // World map owl texture is 24 x 12.
                     }
                     if ((item >= RI_SONG_DOUBLE_TIME && item <= RI_SONG_TIME) || item == RI_PROGRESSIVE_LULLABY) {
                         imageSize.x /= 1.5f;
@@ -1446,7 +1460,7 @@ static void DrawStartingItemsTab() {
             ImGui::EndChild();
         }
         ImGui::PopStyleColor(1);
-        if (category.first != STARTING_ITEMS_QUEST && category.first != STARTING_ITEMS_OWL) {
+        if (category.first != STARTING_ITEMS_QUEST && category.first != STARTING_ITEMS_MISC) {
             ImGui::SameLine();
         }
     }
