@@ -1378,6 +1378,9 @@ static void DrawStartingItemsTab() {
             ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(1.0f, 1.0f, 1.0f, 0.2f));
             ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(1.0f, 1.0f, 1.0f, 0.1f));
 
+            if (category.first == STARTING_ITEMS_OWL) {
+                ImGui::SeparatorText("Owl Statues");
+            }
             if (ImGui::BeginTable(std::to_string(category.first).c_str(), tableColumns)) {
                 for (int i = 0; i < tableColumns; i++) {
                     ImGui::TableSetupColumn("item", ImGuiTableColumnFlags_WidthFixed, 50.0f);
@@ -1439,7 +1442,8 @@ static void DrawStartingItemsTab() {
             ImGui::EndChild();
         }
         ImGui::PopStyleColor(1);
-        if (category.first != STARTING_ITEMS_QUEST) {
+        if (category.first != STARTING_ITEMS_QUEST && category.first != STARTING_ITEMS_MISC &&
+            category.first != STARTING_ITEMS_OWL) {
             ImGui::SameLine();
         }
     }
