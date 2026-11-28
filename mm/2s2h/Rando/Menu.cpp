@@ -1321,6 +1321,10 @@ static void DrawStartingItemsTab() {
     for (auto& startingItem : setStartingItemsList) {
         ImGui::PushID(listIndex);
         ImVec2 imageSize = ImVec2(42.0f, 42.0f);
+        const auto& owlItems = Rando::StaticData::StartingItemsMap.at(STARTING_ITEMS_OWL);
+        if (std::find(owlItems.begin(), owlItems.end(), startingItem) != owlItems.end()) {
+            imageSize.y = 21.0f; // World map owl texture is 24 x 12.
+        }
         if ((startingItem >= RI_SONG_DOUBLE_TIME && startingItem <= RI_SONG_TIME) ||
             startingItem == RI_PROGRESSIVE_LULLABY) {
             imageSize.x /= 1.5f;
@@ -1378,9 +1382,6 @@ static void DrawStartingItemsTab() {
             ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(1.0f, 1.0f, 1.0f, 0.2f));
             ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(1.0f, 1.0f, 1.0f, 0.1f));
 
-            if (category.first == STARTING_ITEMS_OWL) {
-                ImGui::SeparatorText("Owl Statues");
-            }
             if (ImGui::BeginTable(std::to_string(category.first).c_str(), tableColumns)) {
                 for (int i = 0; i < tableColumns; i++) {
                     ImGui::TableSetupColumn("item", ImGuiTableColumnFlags_WidthFixed, 50.0f);
@@ -1392,6 +1393,9 @@ static void DrawStartingItemsTab() {
                     }
 
                     ImVec2 imageSize = ImVec2(42.0f, 42.0f);
+                    if (category.first == STARTING_ITEMS_OWL) {
+                        imageSize.y = 21.0f; // World map owl texture is 24 x 12.
+                    }
                     if ((item >= RI_SONG_DOUBLE_TIME && item <= RI_SONG_TIME) || item == RI_PROGRESSIVE_LULLABY) {
                         imageSize.x /= 1.5f;
                     }
@@ -1442,8 +1446,7 @@ static void DrawStartingItemsTab() {
             ImGui::EndChild();
         }
         ImGui::PopStyleColor(1);
-        if (category.first != STARTING_ITEMS_QUEST && category.first != STARTING_ITEMS_MISC &&
-            category.first != STARTING_ITEMS_OWL) {
+        if (category.first != STARTING_ITEMS_QUEST && category.first != STARTING_ITEMS_OWL) {
             ImGui::SameLine();
         }
     }
